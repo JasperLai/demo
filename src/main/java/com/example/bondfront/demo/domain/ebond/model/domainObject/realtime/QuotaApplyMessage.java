@@ -1,4 +1,4 @@
-package com.example.bondfront.demo.domain.ebond.model.domainObject;
+package com.example.bondfront.demo.domain.ebond.model.domainObject.realtime;
 
 import java.util.Date;
 
