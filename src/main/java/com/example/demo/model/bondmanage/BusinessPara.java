@@ -1,4 +1,4 @@
-package com.example.demo.vo;
+package com.example.demo.model.bondmanage;
 
 import java.util.List;
 

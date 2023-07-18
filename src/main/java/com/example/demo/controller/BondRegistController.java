@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.bondmanage.BondRegistInfo;
 import com.example.demo.service.BondSevice;
-import com.example.demo.vo.BondRegistInfo;
 
 @RestController
 @RequestMapping("/ebond_manage/v1")

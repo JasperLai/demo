@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.BondRegistMapper;
-import com.example.demo.vo.BondRegistInfo;
-import com.example.demo.vo.ManualQuotaPara;
-import com.example.demo.vo.QuotaAllocation;
+import com.example.demo.model.bondmanage.BondRegistInfo;
+import com.example.demo.model.bondmanage.ManualQuotaPara;
+import com.example.demo.model.bondmanage.QuotaAllocation;
 
 @Service
 public class BondSevice {

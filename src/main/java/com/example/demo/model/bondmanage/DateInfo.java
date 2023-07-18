@@ -1,4 +1,4 @@
-package com.example.demo.vo;
+package com.example.demo.model.bondmanage;
 
 public class DateInfo {
     private String saleStartDate;

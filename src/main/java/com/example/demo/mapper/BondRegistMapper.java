@@ -3,7 +3,7 @@ package com.example.demo.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.demo.vo.BondRegistInfo;
+import com.example.demo.model.bondmanage.BondRegistInfo;
 
 @Mapper
 public interface BondRegistMapper {

@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.demo.mapper.BondRegistMapper">
 
-  <insert id="insertBondRegist" parameterType="com.example.demo.vo.BondRegistInfo">
+  <insert id="insertBondRegist" parameterType="com.example.demo.model.bondmanage.BondRegistInfo">
     INSERT INTO bond_regist (bond_id, fullname, shortname, category, total_quota, issuer, duration, sale_type,
                             clear_meth, sale_start_date, sale_end_date, value_date, early_cash_date, early_cash_int_date,
                             end_date, intrst_meth, intrst_pay_meth, intrst_pay_frequency, intrst_deduct_interval,
