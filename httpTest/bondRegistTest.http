@@ -1,0 +1,58 @@
+POST http://localhost:8080/ebond_manage/v1/bonds/register
+Content-Type: application/json
+
+{
+  "bond": {
+    "bondId": "231706",
+    "fullname": "ABC Bond",
+    "shortname": "ABCB",
+    "category": "17",
+    "totalQuota": 1000000,
+    "issuer": "财政部",
+    "duration": 5,
+    "saleType": "C",
+    "clearMeth": "B"
+  },
+  "interest": {
+    "intrstMeth": "A",
+    "intrstPayMeth": "A",
+    "intrstPayFrequency": 1,
+    "intrstDeductInterval": [
+      {
+        "intervalStart": 0,
+        "intervalEnd": 6,
+        "deductDays": 180
+      },
+      {
+        "intervalStart": 6,
+        "intervalEnd": 12,
+        "deductDays": 90
+      },
+      {
+        "intervalStart": 12,
+        "intervalEnd": 24,
+        "deductDays": 90
+      },
+      {
+        "intervalStart": 24,
+        "intervalEnd": 36,
+        "deductDays": 90
+      },
+      {
+        "intervalStart": 36,
+        "intervalEnd": 60,
+        "deductDays": 90
+      }
+    ]
+  },
+  "date": {
+    "saleStartDate": "2023-07-15",
+    "saleEndDate": "2023-07-31",
+    "valueDate": "2023-08-01",
+    "earlyCashDate": "2024-07-31",
+    "earlyCashIntDate": "2024-07-30",
+    "endDate": "2028-08-01"
+  },
+  "releaseStatus": "1"
+ 
+}
