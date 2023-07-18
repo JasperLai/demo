@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- Database connection settings -->
+    <context id="default" targetRuntime="MyBatis3">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/ebond"
+                        userId="mubinlai"
+                        password="password">
+        </jdbcConnection>
+
+        <!-- Java model and example package -->
+        <javaModelGenerator targetPackage="com.example.demo.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- XML mapper package -->
+        <sqlMapGenerator targetPackage="com.example.demo.mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- Mapper interface package -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.example.demo.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- Tables to generate -->
+        <table schema="ebond" tableName="bond_info"></table>
+        <!-- Add more <table> elements for other tables -->
+
+    </context>
+</generatorConfiguration>

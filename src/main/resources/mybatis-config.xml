@@ -1,0 +1,10 @@
+<!-- mybatis-config.xml -->
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!-- Mapper XML locations -->
+    <mappers>
+        <mapper resource="mapper/YourMapper.xml"/>
+    </mappers>
+</configuration>
