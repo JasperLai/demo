@@ -1,9 +1,5 @@
 package com.example.demo.model.Report.NodeImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.example.demo.Log4j2Example;
 import com.example.demo.model.Report.Node;
 import com.example.demo.model.Report.type.CommonDate;
 import com.example.demo.model.Report.type.ExactNText;
@@ -16,8 +12,6 @@ public class OpenAccountNode extends Node {
     private MaxNText idCardNo;
     private ExactNText accountNo;
     private TranscChnl openAccountChannel;
-    private static final Logger logger = LogManager.getLogger(OpenAccountNode.class);
-
     public static void main(String[] args) {
         OpenAccountNode a = new OpenAccountNode("20230812", "12345678998765432100", "000011112222333345", "01");
         // logger.info(a.getValue());
