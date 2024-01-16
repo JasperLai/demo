@@ -1,5 +1,7 @@
 package com.example.demo.model.bondmanage;
 
+import com.example.demo.business.product.domain.domainObject.Bond;
+
 public class BondRegistInfo {
     private Bond bond;
     private Interest interest;
