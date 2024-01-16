@@ -1,4 +1,4 @@
-package com.example.demo.business.product.domain.valueObject;
+package com.example.demo.business.product.domain.domainObject;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -38,24 +38,9 @@ public class BondBusinessAuth {
         return permissions;
     }
 
-    public boolean canExecuteBuySell() {
-        return (permissions & TRANSACTION_TYPE_MASK_MAP.get(TransactionType.BUY_SELL)) == 0;
-    }
 
-    public boolean canExecuteTransfer() {
-        return (permissions & TRANSACTION_TYPE_MASK_MAP.get(TransactionType.TRANSFER)) == 0;
-    }
-
-    public boolean canExecuteNonTradeTransfer() {
-        return (permissions & TRANSACTION_TYPE_MASK_MAP.get(TransactionType.NON_TRADE_TRANSFER)) == 0;
-    }
-
-    public boolean canExecuteInterestPayment() {
-        return (permissions & TRANSACTION_TYPE_MASK_MAP.get(TransactionType.INTEREST_PAYMENT)) == 0;
-    }
-
-    public boolean canExecuteRedemption() {
-        return (permissions & TRANSACTION_TYPE_MASK_MAP.get(TransactionType.REDEMPTION)) == 0;
+    public boolean canExectute(TransactionType type){
+        return (permissions & TRANSACTION_TYPE_MASK_MAP.get(type)) == 0;
     }
 
     public void disable(TransactionType transactionType) {
@@ -87,7 +72,7 @@ public class BondBusinessAuth {
         System.out.println("Current Permissions: " + auth.getPermissions());
 
         // 检查是否允许买入卖出操作
-        if (auth.canExecuteInterestPayment()) {
+        if (auth.canExectute(TransactionType.INTEREST_PAYMENT)) {
             System.out.println("可以进行买入卖出操作。");
         } else {
             System.out.println("禁止买入卖出操作。");

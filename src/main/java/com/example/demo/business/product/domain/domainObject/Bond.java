@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.example.demo.business.product.domain.valueObject.BondVariety;
 import com.example.demo.business.product.domain.valueObject.Currency;
+import com.example.demo.business.product.domain.valueObject.CustodyOrg;
 import com.example.demo.business.product.domain.valueObject.InterestBase;
 import com.example.demo.business.product.domain.valueObject.InterestType;
 
@@ -46,7 +47,7 @@ public class Bond {
 
     private BigDecimal parValue;
 
-    private String custodyOrg;
+    private CustodyOrg custodyOrg;
 
     public String getBondCode() {
         return this.bondCode;
@@ -192,25 +193,24 @@ public class Bond {
         this.parValue = parValue;
     }
 
-    public String getCustodyOrg() {
+    public CustodyOrg getCustodyOrg() {
         return this.custodyOrg;
     }
 
-    public void setCustodyOrg(String custodyOrg) {
+    public void setCustodyOrg(CustodyOrg custodyOrg) {
         this.custodyOrg = custodyOrg;
     }
 
     /**
-     * 获取下一付息日
+     * TODO 获取下一付息日
      * @return
      */
     public Date getNextDayForPayingInterest(){
-        //TODO 根据当前日期， 计算下一付息日
         return null;
     }
 
     /**
-     * 计算当前付息周期的应计利息（以面额为单位）
+     * TODO 计算当前付息周期的应计利息（以面额为单位）
      * @return 2 位小叔
      */
     public BigDecimal calculateCurrentInt(){
@@ -218,10 +218,9 @@ public class Bond {
     }
 
     /**
-     *  判断当天是否可以进行转托管交易
+     *  TODO 判断当天是否可以进行转托管交易
      */
      public boolean canTransferToday(){
-
         return false;
     }
 

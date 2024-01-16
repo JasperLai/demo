@@ -1,6 +1,6 @@
-package com.example.demo.business.product.domain.domainObject;
+package com.example.demo.business.product.domain.valueObject;
 
-public enum LifeCycle {
+public enum BondLifeCycle {
     ISSUE_BEFORE(100, "发行前"),
     ISSUE_IN_PROGRESS(200, "发行中"),
     LISTING_IN_CIRCULATION(300, "上市流通期"),
@@ -10,7 +10,7 @@ public enum LifeCycle {
     private final int code;
     private final String description;
 
-    LifeCycle(int code, String description) {
+    BondLifeCycle(int code, String description) {
         this.code = code;
         this.description = description;
     }

@@ -1,6 +1,8 @@
 package com.example.demo.business.product.domain.domainObject;
 
-import com.example.demo.business.product.domain.valueObject.BondBusinessAuth;
+import java.math.BigDecimal;
+
+import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 
 public class BondProduct {
     private String productCode;
@@ -8,7 +10,6 @@ public class BondProduct {
     private Bond bond;
     private BondBusinessAuth authority;
     private BondQuotation quotation;
-    private Inventory inventory;
 
     public String getProductCode() {
         return this.productCode;
@@ -50,22 +51,23 @@ public class BondProduct {
         this.quotation = quotation;
     }
 
-    public Inventory getInventory() {
-        return this.inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
 
 
     /**
      * 获取产品生命周期，发行前，发行中，上市流通期
-     * 根据 bond 的日期参数，和当前日期，判断生命周期
+     * TODO 根据 bond 的日期参数，和当前日期，判断生命周期
      * @return
      */
-    public LifeCycle getLifeCycle(){
+    public BondLifeCycle getLifeCycle(){
         return null;
+    }
+
+    /**
+     *  TODO 根据产品编码判断是否续发行
+     * @return
+     */
+    public boolean isReissue(){
+        return true;
     }
 
 }
