@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class BondBusinessAuth {
     private int permissions;
+    private String bondCode;
 
     // 交易类型枚举
     public enum TransactionType {
@@ -28,6 +29,14 @@ public class BondBusinessAuth {
 
     public BondBusinessAuth(int permissions) {
         this.permissions = permissions;
+    }
+
+    public String getBondCode() {
+        return this.bondCode;
+    }
+
+    public void setBondCode(String bondCode) {
+        this.bondCode = bondCode;
     }
 
     public void setPermissions(int permissions) {
