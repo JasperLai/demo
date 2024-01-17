@@ -53,6 +53,11 @@ public class ProductController {
         }
     }
 
+    /**
+     * 额度调拨
+     * @param allocDtos
+     * @return
+     */
     @PostMapping("/product/allocQuotation")
     public ResponseEntity<String> voucherBondFacTransfer(@RequestBody List<ChangeQuotationDto> allocDtos) {
         Inventory inv = null;
@@ -62,14 +67,14 @@ public class ProductController {
             String bondCode = dto.getBondCode();
             int amount = dto.getAmount();
 
-            // Check if bondCode exists in the database
+            //加载库存数据
             inv = invRepo.queryInventory(dto);
-
+        
             if (inv.isNewBondInChannel(bondCode, channelId)) {
-                // If bondCode does not exist, initialize the inventory
+                //新渠道券
                 inv.initializeInventory(dto);
             } else {
-                // If bondCode exists, use increase or decrease method
+                //旧渠道券
                 if (amount >= 0) {
                     inv.increaseInventory(dto);
                 } else {
@@ -78,9 +83,10 @@ public class ProductController {
             }
 
         }
+        //遍历后更新库存
         invRepo.saveInventory(inv);
 
-        return ResponseEntity.ok("Bank data received and processed");
+        return ResponseEntity.ok("Alloc quotation received and processed");
     }
 
 
