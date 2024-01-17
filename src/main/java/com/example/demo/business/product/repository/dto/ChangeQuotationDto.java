@@ -3,11 +3,11 @@ package com.example.demo.business.product.repository.dto;
 public class ChangeQuotationDto {
     private String bondCode;
     private String channelId;
-    private int amount;
+    private int changeQuantity;
 
     public ChangeQuotationDto(String channelId, int amount, String bondCode) {
         this.channelId = channelId;
-        this.amount = amount;
+        this.changeQuantity = amount;
         this.bondCode = bondCode;
     }
 
@@ -15,8 +15,8 @@ public class ChangeQuotationDto {
         return channelId;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getChangeQuantity() {
+        return changeQuantity;
     }
 
      public String getBondCode() {

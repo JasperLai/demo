@@ -65,7 +65,7 @@ public class ProductController {
 
             String channelId = dto.getChannelId();
             String bondCode = dto.getBondCode();
-            int amount = dto.getAmount();
+            int amount = dto.getChangeQuantity();
 
             //加载库存数据
             inv = invRepo.queryInventory(dto);

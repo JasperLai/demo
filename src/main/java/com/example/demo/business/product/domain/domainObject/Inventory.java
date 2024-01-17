@@ -28,7 +28,7 @@ public class Inventory {
     public void initializeInventory(ChangeQuotationDto dto) {
         String channelId = dto.getChannelId();
         String bond = dto.getBondCode();
-        int quantity = dto.getAmount();
+        int quantity = dto.getChangeQuantity();
         channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, quantity);
     }
 
@@ -41,7 +41,7 @@ public class Inventory {
     public void increaseInventory(ChangeQuotationDto dto) {
         String channelId = dto.getChannelId();
         String bond = dto.getBondCode();
-        int quantity = dto.getAmount();
+        int quantity = dto.getChangeQuantity();
         int currentQuantity = getInventory(channelId, bond);
         channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, currentQuantity + quantity);
         logger.info(String.format("increase %1s %2s into %3s \n", quantity,bond, Channel.getDisplayName(channelId)));
@@ -51,7 +51,7 @@ public class Inventory {
     public void decreaseInventory(ChangeQuotationDto dto) {
         String channelId = dto.getChannelId();
         String bond = dto.getBondCode();
-        int quantity = Math.abs(dto.getAmount());
+        int quantity = Math.abs(dto.getChangeQuantity());
         int currentQuantity = getInventory(channelId, bond);
         if (currentQuantity >= quantity) {
             channelInventory.get(channelId).put(bond, currentQuantity - quantity);
