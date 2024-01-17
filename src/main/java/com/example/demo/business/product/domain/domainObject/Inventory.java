@@ -2,58 +2,66 @@ package com.example.demo.business.product.domain.domainObject;
 
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.example.demo.business.product.domain.valueObject.Channel;
+import com.example.demo.business.product.repository.dto.ChangeQuotationDto;
+
 import java.util.HashMap;
 
 public class Inventory {
-    private Map<String, Map<String, Integer>> channelInventory; // 渠道和债券的可售额度
+    private static final Logger logger = LogManager.getLogger(Inventory.class);
+
+    private Map<String, Map<String, Integer>> channelInventory; // map<channelid， map<bondCode, quantity>>
+
+
+    public void setChannelInventory(Map<String,Map<String,Integer>> channelInventory) {
+        this.channelInventory = channelInventory;
+    }
 
     public Inventory() {
         this.channelInventory = new HashMap<>();
     }
 
     // 初始化债券可售额度
-    public void initializeInventory(String channel, String bond, int quantity) {
-        channelInventory.computeIfAbsent(channel, k -> new HashMap<>()).put(bond, quantity);
+    public void initializeInventory(ChangeQuotationDto dto) {
+        String channelId = dto.getChannelId();
+        String bond = dto.getBondCode();
+        int quantity = dto.getAmount();
+        channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, quantity);
     }
 
     // 获取债券可售额度
-    public int getInventory(String channel, String bond) {
-        return channelInventory.getOrDefault(channel, new HashMap<>()).getOrDefault(bond, 0);
+    public int getInventory(String channelId, String bond) {
+        return channelInventory.getOrDefault(channelId, new HashMap<>()).getOrDefault(bond, -1);
     }
 
     // 增加债券可售额度
-    public void increaseInventory(String channel, String bond, int quantity) {
-        int currentQuantity = getInventory(channel, bond);
-        channelInventory.computeIfAbsent(channel, k -> new HashMap<>()).put(bond, currentQuantity + quantity);
-        System.out.println("增加了 " + quantity + bond + " 到渠道 " + channel + " 的可售额度。");
+    public void increaseInventory(ChangeQuotationDto dto) {
+        String channelId = dto.getChannelId();
+        String bond = dto.getBondCode();
+        int quantity = dto.getAmount();
+        int currentQuantity = getInventory(channelId, bond);
+        channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, currentQuantity + quantity);
+        logger.info(String.format("increase %1s %2s into %3s \n", quantity,bond, Channel.getDisplayName(channelId)));
     }
 
     // 减少债券可售额度
-    public void decreaseInventory(String channel, String bond, int quantity) {
-        int currentQuantity = getInventory(channel, bond);
+    public void decreaseInventory(ChangeQuotationDto dto) {
+        String channelId = dto.getChannelId();
+        String bond = dto.getBondCode();
+        int quantity = Math.abs(dto.getAmount());
+        int currentQuantity = getInventory(channelId, bond);
         if (currentQuantity >= quantity) {
-            channelInventory.get(channel).put(bond, currentQuantity - quantity);
-            System.out.println("减少了 " + quantity + bond + " 从渠道 " + channel + " 的可售额度。");
+            channelInventory.get(channelId).put(bond, currentQuantity - quantity);
+            logger.info(String.format("decrease %1s %2s from %3s \n", quantity,bond, Channel.getDisplayName(channelId)));
         } else {
-            System.out.println("渠道 " + channel + " 的 " + bond + " 可售额度不足 " + quantity + " 枚。");
+            logger.info(String.format("insufficient amount of %1s  from %2s \n", bond, Channel.getDisplayName(channelId)));
         }
     }
 
-    public static void main(String[] args) {
-        // 示例用法
-        Inventory inventory = new Inventory();
-
-        // 初始化债券可售额度
-        inventory.initializeInventory("渠道A", "债券X", 100);
-        inventory.initializeInventory("渠道B", "债券Y", 50);
-
-        // 获取债券可售额度
-        System.out.println("渠道A 的债券X 可售额度: " + inventory.getInventory("渠道A", "债券X"));
-
-        // 增加债券可售额度
-        inventory.increaseInventory("渠道A", "债券X", 20);
-
-        // 减少债券可售额度
-        inventory.decreaseInventory("渠道B", "债券Y", 30);
+    public boolean isNewBondInChannel(String bondCode, String channelId){
+        return getInventory(channelId, bondCode) >= 0 ? true : false;
     }
 }
