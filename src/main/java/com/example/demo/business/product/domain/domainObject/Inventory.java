@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.example.demo.business.product.domain.valueObject.Channel;
-import com.example.demo.business.product.repository.dto.ChangeQuotationDto;
+import com.example.demo.business.product.repository.dto.ChangeQuoteDto;
 
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class Inventory {
     }
 
     // 初始化债券可售额度
-    public void initializeInventory(ChangeQuotationDto dto) {
+    public void initializeInventory(ChangeQuoteDto dto) {
         String channelId = dto.getChannelId();
         String bond = dto.getBondCode();
         int quantity = dto.getChangeQuantity();
@@ -38,21 +38,24 @@ public class Inventory {
     }
 
     // 增加债券可售额度
-    public void increaseInventory(ChangeQuotationDto dto) {
+    public void increaseInventory(ChangeQuoteDto dto) {
         String channelId = dto.getChannelId();
         String bond = dto.getBondCode();
         int quantity = dto.getChangeQuantity();
         int currentQuantity = getInventory(channelId, bond);
+        //TODO 此处需要增加库存增加上限机制， 即库存高于于某个设定的值以后，抛出库存过剩异常交易失败
+
         channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, currentQuantity + quantity);
         logger.info(String.format("increase %1s %2s into %3s \n", quantity,bond, Channel.getDisplayName(channelId)));
     }
 
     // 减少债券可售额度
-    public void decreaseInventory(ChangeQuotationDto dto) {
+    public void decreaseInventory(ChangeQuoteDto dto) {
         String channelId = dto.getChannelId();
         String bond = dto.getBondCode();
         int quantity = Math.abs(dto.getChangeQuantity());
         int currentQuantity = getInventory(channelId, bond);
+        //TODO 此处需要增加库存下限机制， 即库存低于某个设定的值以后，抛出库存不足异常
         if (currentQuantity >= quantity) {
             channelInventory.get(channelId).put(bond, currentQuantity - quantity);
             logger.info(String.format("decrease %1s %2s from %3s \n", quantity,bond, Channel.getDisplayName(channelId)));

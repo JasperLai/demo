@@ -1,11 +1,11 @@
 package com.example.demo.business.product.repository.dto;
 
-public class ChangeQuotationDto {
+public class ChangeQuoteDto {
     private String bondCode;
     private String channelId;
     private int changeQuantity;
 
-    public ChangeQuotationDto(String channelId, int amount, String bondCode) {
+    public ChangeQuoteDto(String channelId, int amount, String bondCode) {
         this.channelId = channelId;
         this.changeQuantity = amount;
         this.bondCode = bondCode;
