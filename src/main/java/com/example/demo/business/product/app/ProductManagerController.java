@@ -1,5 +1,7 @@
 package com.example.demo.business.product.app;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,32 +12,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.business.product.app.request.ProductRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
-import com.example.demo.business.product.domain.domainObject.Inventory;
+import com.example.demo.business.product.domain.repository.BondProductRepo;
+import com.example.demo.business.product.domain.repository.InventoryRepo;
+import com.example.demo.business.product.domain.repository.dto.QuotationDto;
 import com.example.demo.business.product.domain.service.BondProductService;
-import com.example.demo.business.product.domain.service.BondQuotationService;
-import com.example.demo.business.product.domain.service.ChannelService;
-import com.example.demo.business.product.repository.InventoryRepo;
-import com.example.demo.business.product.repository.dto.BondInfoDto;
-import com.example.demo.business.product.repository.dto.ChangeQuoteDto;
-import com.example.demo.business.product.repository.dto.QuotationDto;
+import com.example.demo.business.product.domain.valueObject.BondVariety;
+import com.example.demo.business.product.domain.valueObject.Currency;
 
 @RestController
-@RequestMapping("/bond/v1")
-public class ProductManager {
+@RequestMapping("/bond/product")
+public class ProductManagerController {
 
     @Autowired
     private BondProductService productServcie;
 
     @Autowired
-    private BondQuotationService quotationService;
-
-    @Autowired
-    private ChannelService channelService;
-
-    @Autowired
     private InventoryRepo invRepo;
+
+    @Autowired
+    private BondProductRepo productRepo;
 
     /**
      * 债券录入
@@ -44,27 +42,75 @@ public class ProductManager {
      * @param dto
      * @return
      */
-    @PostMapping("/product/register")
-    public ResponseEntity<String> setKeepAccount(@RequestBody BondInfoDto dto) {
+    @PostMapping("/register")
+    public ResponseEntity<String> setKeepAccount(@RequestBody ProductRequest dto) {
         
         //TODO 接口-setKeepAccount，需要增加续发行录入
-        if (productServcie.registBond(dto)) {
+        //STEP 1  参数提取
+
+        //STEP 2  构造对应产品参数
+        BondProduct product = new BondProduct();
+
+        if (productServcie.registProduct(product)) {
             return new ResponseEntity<>("Bond registered successfully", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Bond registered failed", HttpStatus.BAD_REQUEST);
         }
     }
 
+
+    private Bond parseBond(ProductRequest request) throws Exception{
+        Bond b = new Bond();
+
+        b.setBondCode(request.getBond_code());
+        b.setFullName(request.getBond_name());
+        b.setShortName(request.getBond_short_name());
+        b.setCoupon(new BigDecimal(request.getCurrent_par_interestrate()));
+        b.setVariety(BondVariety.valueOf(request.getBond_variety()));  //TODO 这个字段需要字典转换映射
+        b.setBondTerm(Integer.valueOf(request.getBond_time()));
+        b.setCurrency(request.getCurrency_code());
+        b.setIssuer("");//旧协议未传输
+        b.setIssuePrice(new BigDecimal(request.getIssue_price()));
+        b.setTransferPauseDayBeforeCash(Integer.valueOf(request.getBefpay_altertrust_stopdays()));
+        b.setMatureDate(new SimpleDateFormat("yyyyMMdd").parse(request.getCash_date()));
+        b.setIssueEndDate(new SimpleDateFormat("yyyyMMdd").parse(request.getEnd_sepsell_date()));
+        b.setIssueStartDate(new SimpleDateFormat("yyyyMMdd").parse(request.getInitial_sepsell_date()));
+        b.setStartTradeDate(new SimpleDateFormat("yyyyMMdd").parse(request.getMaket_circulating_date()));
+        b.setStartIntDate(new SimpleDateFormat("yyyyMMdd").parse(request.getBegin_calinterest_date()));
+        b.setParValue(Integer.valueOf(request.getIssue_date()));
+        b.setInterestBase(null);
+        b.setInterestType(null);
+        return b;
+    }
+
+    
+
     /**
      * 产品更新
      * @param dto 更新债券参数
      * @return
      */
-    @PostMapping("/product/update")
-    public ResponseEntity<String> updateKeepAccount(@RequestBody BondInfoDto dto) {
+    @PostMapping("/update")
+    public ResponseEntity<String> updateKeepAccount(@RequestBody ProductRequest dto) {
         
         //TODO 接口-updateKeepAccount
         return new ResponseEntity<>("Bond registered successfully", HttpStatus.OK);
+    }
+
+    /**
+     * 
+     * @param bondCode 债券代码
+     * @param upperLimit 银行持有上限
+     * @param lowerLimit 银行持有下限
+     * @return
+     */
+    @PostMapping("/limitSet")
+    public ResponseEntity<String> keepAccountsLimitSet(@RequestParam String bondCode, 
+    @RequestParam long upperLimit, @RequestParam long lowerLimit) {
+
+        productRepo.updateLimit(upperLimit, lowerLimit);
+        return ResponseEntity.ok("processed");
+
     }
 
     /**
@@ -74,7 +120,7 @@ public class ProductManager {
      * @param switchState 开关状态
      * @return
      */
-    @PostMapping("/product/tradeSwitch/auth")
+    @PostMapping("/tradeSwitch/auth")
     public ResponseEntity<String> tradeSwitchSet(@RequestParam String productCode, @RequestParam String tradeType,
     @RequestParam String switchState) {
         
@@ -88,7 +134,7 @@ public class ProductManager {
      * @param switchState
      * @return
      */
-    @PostMapping("/product/switch/auth")
+    @PostMapping("/switch/auth")
     public ResponseEntity<String> productSwitchSet(@RequestParam String productCode, @RequestParam String switchState) {
         
         //TODO 接口-productSwitchSet
@@ -100,7 +146,7 @@ public class ProductManager {
      * @param productCode
      * @return
      */
-    @PostMapping("/product/switch/reset")
+    @PostMapping("/switch/reset")
     public ResponseEntity<String> renewDefaultSet(@RequestParam String productCode) {
         
         //TODO 接口-renewDefaultSet
@@ -112,7 +158,7 @@ public class ProductManager {
      * 产品查询接口
      * @return
      */
-    @PostMapping("/product/list")
+    @PostMapping("/list")
     public List<Bond> queryKeAcBriefInfo() {
         
         //TODO 接口-queryKeAcBriefInfo 债券信息查询，支持单个/列表,返回参数需要重新封装定义，并补充一些条件入参
@@ -122,7 +168,7 @@ public class ProductManager {
     /*
      * 债券列表查询，历史原因导致的冗余接口，返回基础数据，目前 GRM 调用
      */
-    @PostMapping("/product/list2")
+    @PostMapping("/list2")
     public List<Bond> queryBondList() {
         
         //TODO 接口-queryKeAcBriefInfo 债券信息查询，支持单个/列表,返回参数需要重新封装定义，并补充一些条件入参
@@ -135,7 +181,7 @@ public class ProductManager {
      * @param productCode
      * @return
      */
-    @PostMapping("/product/detail")
+    @PostMapping("/detail")
     public BondProduct queryKeAcDetailedInfo(@RequestParam String productCode) {
         
         //TODO 接口-queryKeAcDetailedInfo 债券详细查询，返回参数需要重新封装定义
@@ -146,7 +192,7 @@ public class ProductManager {
      * 查询推荐债券，该接口存在冗余
      * @return
      */
-    @PostMapping("/product/recommend")
+    @PostMapping("/recommend")
     public List<Bond> queryKeAcTuiJianInfo() {
         
         //TODO 接口-queryKeAcTuiJianInfo 推荐债券查询，直接查库即可
@@ -157,7 +203,7 @@ public class ProductManager {
      * 历史原因冗余？目前由GRM 调用
      * @return
      */
-    @PostMapping("/product/recommend2")
+    @PostMapping("/recommend2")
     public List<Bond> queryRecommendedKeAcBondList() {
         
         //TODO 接口-queryRecommendedKeAcBondList 推荐债券查询，直接查库即可
@@ -169,7 +215,7 @@ public class ProductManager {
      * @param request 推荐债券列表
      * @return
      */
-    @PostMapping("/product/setRecomment")
+    @PostMapping("/setRecomment")
     public ResponseEntity<String> recommendedKeAcBondSet(@RequestBody List<String> bondList) {
         
         //TODO 接口-queryKeAcTuiJianInfo 推荐债券查询，直接查库即可
@@ -177,42 +223,6 @@ public class ProductManager {
     }
     
 
-
-    /**
-     * 额度调拨
-     * @param allocDtos
-     * @return
-     */
-    @PostMapping("/product/allocQuotation")
-    public ResponseEntity<String> voucherBondFacTransfer(@RequestBody List<ChangeQuoteDto> allocDtos) {
-        Inventory inv = null;
-        for (ChangeQuoteDto dto : allocDtos) {
-
-            String channelId = dto.getChannelId();
-            String bondCode = dto.getBondCode();
-            int amount = dto.getChangeQuantity();
-
-            //加载库存数据
-            inv = invRepo.queryInventory(dto);
-        
-            if (inv.isNewBondInChannel(bondCode, channelId)) {
-                //新渠道券
-                inv.initializeInventory(dto);
-            } else {
-                //旧渠道券
-                if (amount >= 0) {
-                    inv.increaseInventory(dto);
-                } else {
-                    inv.decreaseInventory(dto);
-                }
-            }
-
-        }
-        //遍历后更新库存
-        invRepo.saveInventory(inv);
-
-        return ResponseEntity.ok("Alloc quotation received and processed");
-    }
 
     /**
      * 报价试算

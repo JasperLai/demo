@@ -7,12 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.business.product.app.request.ProductRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
+import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
-import com.example.demo.business.product.repository.BondProductRepo;
-import com.example.demo.business.product.repository.dto.BondInfoDto;
 @Component
 public class BondProductService {
     @Autowired
@@ -31,11 +31,23 @@ public class BondProductService {
     }
 
     /**
-     * TODO 债券注册
+     * TODO 债券基础信息注册， 用于自动解析下发的债券信息文件并录入基础数据
+     * 注意在债券基础信息注册完以，由于产品并未设置，因此不会有产品信息
      * @param bondinfoDto 债券注册参数
      * @return
      */
-    public boolean registBond(BondInfoDto bondinfo){
+    public boolean registBond(Bond bondinfo){
+
+        return repo.registBond(bondinfo);
+    }
+
+    /**
+     * 设置产品，只有产品表数据完备才能认为产品注册流程完成
+     * @return
+     */
+    public boolean registProduct(BondProduct product){
+
+        
         return false;
     }
 

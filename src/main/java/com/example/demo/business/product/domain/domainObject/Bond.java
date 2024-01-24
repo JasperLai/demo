@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.example.demo.business.product.domain.valueObject.BondVariety;
-import com.example.demo.business.product.domain.valueObject.Currency;
 import com.example.demo.business.product.domain.valueObject.CustodyOrg;
 import com.example.demo.business.product.domain.valueObject.InterestBase;
 import com.example.demo.business.product.domain.valueObject.InterestType;
@@ -23,7 +22,7 @@ public class Bond {
 
     private BigDecimal coupon; // % as unit
 
-    private Currency currency;
+    private String currency;
 
     private String issuer;
 
@@ -45,7 +44,7 @@ public class Bond {
 
     private InterestType interestType;
 
-    private BigDecimal parValue;
+    private int parValue;
 
     private CustodyOrg custodyOrg;
 
@@ -97,11 +96,11 @@ public class Bond {
         this.coupon = coupon;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return this.currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
@@ -185,11 +184,11 @@ public class Bond {
         this.interestType = interestType;
     }
 
-    public BigDecimal getParValue() {
+    public int getParValue() {
         return this.parValue;
     }
 
-    public void setParValue(BigDecimal parValue) {
+    public void setParValue(int parValue) {
         this.parValue = parValue;
     }
 
