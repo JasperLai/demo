@@ -29,8 +29,6 @@ public class ProductRequest {
 
     private String bond_time;
 
-    private String cainterest_norm;
-
     private String current_par_interestrate;
 
     private String float_par_interrate_norm;
@@ -38,6 +36,8 @@ public class ProductRequest {
     private String float_par_interbalance;
 
     private String calinterest_mode;
+
+    private String calinterest_norm;
 
     private String pay_interest_frequency;
 
@@ -182,14 +182,6 @@ public class ProductRequest {
 
     public void setBond_time(String bond_time) {
         this.bond_time = bond_time;
-    }
-
-    public String getCainterest_norm() {
-        return this.cainterest_norm;
-    }
-
-    public void setCainterest_norm(String cainterest_norm) {
-        this.cainterest_norm = cainterest_norm;
     }
 
     public String getCurrent_par_interestrate() {
@@ -352,6 +344,12 @@ public class ProductRequest {
         this.befCashDay_OutRequest_stopdays = befCashDay_OutRequest_stopdays;
     }
 
+    public String getCalinterest_norm() {
+        return this.calinterest_norm;
+    }
 
+    public void setCalinterest_norm(String calinterest_norm) {
+        this.calinterest_norm = calinterest_norm;
+    }
  
 }

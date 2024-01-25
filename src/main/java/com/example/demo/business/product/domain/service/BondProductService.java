@@ -32,7 +32,7 @@ public class BondProductService {
 
     /**
      * TODO 债券基础信息注册， 用于自动解析下发的债券信息文件并录入基础数据
-     * 注意在债券基础信息注册完以，由于产品并未设置，因此不会有产品信息
+     * 注意虽然债券基础信息录入后，由于产品并未设置，因此不会有产品信息
      * @param bondinfoDto 债券注册参数
      * @return
      */
@@ -45,10 +45,15 @@ public class BondProductService {
      * 设置产品，只有产品表数据完备才能认为产品注册流程完成
      * @return
      */
-    public boolean registProduct(BondProduct product){
-
+    public boolean registProduct(BondProduct product, boolean isReissue){
+        if(isReissue){
+            //续发行债券产品录入
+        }else{
+            //新产品录入
+        }
         
-        return false;
+        
+        return true;
     }
 
     /**

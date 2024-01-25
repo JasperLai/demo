@@ -1,39 +1,79 @@
 package com.example.demo.business.product.domain.domainObject;
 
-import java.math.BigDecimal;
-
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
+import com.example.demo.business.product.domain.valueObject.FDMProductCode;
+import com.example.demo.business.product.domain.valueObject.ProductCode;
 
 public class BondProduct {
-    private String productCode;
-    private String FDMCode;
+    private ProductCode productCode;
+    private FDMProductCode FDMCode;
     private Bond bond;
     private BondBusinessAuth authority;
     private BondQuotation quotation;
+    private Inventory inventory;
+    public long upperLimit = Long.MAX_VALUE;  //默认无上限
+    public long lowerLimit = 0; //默认下限为 0
+ 
+
+    private BondProduct() {
+    }
+
+    public static BondProduct builder() {
+        return new BondProduct();
+    }
+
+    public BondProduct withProductCode(String bondCode) {
+        this.productCode = ProductCode.create(bondCode);
+        return this;
+    }
+
+    public BondProduct withFDMCode(String bondCode) {
+        this.FDMCode = FDMProductCode.create(bondCode);
+        return this;
+    }
+
+    public BondProduct withInventory(Inventory inventory) {
+        this.inventory = inventory;
+        return this;
+    }
+
+    public BondProduct withBond(Bond bond) {
+        this.bond = bond;
+        return this;
+    }
+
+    public BondProduct withAuthority(BondBusinessAuth authority) {
+        this.authority = authority;
+        return this;
+    }
+
+    public BondProduct withQuotation(BondQuotation quotation) {
+        this.quotation = quotation;
+        return this;
+    }
+
+    // 在链式初始化完成后，可以调用 build 方法获取最终的对象
+    public BondProduct build() {
+        return this;
+    }
 
     public String getProductCode() {
-        return this.productCode;
+        return this.productCode.getCode();
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
 
     public String getFDMCode() {
-        return this.FDMCode;
+        return this.FDMCode.toString();
     }
 
-    public void setFDMCode(String FDMCode) {
-        this.FDMCode = FDMCode;
-    }
 
     public Bond getBond() {
         return this.bond;
     }
 
-    public void setBond(Bond bond) {
-        this.bond = bond;
-    }
+    // public void setBond(Bond bond) {
+    //     this.bond = bond;
+    // }
 
     public BondBusinessAuth getAuthority() {
         return this.authority;
