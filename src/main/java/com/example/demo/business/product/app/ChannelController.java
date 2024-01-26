@@ -40,30 +40,35 @@ public class ChannelController {
     @PostMapping("/allocQuotation")
     public ResponseEntity<String> voucherBondFacTransfer(@RequestBody List<ChangeQuoteDto> allocDtos) {
         Inventory inv = null;
-        for (ChangeQuoteDto dto : allocDtos) {
-
-            String channelId = dto.getChannelId();
-            String bondCode = dto.getBondCode();
-            int amount = dto.getChangeQuantity();
-
-            //加载库存数据
-            inv = invRepo.queryInventory(dto);
-        
-            if (inv.isNewBondInChannel(bondCode, channelId)) {
-                //新渠道券
-                inv.initializeInventory(dto);
-            } else {
-                //旧渠道券
-                if (amount >= 0) {
-                    inv.increaseInventory(dto);
+        try {
+            
+            for (ChangeQuoteDto dto : allocDtos) {
+    
+                String channelId = dto.getChannelId();
+                String bondCode = dto.getBondCode();
+                int amount = dto.getChangeQuantity();
+    
+                //加载库存数据
+                inv = invRepo.queryInventory(dto);
+            
+                if (inv.isNewBondInChannel(bondCode, channelId)) {
+                    //新渠道券
+                    inv.initializeInventory(dto);
                 } else {
-                    inv.decreaseInventory(dto);
+                    //旧渠道券
+                    if (amount >= 0) {
+                        inv.increaseInventory(dto);
+                    } else {
+                        inv.decreaseInventory(dto);
+                    }
                 }
+    
             }
-
+            //遍历后更新库存
+            invRepo.saveInventory(inv);
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-        //遍历后更新库存
-        invRepo.saveInventory(inv);
 
         return ResponseEntity.ok("Alloc quotation received and processed");
     }

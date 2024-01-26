@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.business.product.app.request.ProductRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
@@ -42,14 +41,16 @@ public class BondProductService {
     }
 
     /**
-     * 设置产品，只有产品表数据完备才能认为产品注册流程完成
+     * TODO 产品设置，只有产品表数据完备才能认为产品注册流程完成
      * @return
      */
     public boolean registProduct(BondProduct product, boolean isReissue){
         if(isReissue){
             //续发行债券产品录入
+            logger.info("regist reissue bond");
         }else{
             //新产品录入
+            logger.info("regist new bond");
         }
         
         

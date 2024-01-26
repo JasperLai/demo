@@ -40,7 +40,7 @@ public class ProductManagerController {
     private BondProductRepo productRepo;
 
     /**
-     * 债券录入，本方法合并了 adapter 和 app 层
+     * !!!债券录入，本方法合并了 adapter 和 app 层
      * 
      * @param dto
      * @return

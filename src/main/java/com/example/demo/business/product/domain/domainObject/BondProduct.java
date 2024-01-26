@@ -91,6 +91,14 @@ public class BondProduct {
         this.quotation = quotation;
     }
 
+    public Inventory getInventory() {
+        return this.inventory;
+    }
+
+    public void setQuotation(Inventory inv) {
+        this.inventory = inv;
+    }
+
 
 
     /**
