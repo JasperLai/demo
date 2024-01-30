@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.business.product.app.request.AgentDto;
+import com.example.demo.business.product.app.request.ChangeQuoteDto;
+import com.example.demo.business.product.app.response.InventoryGetResponse;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.repository.TraderRepo;
-import com.example.demo.business.product.domain.repository.dto.AgentDto;
-import com.example.demo.business.product.domain.repository.dto.ChangeQuoteDto;
-import com.example.demo.business.product.domain.repository.dto.InventoryDto;
 
 @RestController
 @RequestMapping("/bond/channel")
@@ -117,12 +117,13 @@ public class ChannelController {
      * @return 债券代码，产品代码, 当前库存，最高限额，最低限额，可买入额度，可卖出额度
      */
     @PostMapping("/inventory/get")
-    public InventoryDto queryKeAcFacility(@RequestParam String productCode, 
+    public InventoryGetResponse queryKeAcFacility(@RequestParam String productCode, 
     @RequestParam String bondCode) {
 
         //TODO 接口-queryKeAcFacility 查询额度全部参数
         return null;
     }
+
 
 
 }

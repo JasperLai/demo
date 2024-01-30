@@ -1,7 +1,7 @@
 package com.example.demo.business.product.domain.repository;
 
+import com.example.demo.business.product.app.request.ChangeQuoteDto;
 import com.example.demo.business.product.domain.domainObject.Inventory;
-import com.example.demo.business.product.domain.repository.dto.ChangeQuoteDto;
 
 public interface InventoryRepo {
 

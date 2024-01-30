@@ -13,16 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.product.app.request.ProductRequest;
+import com.example.demo.business.product.app.request.QuotationPreviewRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
-import com.example.demo.business.product.domain.repository.dto.QuotationDto;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.business.product.domain.valueObject.BondVariety;
-import com.example.demo.business.product.domain.valueObject.Currency;
 import com.example.demo.business.product.domain.valueObject.InterestBase;
 import com.example.demo.business.product.domain.valueObject.InterestType;
 
@@ -239,15 +238,5 @@ public class ProductManagerController {
         return new ResponseEntity<>("recommend bond set successfully", HttpStatus.OK);
     }
 
-    /**
-     * 报价试算
-     * 
-     * @param list
-     * @return
-     */
-    public ResponseEntity<String> keepAccountsPriceCountBatch(@RequestBody List<QuotationDto> list) {
-
-        return ResponseEntity.ok("Alloc quotation received and processed");
-    }
 
 }

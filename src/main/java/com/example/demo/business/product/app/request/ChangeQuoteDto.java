@@ -1,4 +1,4 @@
-package com.example.demo.business.product.domain.repository.dto;
+package com.example.demo.business.product.app.request;
 
 public class ChangeQuoteDto {
     private String bondCode;

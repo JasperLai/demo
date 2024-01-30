@@ -5,7 +5,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.example.demo.business.product.domain.repository.dto.ChangeQuoteDto;
+import com.example.demo.business.product.app.request.ChangeQuoteDto;
 import com.example.demo.business.product.domain.valueObject.Channel;
 
 import java.util.HashMap;
