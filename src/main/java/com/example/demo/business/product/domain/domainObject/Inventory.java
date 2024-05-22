@@ -2,103 +2,106 @@ package com.example.demo.business.product.domain.domainObject;
 
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.business.product.app.request.ChangeQuoteDto;
-import com.example.demo.business.product.domain.valueObject.Channel;
-
-import java.util.HashMap;
+import com.example.demo.business.product.domain.repository.BondProductRepo;
+import com.example.demo.business.product.domain.repository.InventoryRepo;
+import com.example.demo.business.product.domain.service.OrgService;
 
 public class Inventory {
+    private String orgId;
+    private String bondCode;
+    private long limit;
+    private SaleStrategy strategy;
 
-    //默认渠道
-    private static String DEFAULT_CHANNEL = "1001";
-
-    private static final Logger logger = LogManager.getLogger(Inventory.class);
-
-    private Map<String, Map<String, Integer>> channelInventory; // map<channelid， map<bondCode, quantity>>
-
-
-    public void setChannelInventory(Map<String,Map<String,Integer>> channelInventory) {
-        this.channelInventory = channelInventory;
+    // Constructor
+    public Inventory(String orgId, String bondCode, SaleStrategy strategy) {
+        this.orgId = orgId;
+        this.bondCode = bondCode;
+        this.strategy = strategy;
+        this.limit = (strategy == SaleStrategy.GLOBAL) ? 0 : -1; // -1 can denote "unset" for SPECIFIC strategy
     }
 
-    public Inventory() {
-        this.channelInventory = new HashMap<>();
+    // Getters and setters
+    public String getOrgId() {
+        return orgId;
     }
 
-    // 初始化债券可售额度
-    public void initializeInventory(ChangeQuoteDto dto) {
-        String channelId = dto.getChannelId();
-        String bond = dto.getBondCode();
-        int quantity = dto.getChangeQuantity();
-        channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, quantity);
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 
-    public void initializeInventory(String bondCode, int defaultValue) {
-        // 检查是否已存在 bondCode 的记录，不存在则创建
-        channelInventory.computeIfAbsent(DEFAULT_CHANNEL, k -> new HashMap<>());
-        
-        // 设置默认总行渠道的额度
-        channelInventory.get(DEFAULT_CHANNEL).put(bondCode, defaultValue);
-        
-        logger.info("Initialized inventory for bondCode {}", bondCode);
+    public String getBondCode() {
+        return bondCode;
     }
 
-    // 获取债券可售额度
-    public int getInventory(String channelId, String bond) {
-        return channelInventory.getOrDefault(channelId, new HashMap<>()).getOrDefault(bond, -1);
+    public void setBondCode(String bondCode) {
+        this.bondCode = bondCode;
     }
 
-    // 增加债券可售额度
-    public void increaseInventory(ChangeQuoteDto dto) throws Exception{
-        String channelId = dto.getChannelId();
-        String bond = dto.getBondCode();
-        int quantity = dto.getChangeQuantity();
-        int currentQuantity = getInventory(channelId, bond);
-        //TODO 此处需要增加库存增加上限机制， 即库存高于于某个设定的值以后，抛出自定义库存过剩异常交易失败
-        channelInventory.computeIfAbsent(channelId, k -> new HashMap<>()).put(bond, currentQuantity + quantity);
-        logger.info(String.format("increase %1s %2s into %3s \n", quantity,bond, Channel.getDisplayName(channelId)));
-    }
-
-    // 减少债券可售额度
-    public void decreaseInventory(ChangeQuoteDto dto) throws Exception{
-        String channelId = dto.getChannelId();
-        String bond = dto.getBondCode();
-        int quantity = Math.abs(dto.getChangeQuantity());
-        int currentQuantity = getInventory(channelId, bond);
-        //TODO 此处需要增加库存下限机制， 即库存低于某个设定的值以后，抛出自定义库存不足异常
-        if (currentQuantity >= quantity) {
-            channelInventory.get(channelId).put(bond, currentQuantity - quantity);
-            logger.info(String.format("decrease %1s %2s from %3s \n", quantity,bond, Channel.getDisplayName(channelId)));
+    public long getLimit() {
+        // For global strategy, it could potentially fetch the limit from a global setting
+        if(this.strategy == SaleStrategy.GLOBAL) {
+            // Simulate fetching global limit
+            return fetchGlobalLimit();
         } else {
-            logger.info(String.format("insufficient amount of %1s  from %2s \n", bond, Channel.getDisplayName(channelId)));
+            return limit;
         }
     }
 
-    public boolean isNewBondInChannel(String bondCode, String channelId){
-        return getInventory(channelId, bondCode) >= 0 ? true : false;
+
+    public void setLimit(long limit) {
+        if (this.strategy == SaleStrategy.SPECIFIC) {
+            this.limit = limit;
+        }
+        // If the strategy is GLOBAL, setting limit might be ignored or throw an error
     }
-    public static class InventoryBuilder {
-        private final Inventory inventory;
 
-        public InventoryBuilder() {
-            this.inventory = new Inventory();
+    public SaleStrategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(SaleStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    // Assume there is a method to fetch the global limit. Placeholder implementation:
+    private long fetchGlobalLimit() {
+        long globalLimit = 0;
+
+        Map<String, OrgNode> hierarchy = OrgService.getHierarchy();
+
+        // Find the root node for the current organization
+        OrgNode currentOrgNode = hierarchy.get(this.orgId);
+        if (currentOrgNode == null) {
+            throw new IllegalStateException("No organization found for ID: " + this.orgId);
         }
 
-        public InventoryBuilder withChannelInventory(Map<String, Map<String, Integer>> channelInventory) {
-            inventory.setChannelInventory(channelInventory);
-            return this;
-        }
+        // Traverse up the tree to find the nearest specific strategy limit
+        globalLimit = traverseToFindLimit(currentOrgNode, hierarchy);
 
-        public InventoryBuilder initializeInventory(String bondCode, int defaultValue) {
-            inventory.initializeInventory(bondCode,defaultValue);
-            return this;
-        }
+        return globalLimit;
+    
+    }
 
-        public Inventory build() {
-            return inventory;
+    // Recursive method to traverse the tree and find the nearest specific strategy limit
+    private long traverseToFindLimit(OrgNode node, Map<String, OrgNode> hierarchy) {
+        if (node.getStrategy() == SaleStrategy.SPECIFIC) {
+            // Found the nearest specific strategy limit
+            return node.getLimit();
+        } else if (node.getParentId() == null) {
+            // If we've reached the root node without finding a specific strategy, return the root limit
+            return node.getLimit();
+        } else {
+            // Recursively call this method with the parent node
+            return traverseToFindLimit(hierarchy.get(node.getParentId()), hierarchy);
         }
+    }
+
+    // Enum for SaleStrategy
+    public enum SaleStrategy {
+        GLOBAL,
+        SPECIFIC
     }
 }
+

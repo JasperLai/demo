@@ -1,8 +1,6 @@
 package com.example.demo.business.product.app;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ import com.example.demo.business.product.app.request.AgentDto;
 import com.example.demo.business.product.app.request.ChangeQuoteDto;
 import com.example.demo.business.product.app.response.InventoryGetResponse;
 import com.example.demo.business.product.domain.domainObject.Inventory;
-import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.repository.TraderRepo;
 
@@ -28,9 +25,6 @@ public class ChannelController {
 
     @Autowired
     private TraderRepo traderRepo;
-
-    
-
 
     /**
      * 额度调拨
@@ -51,17 +45,7 @@ public class ChannelController {
                 //加载库存数据
                 inv = invRepo.queryInventory(dto);
             
-                if (inv.isNewBondInChannel(bondCode, channelId)) {
-                    //新渠道券
-                    inv.initializeInventory(dto);
-                } else {
-                    //旧渠道券
-                    if (amount >= 0) {
-                        inv.increaseInventory(dto);
-                    } else {
-                        inv.decreaseInventory(dto);
-                    }
-                }
+             
     
             }
             //遍历后更新库存

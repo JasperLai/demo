@@ -54,9 +54,6 @@ public class ProductManagerController {
             .withFDMCode(dto.getBond_code())
             .withBond(parseBond(dto))
             .withAuthority(new BondBusinessAuth(0))
-            .withInventory(new Inventory.InventoryBuilder()
-            .initializeInventory(dto.getBond_code(), Integer.valueOf(dto.getConsign_quantum()))
-            .build())
             .build();
 
             //app 服务，产品注册
