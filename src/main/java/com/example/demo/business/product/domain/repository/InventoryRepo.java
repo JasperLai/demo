@@ -1,9 +1,11 @@
 package com.example.demo.business.product.domain.repository;
 
-import com.example.demo.business.product.app.request.ChangeQuoteDto;
+import org.springframework.stereotype.Component;
+
+import com.example.demo.business.product.adapter.request.ChangeQuoteDto;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.domainObject.Inventory.SaleStrategy;
-
+@Component
 public interface InventoryRepo {
 
     public Inventory queryInventory(ChangeQuoteDto dto);

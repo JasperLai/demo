@@ -7,12 +7,17 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.business.product.adapter.response.dto.InventoryDTO;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
+import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
+import com.example.demo.common.catchall.CatchAndLog;
+import com.example.demo.common.exception.BizException;
 @Component
+@CatchAndLog
 public class BondProductService {
     @Autowired
     private static final Logger logger = LogManager.getLogger(BondProductService.class);
@@ -27,6 +32,10 @@ public class BondProductService {
      */
     public Bond getBondDetailInfo(String bondCode){
         return null;
+    }
+
+    public InventoryDTO getInventory(){
+        throw new BizException("95568", "test biz exception");
     }
 
     /**

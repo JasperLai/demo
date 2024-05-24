@@ -1,0 +1,4 @@
+### Get Request to Example API
+GET http://localhost:8080/bond/channel/inventory/get?productCode=1223&bondCode=1231111
+Accept: application/json
+
