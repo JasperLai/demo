@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.product.adapter.request.AgentDto;
-import com.example.demo.business.product.adapter.request.ChangeQuoteDto;
 import com.example.demo.business.product.adapter.response.InventoryGetResponse;
 import com.example.demo.business.product.adapter.response.dto.InventoryDTO;
 import com.example.demo.business.product.domain.domainObject.Inventory;
@@ -39,31 +38,11 @@ public class ChannelController {
      * @param allocDtos
      * @return
      */
-    @PostMapping("/allocQuotation")
-    public ResponseEntity<String> voucherBondFacTransfer(@RequestBody List<ChangeQuoteDto> allocDtos) {
-        Inventory inv = null;
-        try {
-            
-            for (ChangeQuoteDto dto : allocDtos) {
-    
-                String channelId = dto.getChannelId();
-                String bondCode = dto.getBondCode();
-                int amount = dto.getChangeQuantity();
-    
-                //加载库存数据
-                inv = invRepo.queryInventory(dto);
-            
-             
-    
-            }
-            //遍历后更新库存
-            invRepo.saveInventory(inv);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-
-        return ResponseEntity.ok("Alloc quotation received and processed");
-    }
+    // @PostMapping("/allocQuotation")
+    // public ResponseEntity<String> voucherBondFacTransfer(@RequestBody List<ChangeQuoteDto> allocDtos) {
+      
+    //     return ResponseEntity.ok("Alloc quotation received and processed");
+    // }
 
 
     /**
@@ -116,8 +95,8 @@ public class ChannelController {
         InventoryGetResponse response = new InventoryGetResponse();
 
         response.setErrCode(inv.getErrCode());
-        response.setErrMessage(inv.getErrMsg());
-        response.setSuccess(inv.getSuccess());
+        response.setErrMessage(inv.getReturnMsg());
+        response.setSuccess(inv.isSuccess());
         return response;
     }
 

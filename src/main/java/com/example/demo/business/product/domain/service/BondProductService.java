@@ -16,6 +16,7 @@ import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.exception.BizException;
+import com.example.demo.exception.BaseData;
 @Component
 @CatchAndLog
 public class BondProductService {
@@ -53,17 +54,19 @@ public class BondProductService {
      * TODO 产品设置，只有产品表数据完备才能认为产品注册流程完成
      * @return
      */
-    public boolean registProduct(BondProduct product, boolean isReissue){
+    public BaseData registProduct(BondProduct product, boolean isReissue){
+        
+        String transId = "1000001";
+        BaseData returnData = new BaseData();
         if(isReissue){
             //续发行债券产品录入
-            logger.info("regist reissue bond");
+            returnData.setReturnMsg("regist reissue bond OK");
         }else{
             //新产品录入
-            logger.info("regist new bond");
+            returnData.setReturnMsg("regist new bond");
         }
         
-        
-        return true;
+        return new BaseData(true, transId);
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.example.demo.business.product.adapter.request;
 
-public class ProductRequest {
-    private String trustship_site;
+import com.example.demo.common.request.ManageBaseRequest;
+
+public class ProductRequest extends ManageBaseRequest{
+    private String productId;
 
     private String product_code;
 
@@ -72,12 +74,12 @@ public class ProductRequest {
     private String befCashDay_OutRequest_stopdays;
 
 
-    public String getTrustship_site() {
-        return this.trustship_site;
+    public String getProductId() {
+        return this.productId;
     }
 
-    public void setTrustship_site(String trustship_site) {
-        this.trustship_site = trustship_site;
+    public void setProductId(String trustship_site) {
+        this.productId = trustship_site;
     }
 
     public String getProduct_code() {

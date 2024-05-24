@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.common.exception.BaseException;
-import com.example.demo.exception.GeneralResponse;
+import com.example.demo.exception.BaseData;
 
 /**
  * ResponseHandler
@@ -26,10 +26,10 @@ public class DefaultResponseHandler{
 
     private static Object handleColaResponse(Class returnType, String errCode, String errMsg) {
         try {
-            GeneralResponse response = (GeneralResponse)returnType.newInstance();
+            BaseData response = (BaseData)returnType.newInstance();
             response.setSuccess(false);
             response.setErrCode(errCode);
-            response.setErrMsg(errMsg);
+            response.setReturnMsg(errMsg);
             return response;
         }
         catch (Exception ex){

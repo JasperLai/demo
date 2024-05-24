@@ -1,8 +1,8 @@
 package com.example.demo.business.product.adapter.response.dto;
 
-import com.example.demo.exception.GeneralResponse;
+import com.example.demo.exception.BaseData;
 
-public class InventoryDTO extends GeneralResponse {
+public class InventoryDTO extends BaseData {
 
     private String bondCode;
     private long quota;
