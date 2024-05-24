@@ -103,8 +103,8 @@ public class BondProductService {
             b.setListingDate(new SimpleDateFormat("yyyyMMdd").parse(request.getListingDate()));
             b.setAccrualDate(new SimpleDateFormat("yyyyMMdd").parse(request.getAccrualDate()));
             b.setParValue(Integer.valueOf(request.getParValue()));
-            b.setAccrualBase(AccrualBase.valueOf(request.getAccrualBase())); // TODO 需要字典转换
-            b.setAccrualMethod(AccrualMethod.valueOf(request.getAccrualMethod())); // 需要字典转换，并且根据付息频率进一步更新该字段
+            b.setAccrualBase(AccrualBase.valueOf(request.getAccrualBase())); 
+            b.setAccrualMethod(AccrualMethod.valueOf(request.getAccrualMethod())); 
         } catch (Exception e) {
             //统一抛出标准异常
             throw new BizException("BE10001","bond transfer error", e);

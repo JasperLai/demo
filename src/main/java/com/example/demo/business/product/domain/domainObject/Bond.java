@@ -44,7 +44,6 @@ public class Bond {
 
     private AccrualMethod accrualMethod;
 
-    
 
     private int parValue;
 

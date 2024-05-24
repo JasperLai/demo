@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.product.adapter.request.AgentDto;
 import com.example.demo.business.product.adapter.response.InventoryGetResponse;
+import com.example.demo.business.product.adapter.response.QueryKeAcFacilityResponse;
 import com.example.demo.business.product.adapter.response.dto.InventoryDTO;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.repository.TraderRepo;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.common.catchall.CatchAndLog;
+import com.example.demo.common.response.ManageBaseResponse;
 
 @RestController
 @RequestMapping("/bond/channel")
@@ -88,16 +91,12 @@ public class ChannelController {
      * @return 债券代码，产品代码, 当前库存，最高限额，最低限额，可买入额度，可卖出额度
      */
     @GetMapping("/inventory/get")
-    public InventoryGetResponse queryKeAcFacility(@RequestParam String productCode, 
+    public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestParam String productCode, 
     @RequestParam String bondCode) {
 
         InventoryDTO inv = (InventoryDTO)bs.getInventory();
-        InventoryGetResponse response = new InventoryGetResponse();
-
-        response.setErrCode(inv.getErrCode());
-        response.setErrMessage(inv.getReturnMsg());
-        response.setSuccess(inv.isSuccess());
-        return response;
+        
+        return new ResponseEntity<>(new QueryKeAcFacilityResponse(inv), HttpStatus.OK);
     }
 
 

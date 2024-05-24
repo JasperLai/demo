@@ -1,19 +1,20 @@
-2024-05-24 16:28:02 INFO  DemoApplication:55 - Starting DemoApplication using Java 1.8.0_372 on MubindeMacBook-Air.local with PID 18244 (/Users/mubinlai/code/demo/target/classes started by mubinlai in /Users/mubinlai/code/demo)
-2024-05-24 16:28:02 INFO  DemoApplication:631 - No active profile set, falling back to 1 default profile: "default"
-2024-05-24 16:28:03 WARN  ClassPathMapperScanner:44 - No MyBatis mapper was found in '[com.example.demo]' package. Please check your configuration.
-2024-05-24 16:28:03 INFO  TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
-2024-05-24 16:28:03 INFO  Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
-2024-05-24 16:28:03 INFO  StandardService:173 - Starting service [Tomcat]
-2024-05-24 16:28:03 INFO  StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.76]
-2024-05-24 16:28:03 INFO  [/]:173 - Initializing Spring embedded WebApplicationContext
-2024-05-24 16:28:03 INFO  ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 694 ms
-2024-05-24 16:28:03 INFO  AutowiredAnnotationBeanPostProcessor:477 - Autowired annotation is not supported on static fields: private static final org.apache.logging.log4j.Logger com.example.demo.business.product.domain.service.BondProductService.logger
-2024-05-24 16:28:03 INFO  DruidDataSourceAutoConfigure:56 - Init DruidDataSource
-2024-05-24 16:28:04 INFO  DruidDataSource:990 - {dataSource-1} inited
-2024-05-24 16:28:04 INFO  Http11NioProtocol:173 - Starting ProtocolHandler ["http-nio-8080"]
-2024-05-24 16:28:04 INFO  TomcatWebServer:220 - Tomcat started on port(s): 8080 (http) with context path ''
-2024-05-24 16:28:04 INFO  DemoApplication:61 - Started DemoApplication in 1.736 seconds (JVM running for 2.11)
-2024-05-24 16:28:10 INFO  [/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-05-24 16:28:10 INFO  DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
-2024-05-24 16:28:10 INFO  DispatcherServlet:547 - Completed initialization in 1 ms
-2024-05-24 16:28:10 WARN  CatchLogAspect:58 - BIZ EXCEPTION : bond transfer error
+2024-05-24 17:20:21 INFO  DemoApplication:55 - Starting DemoApplication using Java 1.8.0_372 on MubindeMacBook-Air.local with PID 90993 (/Users/mubinlai/code/demo/target/classes started by mubinlai in /Users/mubinlai/code/demo)
+2024-05-24 17:20:21 INFO  DemoApplication:631 - No active profile set, falling back to 1 default profile: "default"
+2024-05-24 17:20:21 WARN  ClassPathMapperScanner:44 - No MyBatis mapper was found in '[com.example.demo]' package. Please check your configuration.
+2024-05-24 17:20:21 INFO  TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
+2024-05-24 17:20:21 INFO  Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2024-05-24 17:20:21 INFO  StandardService:173 - Starting service [Tomcat]
+2024-05-24 17:20:21 INFO  StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.76]
+2024-05-24 17:20:21 INFO  [/]:173 - Initializing Spring embedded WebApplicationContext
+2024-05-24 17:20:21 INFO  ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 733 ms
+2024-05-24 17:20:21 INFO  AutowiredAnnotationBeanPostProcessor:477 - Autowired annotation is not supported on static fields: private static final org.apache.logging.log4j.Logger com.example.demo.business.product.domain.service.BondProductService.logger
+2024-05-24 17:20:22 INFO  DruidDataSourceAutoConfigure:56 - Init DruidDataSource
+2024-05-24 17:20:22 INFO  DruidDataSource:990 - {dataSource-1} inited
+2024-05-24 17:20:22 INFO  Http11NioProtocol:173 - Starting ProtocolHandler ["http-nio-8080"]
+2024-05-24 17:20:22 INFO  TomcatWebServer:220 - Tomcat started on port(s): 8080 (http) with context path ''
+2024-05-24 17:20:22 INFO  DemoApplication:61 - Started DemoApplication in 1.8 seconds (JVM running for 2.369)
+2024-05-24 17:20:30 INFO  [/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-24 17:20:30 INFO  DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2024-05-24 17:20:30 INFO  DispatcherServlet:547 - Completed initialization in 0 ms
+2024-05-24 17:20:30 WARN  CatchLogAspect:58 - BIZ EXCEPTION : test biz exception
+2024-05-24 17:20:34 WARN  CatchLogAspect:58 - BIZ EXCEPTION : test biz exception
