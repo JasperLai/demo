@@ -1,5 +1,6 @@
 package com.example.demo.business.product.adapter.request;
 
+import com.example.demo.business.product.domain.valueObject.BondVO;
 import com.example.demo.common.request.ManageBaseRequest;
 
 public class ProductRequest extends ManageBaseRequest{
@@ -31,15 +32,15 @@ public class ProductRequest extends ManageBaseRequest{
 
     private String bond_time;
 
-    private String current_par_interestrate;
+    private String current_par_interest_rate;
 
     private String float_par_interrate_norm;
 
     private String float_par_interbalance;
 
-    private String calinterest_mode;
+    private String cal_interest_mode;
 
-    private String calinterest_norm;
+    private String cal_interest_norm;
 
     private String pay_interest_frequency;
 
@@ -51,13 +52,13 @@ public class ProductRequest extends ManageBaseRequest{
 
     private String issue_date;
 
-    private String begin_calinterest_date;
+    private String begin_cal_interest_date;
 
-    private String initial_sepsell_date;
+    private String initial_sep_sell_date;
 
-    private String end_sepsell_date;
+    private String end_sep_sell_date;
 
-    private String maket_circulating_date;
+    private String market_circulating_date;
 
     private String cash_date;
 
@@ -73,13 +74,41 @@ public class ProductRequest extends ManageBaseRequest{
 
     private String befCashDay_OutRequest_stopdays;
 
+    private String trustship_site;
 
+
+    public BondVO getBondVO() {
+        BondVO bondVO = new BondVO();
+        bondVO.setBondCode(this.bond_code);
+        bondVO.setBondName(this.bond_name);
+        bondVO.setBondShortName(this.bond_short_name);
+        bondVO.setBondVariety(this.bond_variety);
+        bondVO.setBondTerm(this.bond_issue_term);
+        bondVO.setCoupon(this.current_par_interest_rate);
+        bondVO.setCurrencyCode(this.currency_code);
+        bondVO.setIssuer(null); // 原接口未传发行人
+        bondVO.setIssuePrice(this.issue_price);
+        bondVO.setTransferPauseDayBeforeCash(this.close_transfer_days); // 截止过户日
+        bondVO.setMatureDate(this.cash_date);
+        bondVO.setIssueDeadline(this.end_sep_sell_date);
+        bondVO.setListingDate(this.market_circulating_date);
+        bondVO.setAccrualDate(this.begin_cal_interest_date);
+        bondVO.setIssueDate(this.initial_sep_sell_date);
+        bondVO.setAccrualBase(this.cal_interest_norm);
+        bondVO.setAccrualMethod(this.cal_interest_mode);
+        bondVO.setAccrualPeriod(this.pay_interest_frequency);
+        bondVO.setParValue("100"); // 原接口未传面值
+        bondVO.setCustodyOrg(this.trustship_site);
+        return bondVO;
+    }
+
+    
     public String getProductId() {
         return this.productId;
     }
 
-    public void setProductId(String trustship_site) {
-        this.productId = trustship_site;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getProduct_code() {
@@ -187,11 +216,11 @@ public class ProductRequest extends ManageBaseRequest{
     }
 
     public String getCurrent_par_interestrate() {
-        return this.current_par_interestrate;
+        return this.current_par_interest_rate;
     }
 
     public void setCurrent_par_interestrate(String current_par_interestrate) {
-        this.current_par_interestrate = current_par_interestrate;
+        this.current_par_interest_rate = current_par_interestrate;
     }
 
     public String getFloat_par_interrate_norm() {
@@ -210,12 +239,12 @@ public class ProductRequest extends ManageBaseRequest{
         this.float_par_interbalance = float_par_interbalance;
     }
 
-    public String getCalinterest_mode() {
-        return this.calinterest_mode;
+    public String getCal_interest_mode() {
+        return this.cal_interest_mode;
     }
 
-    public void setCalinterest_mode(String calinterest_mode) {
-        this.calinterest_mode = calinterest_mode;
+    public void setCal_interest_mode(String calinterest_mode) {
+        this.cal_interest_mode = calinterest_mode;
     }
 
     public String getPay_interest_frequency() {
@@ -258,36 +287,36 @@ public class ProductRequest extends ManageBaseRequest{
         this.issue_date = issue_date;
     }
 
-    public String getBegin_calinterest_date() {
-        return this.begin_calinterest_date;
+    public String getBegin_cal_interest_date() {
+        return this.begin_cal_interest_date;
     }
 
-    public void setBegin_calinterest_date(String begin_calinterest_date) {
-        this.begin_calinterest_date = begin_calinterest_date;
+    public void setBegin_cal_interest_date(String begin_calinterest_date) {
+        this.begin_cal_interest_date = begin_calinterest_date;
     }
 
-    public String getInitial_sepsell_date() {
-        return this.initial_sepsell_date;
+    public String getInitial_sep_sell_date() {
+        return this.initial_sep_sell_date;
     }
 
-    public void setInitial_sepsell_date(String initial_sepsell_date) {
-        this.initial_sepsell_date = initial_sepsell_date;
+    public void setInitial_sep_sell_date(String initial_sepsell_date) {
+        this.initial_sep_sell_date = initial_sepsell_date;
     }
 
-    public String getEnd_sepsell_date() {
-        return this.end_sepsell_date;
+    public String getEnd_sep_sell_date() {
+        return this.end_sep_sell_date;
     }
 
-    public void setEnd_sepsell_date(String end_sepsell_date) {
-        this.end_sepsell_date = end_sepsell_date;
+    public void setEnd_sep_sell_date(String end_sepsell_date) {
+        this.end_sep_sell_date = end_sepsell_date;
     }
 
-    public String getMaket_circulating_date() {
-        return this.maket_circulating_date;
+    public String getMarket_circulating_date() {
+        return this.market_circulating_date;
     }
 
-    public void setMaket_circulating_date(String maket_circulating_date) {
-        this.maket_circulating_date = maket_circulating_date;
+    public void setMarket_circulating_date(String maket_circulating_date) {
+        this.market_circulating_date = maket_circulating_date;
     }
 
     public String getCash_date() {
@@ -346,12 +375,12 @@ public class ProductRequest extends ManageBaseRequest{
         this.befCashDay_OutRequest_stopdays = befCashDay_OutRequest_stopdays;
     }
 
-    public String getCalinterest_norm() {
-        return this.calinterest_norm;
+    public String getCal_interest_norm() {
+        return this.cal_interest_norm;
     }
 
-    public void setCalinterest_norm(String calinterest_norm) {
-        this.calinterest_norm = calinterest_norm;
+    public void setCal_interest_norm(String calinterest_norm) {
+        this.cal_interest_norm = calinterest_norm;
     }
  
 }

@@ -5,8 +5,8 @@ import java.util.Date;
 
 import com.example.demo.business.product.domain.valueObject.BondVariety;
 import com.example.demo.business.product.domain.valueObject.CustodyOrg;
-import com.example.demo.business.product.domain.valueObject.InterestBase;
-import com.example.demo.business.product.domain.valueObject.InterestType;
+import com.example.demo.business.product.domain.valueObject.AccrualBase;
+import com.example.demo.business.product.domain.valueObject.AccrualMethod;
 
 public class Bond {
 
@@ -34,15 +34,17 @@ public class Bond {
 
     private Date issueEndDate;  
 
-    private Date startTradeDate;
+    private Date listingDate;
 
-    private Date startIntDate;
+    private Date accrualDate;
 
-    private Date issueStartDate;
+    private Date issueDate;
 
-    private InterestBase interestBase;
+    private AccrualBase accrualBase;
 
-    private InterestType interestType;
+    private AccrualMethod accrualMethod;
+
+    
 
     private int parValue;
 
@@ -144,44 +146,44 @@ public class Bond {
         this.issueEndDate = issueEndDate;
     }
 
-    public Date getStartTradeDate() {
-        return this.startTradeDate;
+    public Date getListingDate() {
+        return this.listingDate;
     }
 
-    public void setStartTradeDate(Date startTradeDate) {
-        this.startTradeDate = startTradeDate;
+    public void setListingDate(Date startTradeDate) {
+        this.listingDate = startTradeDate;
     }
 
-    public Date getStartIntDate() {
-        return this.startIntDate;
+    public Date getAccrualDate() {
+        return this.accrualDate;
     }
 
-    public void setStartIntDate(Date startIntDate) {
-        this.startIntDate = startIntDate;
+    public void setAccrualDate(Date startIntDate) {
+        this.accrualDate = startIntDate;
     }
 
-    public Date getIssueStartDate() {
-        return this.issueStartDate;
+    public Date getIssueDate() {
+        return this.issueDate;
     }
 
-    public void setIssueStartDate(Date issueStartDate) {
-        this.issueStartDate = issueStartDate;
+    public void setIssueDate(Date issueStartDate) {
+        this.issueDate = issueStartDate;
     }
 
-    public InterestBase getInterestBase() {
-        return this.interestBase;
+    public AccrualBase getAccrualBase() {
+        return this.accrualBase;
     }
 
-    public void setInterestBase(InterestBase interestBase) {
-        this.interestBase = interestBase;
+    public void setAccrualBase(AccrualBase interestBase) {
+        this.accrualBase = interestBase;
     }
 
-    public InterestType getInterestType() {
-        return this.interestType;
+    public AccrualMethod getAccrualMethod() {
+        return this.accrualMethod;
     }
 
-    public void setInterestType(InterestType interestType) {
-        this.interestType = interestType;
+    public void setAccrualMethod(AccrualMethod interestType) {
+        this.accrualMethod = interestType;
     }
 
     public int getParValue() {

@@ -1,5 +1,7 @@
 package com.example.demo.business.product.domain.service;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -7,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.business.product.adapter.request.ProductRequest;
 import com.example.demo.business.product.adapter.response.dto.InventoryDTO;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
@@ -14,6 +17,10 @@ import com.example.demo.business.product.domain.domainObject.BondProduct;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
+import com.example.demo.business.product.domain.valueObject.BondVO;
+import com.example.demo.business.product.domain.valueObject.BondVariety;
+import com.example.demo.business.product.domain.valueObject.AccrualBase;
+import com.example.demo.business.product.domain.valueObject.AccrualMethod;
 import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.exception.BizException;
 import com.example.demo.exception.BaseData;
@@ -54,10 +61,18 @@ public class BondProductService {
      * TODO 产品设置，只有产品表数据完备才能认为产品注册流程完成
      * @return
      */
-    public BaseData registProduct(BondProduct product, boolean isReissue){
+    public BaseData registProduct(BondVO vo, boolean isReissue){
         
         String transId = "1000001";
         BaseData returnData = new BaseData();
+
+        BondProduct product = BondProduct.builder()
+                .withProductCode(vo.getBondCode())
+                .withFDMCode(vo.getBondCode())
+                .withBond(parseBond(vo))
+                .withAuthority(new BondBusinessAuth(0))
+                .build();
+
         if(isReissue){
             //续发行债券产品录入
             returnData.setReturnMsg("regist reissue bond OK");
@@ -68,6 +83,36 @@ public class BondProductService {
         
         return new BaseData(true, transId);
     }
+
+    private Bond parseBond(BondVO request) {
+        Bond b = new Bond();
+        try {
+            b.setBondCode(request.getBondCode());
+            b.setFullName(request.getBondName());
+            b.setShortName(request.getBondShortName());
+            b.setCoupon(new BigDecimal(request.getCoupon()));
+            b.setVariety(BondVariety.valueOf(request.getBondVariety())); // TODO 这个字段需要字典转换映射
+            b.setBondTerm(Integer.valueOf(request.getBondTerm()));
+            b.setCurrency(request.getCurrencyCode());
+            b.setIssuer("");// TODO 旧协议未传输 需补充
+            b.setIssuePrice(new BigDecimal(request.getIssuePrice()));
+            b.setTransferPauseDayBeforeCash(Integer.valueOf(request.getTransferPauseDayBeforeCash()));
+            b.setMatureDate(new SimpleDateFormat("yyyyMMdd").parse(request.getMatureDate()));
+            b.setIssueEndDate(new SimpleDateFormat("yyyyMMdd").parse(request.getIssueDeadline()));
+            b.setIssueDate(new SimpleDateFormat("yyyyMMdd").parse(request.getIssueDate()));
+            b.setListingDate(new SimpleDateFormat("yyyyMMdd").parse(request.getListingDate()));
+            b.setAccrualDate(new SimpleDateFormat("yyyyMMdd").parse(request.getAccrualDate()));
+            b.setParValue(Integer.valueOf(request.getParValue()));
+            b.setAccrualBase(AccrualBase.valueOf(request.getAccrualBase())); // TODO 需要字典转换
+            b.setAccrualMethod(AccrualMethod.valueOf(request.getAccrualMethod())); // 需要字典转换，并且根据付息频率进一步更新该字段
+        } catch (Exception e) {
+            //统一抛出标准异常
+            throw new BizException("BE10001","bond transfer error", e);
+        } 
+
+        return b;
+    }
+
 
     /**
      * TODO 产品查询

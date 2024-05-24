@@ -7,21 +7,18 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.demo.common.exception.BizException;
-import com.example.demo.common.exception.SysException;
 
-/**
- * @ Description   :  Catching and Logging
- * @ Author        :  Frank Zhang
- * @ CreateDate    :  2020/11/09
- * @ Version       :  1.0
- */
+
 @Aspect
-@Order(1)
+@Component
+@EnableAspectJAutoProxy
 public class CatchLogAspect {
 
 
@@ -60,12 +57,6 @@ public class CatchLogAspect {
         if (e instanceof BizException) {
             log.warn("BIZ EXCEPTION : " + e.getMessage());       
             return new DefaultResponseHandler().handle(returnType, ((BizException) e).getErrCode(), e.getMessage());
-        }
-
-        if (e instanceof SysException) {
-            log.error("SYS EXCEPTION :");
-            log.error(e.getMessage(), e);
-            return new DefaultResponseHandler().handle(returnType, ((SysException) e).getErrCode(), e.getMessage());
         }
 
         log.error("UNKNOWN EXCEPTION :");

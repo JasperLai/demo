@@ -22,8 +22,8 @@ import com.example.demo.business.product.domain.repository.BondProductRepo;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.business.product.domain.valueObject.BondVariety;
-import com.example.demo.business.product.domain.valueObject.InterestBase;
-import com.example.demo.business.product.domain.valueObject.InterestType;
+import com.example.demo.business.product.domain.valueObject.AccrualBase;
+import com.example.demo.business.product.domain.valueObject.AccrualMethod;
 import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.exception.BizException;
 import com.example.demo.common.request.ManageBaseRequest;
@@ -52,45 +52,10 @@ public class ProductController {
     @PostMapping("/register")
     public ResponseEntity<ManageBaseResponse> setKeepAccount(@RequestBody ProductRequest request) {
         // adapter层任务，构建领域对象
-        BondProduct product = BondProduct.builder()
-                .withProductCode(request.getBond_code())
-                .withFDMCode(request.getBond_code())
-                .withBond(parseBond(request))
-                .withAuthority(new BondBusinessAuth(0))
-                .build();
-        BaseData data = productServcie.registProduct(product, Boolean.getBoolean(request.getXfx_flag()));
+        
+        BaseData data = productServcie.registProduct(request.getBondVO(), Boolean.getBoolean(request.getXfx_flag()));
         return new ResponseEntity<>(new ManageBaseResponse(data), HttpStatus.OK);
 
-    }
-
-    @CatchAndLog
-    private Bond parseBond(ProductRequest request) {
-        Bond b = new Bond();
-        try {
-            b.setBondCode(request.getBond_code());
-            b.setFullName(request.getBond_name());
-            b.setShortName(request.getBond_short_name());
-            b.setCoupon(new BigDecimal(request.getCurrent_par_interestrate()));
-            b.setVariety(BondVariety.valueOf(request.getBond_variety())); // TODO 这个字段需要字典转换映射
-            b.setBondTerm(Integer.valueOf(request.getBond_time()));
-            b.setCurrency(request.getCurrency_code());
-            b.setIssuer("");// TODO 旧协议未传输 需补充
-            b.setIssuePrice(new BigDecimal(request.getIssue_price()));
-            b.setTransferPauseDayBeforeCash(Integer.valueOf(request.getBefpay_altertrust_stopdays()));
-            b.setMatureDate(new SimpleDateFormat("yyyyMMdd").parse(request.getCash_date()));
-            b.setIssueEndDate(new SimpleDateFormat("yyyyMMdd").parse(request.getEnd_sepsell_date()));
-            b.setIssueStartDate(new SimpleDateFormat("yyyyMMdd").parse(request.getInitial_sepsell_date()));
-            b.setStartTradeDate(new SimpleDateFormat("yyyyMMdd").parse(request.getMaket_circulating_date()));
-            b.setStartIntDate(new SimpleDateFormat("yyyyMMdd").parse(request.getBegin_calinterest_date()));
-            b.setParValue(Integer.valueOf(request.getIssue_date()));
-            b.setInterestBase(InterestBase.valueOf(request.getCalinterest_norm())); // TODO 需要字典转换
-            b.setInterestType(InterestType.valueOf(request.getCalinterest_mode())); // 需要字典转换，并且根据付息频率进一步更新该字段
-        } catch (Exception e) {
-            //统一抛出标准异常
-            throw new BizException("BE10001","bond transfer error", e);
-        } 
-
-        return b;
     }
 
     /**

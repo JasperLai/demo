@@ -2,3 +2,47 @@
 GET http://localhost:8080/bond/channel/inventory/get?productCode=1223&bondCode=1231111
 Accept: application/json
 
+### Test ProductRequest API
+POST http://localhost:8080/bond/product/register
+Content-Type: application/json
+
+{
+  "productId": "12345",
+  "product_code": "P001",
+  "bond_code": "B001",
+  "xfx_flag": "Y",
+  "xfx_rateOfIncome": "5.5%",
+  "original_bond_code": "OB001",
+  "bond_variety": "Government",
+  "bond_name": "Government Bond",
+  "bond_short_name": "GovBond",
+  "local_bond_sales_area": "USA",
+  "currency_code": "USD",
+  "bond_issue_year": "2024",
+  "bond_issue_term": "10 years",
+  "bond_time": "10:00",
+  "current_par_interestrate": "3.0%",
+  "float_par_interrate_norm": "0.5%",
+  "float_par_interbalance": "1000",
+  "calinterest_mode": "Fixed",
+  "calinterest_norm": "Standard",
+  "pay_interest_frequency": "Annual",
+  "bond_issue_uplimit": "1000000",
+  "bond_issue_lowlimit": "1000",
+  "bond_change_unit": "10",
+  "issue_date": "2024-05-01",
+  "begin_calinterest_date": "2024-06-01",
+  "initial_sepsell_date": "2024-07-01",
+  "end_sepsell_date": "2024-08-01",
+  "maket_circulating_date": "2024-09-01",
+  "cash_date": "2024-10-01",
+  "befpay_altertrust_stopdays": "10",
+  "befpay_bond_registerdays": "15",
+  "close_transfer_days": "5",
+  "consign_quantum": "500",
+  "issue_price": "100",
+  "befCashDay_OutRequest_stopdays": "3",
+  "calinterest_norm": "Standard"
+}
+
+
