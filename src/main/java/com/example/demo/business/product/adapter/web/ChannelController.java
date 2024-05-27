@@ -25,7 +25,7 @@ public class ChannelController {
     private TraderRepo traderRepo;
 
     @Autowired
-    private BondProductService  bs;
+    private BondProductService  service;
 
     /**
      * 额度调拨
@@ -85,7 +85,7 @@ public class ChannelController {
     @PostMapping("/inventory/query")
     public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestBody QueryKeAcPriceRequest request) {
 
-        InventoryDTO inv = (InventoryDTO) bs.getInventory(request.getBond_Code(),request.getProduct_Code());
+        InventoryDTO inv = (InventoryDTO) service.getInventory(request.getBond_Code(),request.getProduct_Code());
 
         QueryKeAcFacilityResponse v = new QueryKeAcFacilityResponse(inv);
         v.setBond_code(inv.getBondCd());

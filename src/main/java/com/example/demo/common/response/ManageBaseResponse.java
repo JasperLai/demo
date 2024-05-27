@@ -1,7 +1,7 @@
 package com.example.demo.common.response;
 
+import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.util.DateUtil;
-import com.example.demo.exception.BaseData;
 
 public class ManageBaseResponse {
 

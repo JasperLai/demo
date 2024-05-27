@@ -1,10 +1,8 @@
 package com.example.demo.common.response;
 
-import java.util.List;
-
 import com.example.demo.common.util.DateUtil;
 
-public class QueryBaseResponse<T> {
+public class QueryBaseResponse {
     private String trade_date;
     private String trade_time;
     private String domain;
@@ -20,7 +18,6 @@ public class QueryBaseResponse<T> {
     private int all_page_size;//总页数
     private int view_index;//当前页码
     private int view_size;//页大小
-    private List<T> dataList;//数据列表
 
     
 
@@ -147,14 +144,6 @@ public class QueryBaseResponse<T> {
 
     public void setView_size(int view_size) {
         this.view_size = view_size;
-    }
-
-    public List<T> getDataList() {
-        return this.dataList;
-    }
-
-    public void setDataList(List<T> dataList) {
-        this.dataList = dataList;
     }
 
 

@@ -1,6 +1,6 @@
 package com.example.demo.business.product.domain.repository.dto;
 
-import com.example.demo.exception.BaseData;
+import com.example.demo.common.exception.data.BaseData;
 
 public class InventoryDTO extends BaseData {
 

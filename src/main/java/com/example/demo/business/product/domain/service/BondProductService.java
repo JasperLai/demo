@@ -22,7 +22,7 @@ import com.example.demo.business.product.domain.valueObject.AccrualBase;
 import com.example.demo.business.product.domain.valueObject.AccrualMethod;
 import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.exception.BizException;
-import com.example.demo.exception.BaseData;
+import com.example.demo.common.exception.data.BaseData;
 @Component
 @CatchAndLog
 public class BondProductService {
@@ -51,7 +51,6 @@ public class BondProductService {
             return result;
         }else{
             throw new BizException("95568", "not found result");
-
         }
     }
 

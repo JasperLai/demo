@@ -1,7 +1,7 @@
 package com.example.demo.business.product.adapter.response;
 
+import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.response.QueryBaseResponse;
-import com.example.demo.exception.BaseData;
 
 public class QueryKeAcFacilityResponse extends QueryBaseResponse {
 
