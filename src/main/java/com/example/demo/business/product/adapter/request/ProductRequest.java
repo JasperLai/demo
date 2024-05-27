@@ -1,6 +1,6 @@
 package com.example.demo.business.product.adapter.request;
 
-import com.example.demo.business.product.domain.valueObject.BondVO;
+import com.example.demo.business.product.domain.repository.dto.BondDTO;
 import com.example.demo.common.request.ManageBaseRequest;
 
 public class ProductRequest extends ManageBaseRequest{
@@ -77,8 +77,8 @@ public class ProductRequest extends ManageBaseRequest{
     private String trustship_site;
 
 
-    public BondVO getBondVO() {
-        BondVO bondVO = new BondVO();
+    public BondDTO getBondVO() {
+        BondDTO bondVO = new BondDTO();
         bondVO.setBondCode(this.bond_code);
         bondVO.setBondName(this.bond_name);
         bondVO.setBondShortName(this.bond_short_name);

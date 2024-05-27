@@ -1,8 +1,12 @@
-### Get Request to Example API
-GET http://localhost:8080/bond/channel/inventory/get?productCode=1223&bondCode=1231111
-Accept: application/json
+### queryKeAcFacility  返回单一对象
+POST http://localhost:8080/bond/channel/inventory/query
+Content-Type: application/json
 
-### Test ProductRequest API
+{
+    "product_Code": "100111",
+    "bond_Code":"BOND001"
+}
+### setKeepAccount 债券注册，返回结果
 POST http://localhost:8080/bond/product/register
 Content-Type: application/json
 

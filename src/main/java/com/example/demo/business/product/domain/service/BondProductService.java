@@ -10,14 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.business.product.adapter.request.ProductRequest;
-import com.example.demo.business.product.adapter.response.dto.InventoryDTO;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
+import com.example.demo.business.product.domain.repository.InventoryRepo;
+import com.example.demo.business.product.domain.repository.dto.BondDTO;
+import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
-import com.example.demo.business.product.domain.valueObject.BondVO;
 import com.example.demo.business.product.domain.valueObject.BondVariety;
 import com.example.demo.business.product.domain.valueObject.AccrualBase;
 import com.example.demo.business.product.domain.valueObject.AccrualMethod;
@@ -33,6 +34,9 @@ public class BondProductService {
     @Autowired
     private BondProductRepo repo;
 
+    @Autowired
+    private InventoryRepo invRepo;
+
     /**
      * TODO 查询债券详情
      * @param bondCode
@@ -42,8 +46,15 @@ public class BondProductService {
         return null;
     }
 
-    public InventoryDTO getInventory(){
-        throw new BizException("95568", "test biz exception");
+    public InventoryDTO getInventory(String bondCode, String productCode){
+
+        InventoryDTO result = invRepo.findByBondCode(bondCode);
+        if(result != null){
+            return result;
+        }else{
+            throw new BizException("95568", "not found result");
+
+        }
     }
 
     /**
@@ -61,7 +72,7 @@ public class BondProductService {
      * TODO 产品设置，只有产品表数据完备才能认为产品注册流程完成
      * @return
      */
-    public BaseData registProduct(BondVO vo, boolean isReissue){
+    public BaseData registProduct(BondDTO vo, boolean isReissue){
         
         String transId = "1000001";
         BaseData returnData = new BaseData();
@@ -84,7 +95,7 @@ public class BondProductService {
         return new BaseData(true, transId);
     }
 
-    private Bond parseBond(BondVO request) {
+    private Bond parseBond(BondDTO request) {
         Bond b = new Bond();
         try {
             b.setBondCode(request.getBondCode());

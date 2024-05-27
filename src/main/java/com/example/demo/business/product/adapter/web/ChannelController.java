@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.business.product.adapter.request.AgentDto;
+import com.example.demo.business.product.adapter.request.QueryKeAcPriceRequest;
 import com.example.demo.business.product.adapter.response.InventoryGetResponse;
 import com.example.demo.business.product.adapter.response.QueryKeAcFacilityResponse;
-import com.example.demo.business.product.adapter.response.dto.InventoryDTO;
 import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.repository.TraderRepo;
+import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.response.ManageBaseResponse;
@@ -54,7 +54,7 @@ public class ChannelController {
      * @return
      */
     @PostMapping("/agent/add")
-    public ResponseEntity<String> addAgentInfo(@RequestBody AgentDto agent) {
+    public ResponseEntity<String> addAgentInfo(@RequestBody AgentDTO agent) {
 
         //TODO 接口-keepAccountsLimitSet 设置库存上下限
         return ResponseEntity.ok("processed");
@@ -66,7 +66,7 @@ public class ChannelController {
      * @return
      */
     @PostMapping("/agent/delete")
-    public ResponseEntity<String> deleteAgentInfo(@RequestBody AgentDto agent) {
+    public ResponseEntity<String> deleteAgentInfo(@RequestBody AgentDTO agent) {
 
         //TODO 接口-keepAccountsLimitSet 设置库存上下限
         return ResponseEntity.ok("processed");
@@ -78,7 +78,7 @@ public class ChannelController {
      * @return
      */
     @PostMapping("/agent/update")
-    public ResponseEntity<String> storeAgentInfo(@RequestBody AgentDto agent) {
+    public ResponseEntity<String> storeAgentInfo(@RequestBody AgentDTO agent) {
 
         //TODO 接口-keepAccountsLimitSet 设置库存上下限
         return ResponseEntity.ok("processed");
@@ -90,13 +90,17 @@ public class ChannelController {
      * @param bondCode 
      * @return 债券代码，产品代码, 当前库存，最高限额，最低限额，可买入额度，可卖出额度
      */
-    @GetMapping("/inventory/get")
-    public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestParam String productCode, 
-    @RequestParam String bondCode) {
 
-        InventoryDTO inv = (InventoryDTO)bs.getInventory();
-        
-        return new ResponseEntity<>(new QueryKeAcFacilityResponse(inv), HttpStatus.OK);
+    @PostMapping("/inventory/query")
+    public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestBody QueryKeAcPriceRequest request) {
+
+        InventoryDTO inv = (InventoryDTO) bs.getInventory(request.getBond_Code(),request.getProduct_Code());
+
+        QueryKeAcFacilityResponse v = new QueryKeAcFacilityResponse(inv);
+        v.setBond_code(inv.getBondCd());
+        v.setProduce_code(request.getProduct_Code());
+        v.setFacility_useable(String.valueOf(inv.getBondLimit()));
+        return new ResponseEntity<>(v, HttpStatus.OK);
     }
 
 

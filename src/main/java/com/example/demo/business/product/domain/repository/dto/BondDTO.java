@@ -1,6 +1,6 @@
-package com.example.demo.business.product.domain.valueObject;
+package com.example.demo.business.product.domain.repository.dto;
 
-public class BondVO {
+public class BondDTO {
     /**债券基本属性 */
     private String bondCode;
     private String bondName;
