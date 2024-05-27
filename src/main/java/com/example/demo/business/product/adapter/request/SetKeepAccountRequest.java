@@ -3,7 +3,7 @@ package com.example.demo.business.product.adapter.request;
 import com.example.demo.business.product.domain.repository.dto.BondDTO;
 import com.example.demo.common.request.ManageBaseRequest;
 
-public class ProductRequest extends ManageBaseRequest{
+public class SetKeepAccountRequest extends ManageBaseRequest{
     private String productId;
 
     private String product_code;

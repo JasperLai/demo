@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.business.product.adapter.request.ProductRequest;
+import com.example.demo.business.product.adapter.request.SetKeepAccountRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
@@ -35,7 +35,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/register")
-    public ResponseEntity<ManageBaseResponse> setKeepAccount(@RequestBody ProductRequest request) {
+    public ResponseEntity<ManageBaseResponse> setKeepAccount(@RequestBody SetKeepAccountRequest request) {
         // adapter层任务，构建领域对象
         
         BaseData data = productServcie.registProduct(request.getBondVO(), Boolean.getBoolean(request.getXfx_flag()));
@@ -50,7 +50,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/update")
-    public ResponseEntity<String> updateKeepAccount(@RequestBody ProductRequest dto) {
+    public ResponseEntity<String> updateKeepAccount(@RequestBody SetKeepAccountRequest dto) {
 
         // TODO 接口-updateKeepAccount
         return new ResponseEntity<>("Bond registered successfully", HttpStatus.OK);
