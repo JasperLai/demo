@@ -2,10 +2,6 @@ package com.example.demo.business.product.domain.domainObject;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.example.demo.business.product.domain.repository.BondProductRepo;
-import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.service.OrgService;
 
 public class Inventory {

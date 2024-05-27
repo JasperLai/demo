@@ -1,8 +1,5 @@
 package com.example.demo.business.product.adapter.web;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,18 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.product.adapter.request.ProductRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
-import com.example.demo.business.product.domain.domainObject.BondBusinessAuth;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
-import com.example.demo.business.product.domain.domainObject.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepo;
-import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.service.BondProductService;
-import com.example.demo.business.product.domain.valueObject.BondVariety;
-import com.example.demo.business.product.domain.valueObject.AccrualBase;
-import com.example.demo.business.product.domain.valueObject.AccrualMethod;
-import com.example.demo.common.catchall.CatchAndLog;
-import com.example.demo.common.exception.BizException;
-import com.example.demo.common.request.ManageBaseRequest;
 import com.example.demo.common.response.ManageBaseResponse;
 import com.example.demo.exception.BaseData;
 
@@ -36,9 +24,6 @@ public class ProductController {
 
     @Autowired
     private BondProductService productServcie;
-
-    @Autowired
-    private InventoryRepo invRepo;
 
     @Autowired
     private BondProductRepo productRepo;
