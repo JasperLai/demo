@@ -26,7 +26,7 @@ public class QueryKeAcPriceResponse extends QueryBaseResponse {
 
     private void convert(ListData<InventoryDTO> inv){
 
-        List<InventoryDTO> inventoryList = inv.getList();
+        List<InventoryDTO> inventoryList = inv.getList().getList();
         if(inventoryList == null){
             return;
         }

@@ -15,7 +15,7 @@ Content-Type: application/json
     "product_Code": "100111",
     "bond_Code":"BOND001",
     "view_index":"3",
-    "view_size":"5"
+    "view_size":"4"
 }
 ### setKeepAccount 债券注册，返回结果
 POST http://localhost:8080/bond/product/register

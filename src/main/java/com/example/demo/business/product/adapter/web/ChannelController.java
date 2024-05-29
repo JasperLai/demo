@@ -19,6 +19,7 @@ import com.example.demo.business.product.domain.repository.dto.AgentDTO;
 import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.common.exception.data.ListData;
+import com.github.pagehelper.PageInfo;
 
 @RestController
 @RequestMapping("/bond/channel")
@@ -107,6 +108,11 @@ public class ChannelController {
             Integer.valueOf(request.getView_size()));
 
         QueryKeAcPriceResponse v = new QueryKeAcPriceResponse(invlist);
+        PageInfo<InventoryDTO> page = invlist.getList();
+        v.setView_index(page.getPageNum());
+        v.setView_size(page.getPageSize());
+        v.setAll_size(page.getPages());
+        v.setAll_page_size((int)page.getTotal());
         return new ResponseEntity<>(v, HttpStatus.OK);
 
     

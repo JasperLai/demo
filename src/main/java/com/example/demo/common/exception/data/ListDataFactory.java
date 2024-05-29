@@ -8,11 +8,7 @@ public class ListDataFactory {
 
     public static <T> ListData<T> createListData(PageInfo<T> pageInfo) {
         ListData<T> listData = new ListData<>();
-        listData.setList(pageInfo.getList());
-        listData.setSuccess(true);
-        listData.setTotal(pageInfo.getTotal());
-        listData.setPageSize(pageInfo.getPageSize());
-        listData.setPageNum(pageInfo.getPageNum());
+        listData.setList(pageInfo);
         return listData;
     }
 }

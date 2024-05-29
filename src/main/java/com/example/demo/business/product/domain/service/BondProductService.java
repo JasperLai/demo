@@ -49,26 +49,26 @@ public class BondProductService {
 
     public InventoryDTO getInventory(String bondCode, String productCode){
 
-        // InventoryDTO result = invRepo.findByBondCode(bondCode);
-        // if(result != null){
-        //     return result;
-        // }else{
-        //     throw new BizException("95568", "not found result");
-        // }
-        throw new BizException("95568", "not found result");
+        InventoryDTO result = invRepo.findByBondCode(bondCode);
+        if(result != null){
+            return result;
+        }else{
+            throw new BizException("95568", "not found result");
+        }
+        // throw new BizException("95568", "not found result");
 
     }
 
     public ListData<InventoryDTO> getInventoryList(int startPage, int size){
 
-        // PageInfo<InventoryDTO> result = invRepo.findInventoryList(startPage, size);
+        PageInfo<InventoryDTO> result = invRepo.findInventoryList(startPage, size);
  
-        // if(result != null){
-        //     return ListDataFactory.createListData(result);
-        // }else{
-        //     throw new BizException("12333", "null list");
-        // }
-        throw new BizException("12333", "null list");
+        if(result != null){
+            return ListDataFactory.createListData(result);
+        }else{
+            throw new BizException("12333", "null list");
+        }
+        // throw new BizException("12333", "null list");
 
     }
 
