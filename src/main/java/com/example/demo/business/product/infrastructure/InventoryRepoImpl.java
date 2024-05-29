@@ -1,5 +1,7 @@
 package com.example.demo.business.product.infrastructure;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +35,13 @@ public class InventoryRepoImpl implements InventoryRepo{
         // TODO Auto-generated method stub
         InventoryDTO inventory = inventoryMapper.findByBondCode(bondCode);
         return inventory;
+    }
+
+    @Override
+    public List<InventoryDTO> findInventoryList() {
+        // TODO Auto-generated method stub
+        List<InventoryDTO> list = inventoryMapper.findInventoryList();
+        return list;
     }
 
 

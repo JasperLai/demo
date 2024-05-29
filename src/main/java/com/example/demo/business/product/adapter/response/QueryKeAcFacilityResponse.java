@@ -85,14 +85,10 @@ public class QueryKeAcFacilityResponse extends QueryBaseResponse {
 
 
     public QueryKeAcFacilityResponse(BaseData inv) {
-        this.setCode(inv.getErrCode());
-        this.setMessage(inv.getReturnMsg());
-        this.setType(mapType(inv.isSuccess()));
+        super(inv);
     }
 
 
-    private String mapType(boolean isSuccess) {
-        return isSuccess ? "S" : "F";
-    }
+    
 
 }

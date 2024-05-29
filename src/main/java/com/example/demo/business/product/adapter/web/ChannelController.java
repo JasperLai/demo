@@ -1,5 +1,7 @@
 package com.example.demo.business.product.adapter.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.product.adapter.request.QueryKeAcPriceRequest;
 import com.example.demo.business.product.adapter.response.QueryKeAcFacilityResponse;
+import com.example.demo.business.product.adapter.response.QueryKeAcPriceResponse;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.repository.TraderRepo;
 import com.example.demo.business.product.domain.repository.dto.AgentDTO;
 import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.domain.service.BondProductService;
+import com.example.demo.common.exception.data.ListData;
 
 @RestController
 @RequestMapping("/bond/channel")
@@ -85,13 +89,25 @@ public class ChannelController {
     @PostMapping("/inventory/query")
     public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestBody QueryKeAcPriceRequest request) {
 
-        InventoryDTO inv = (InventoryDTO) service.getInventory(request.getBond_Code(),request.getProduct_Code());
+        InventoryDTO inv = service.getInventory(request.getBond_Code(),request.getProduct_Code());
 
         QueryKeAcFacilityResponse v = new QueryKeAcFacilityResponse(inv);
         v.setBond_code(inv.getBondCd());
         v.setProduce_code(request.getProduct_Code());
         v.setFacility_useable(String.valueOf(inv.getBondLimit()));
         return new ResponseEntity<>(v, HttpStatus.OK);
+    }
+
+    @PostMapping("/inventory/queryAll")
+    public ResponseEntity<QueryKeAcPriceResponse> queryKeAcFacilitylist(@RequestBody QueryKeAcPriceRequest request) {
+
+        // InventoryDTO inv = (InventoryDTO) service.getInventoryList();
+        ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList();
+
+        QueryKeAcPriceResponse v = new QueryKeAcPriceResponse(invlist);
+        return new ResponseEntity<>(v, HttpStatus.OK);
+
+    
     }
 
 

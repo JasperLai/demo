@@ -26,6 +26,7 @@ public class DefaultResponseHandler{
     private static Object handleColaResponse(Class returnType, String errCode, String errMsg) {
         try {
             BaseData response = (BaseData)returnType.newInstance();
+            log.info(errCode);
             response.setSuccess(false);
             response.setErrCode(errCode);
             response.setReturnMsg(errMsg);

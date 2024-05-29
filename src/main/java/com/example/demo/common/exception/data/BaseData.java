@@ -8,6 +8,11 @@ public class BaseData {
     private String returnMsg = "";
     private String transNo = "";
 
+
+    public static String mapType(boolean isSuccess) {
+        return isSuccess ? "S" : "F";
+    }
+    
     // 构造函数默认成功
     public BaseData() {
         this.success = true;

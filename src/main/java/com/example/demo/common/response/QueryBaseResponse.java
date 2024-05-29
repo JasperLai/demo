@@ -1,5 +1,6 @@
 package com.example.demo.common.response;
 
+import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.util.DateUtil;
 
 public class QueryBaseResponse {
@@ -24,6 +25,14 @@ public class QueryBaseResponse {
     public QueryBaseResponse() {
         this.trade_date = DateUtil.getCurrentDate();
         this.trade_time = DateUtil.getCurrentDateTime();
+    }
+
+    public QueryBaseResponse(BaseData inv) {
+        this.trade_date = DateUtil.getCurrentDate();
+        this.trade_time = DateUtil.getCurrentDateTime();
+        this.setCode(inv.getErrCode());
+        this.setMessage(inv.getReturnMsg());
+        this.setType(BaseData.mapType(inv.isSuccess()));
     }
 
     public String getTrade_date() {

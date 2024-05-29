@@ -19,6 +19,11 @@ public interface InventoryMapper {
     })
     InventoryDTO findByBondCode(String id);
 
+
+    @Select("SELECT int_org_num AS intOrgNum, bond_cd AS bondCd, bond_limit AS bondLimit, " +
+    "sale_stragety AS saleStragety, trust_pro_num AS trustProNum FROM inventory")
+    List<InventoryDTO> findInventoryList();
+
     @Select("SELECT * FROM inventory WHERE int_org_num = #{id}")
     InventoryDTO findByOrgId(String id);
 

@@ -23,6 +23,8 @@ import com.example.demo.business.product.domain.valueObject.AccrualMethod;
 import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.exception.BizException;
 import com.example.demo.common.exception.data.BaseData;
+import com.example.demo.common.exception.data.ListData;
+import com.example.demo.common.exception.data.ListDataFactory;
 @Component
 @CatchAndLog
 public class BondProductService {
@@ -46,12 +48,27 @@ public class BondProductService {
 
     public InventoryDTO getInventory(String bondCode, String productCode){
 
-        InventoryDTO result = invRepo.findByBondCode(bondCode);
+        // InventoryDTO result = invRepo.findByBondCode(bondCode);
+        // if(result != null){
+        //     return result;
+        // }else{
+        //     throw new BizException("95568", "not found result");
+        // }
+        throw new BizException("95568", "not found result");
+
+    }
+
+    public ListData<InventoryDTO> getInventoryList(){
+
+        List<InventoryDTO> result = invRepo.findInventoryList();
+ 
         if(result != null){
-            return result;
+            return ListDataFactory.createListData(result);
         }else{
-            throw new BizException("95568", "not found result");
+            throw new BizException("12333", "null list");
         }
+        // throw new BizException("12333", "null list");
+
     }
 
     /**
@@ -69,15 +86,15 @@ public class BondProductService {
      * TODO 产品设置，只有产品表数据完备才能认为产品注册流程完成
      * @return
      */
-    public BaseData registProduct(BondDTO vo, boolean isReissue){
+    public BaseData registProduct(BondDTO bondDTO, boolean isReissue){
         
         String transId = "1000001";
         BaseData returnData = new BaseData();
 
         BondProduct product = BondProduct.builder()
-                .withProductCode(vo.getBondCode())
-                .withFDMCode(vo.getBondCode())
-                .withBond(parseBond(vo))
+                .withProductCode(bondDTO.getBondCode())
+                .withFDMCode(bondDTO.getBondCode())
+                .withBond(parseBond(bondDTO))
                 .withAuthority(new BondBusinessAuth(0))
                 .build();
 

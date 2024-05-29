@@ -6,6 +6,15 @@ Content-Type: application/json
     "product_Code": "100111",
     "bond_Code":"BOND001"
 }
+
+### queryKeAcFacility  返回列表
+POST http://localhost:8080/bond/channel/inventory/queryAll
+Content-Type: application/json
+
+{
+    "product_Code": "100111",
+    "bond_Code":"BOND001"
+}
 ### setKeepAccount 债券注册，返回结果
 POST http://localhost:8080/bond/product/register
 Content-Type: application/json
