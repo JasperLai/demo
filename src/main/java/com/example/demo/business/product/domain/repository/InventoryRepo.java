@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
+import com.github.pagehelper.PageInfo;
 @Component
 public interface InventoryRepo {
 
@@ -15,7 +16,7 @@ public interface InventoryRepo {
 
     public InventoryDTO findByBondCode(String bondCode);
 
-    public List<InventoryDTO> findInventoryList();
+    public PageInfo<InventoryDTO> findInventoryList(int pageIndex, int pageSize);
 
     //  public static Inventory findByOrgId(String orgId) {
     //     // This method would interact with the database to retrieve an Inventory instance

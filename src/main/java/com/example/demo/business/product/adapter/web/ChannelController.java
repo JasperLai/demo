@@ -102,7 +102,9 @@ public class ChannelController {
     public ResponseEntity<QueryKeAcPriceResponse> queryKeAcFacilitylist(@RequestBody QueryKeAcPriceRequest request) {
 
         // InventoryDTO inv = (InventoryDTO) service.getInventoryList();
-        ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList();
+        ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList(
+            Integer.valueOf(request.getView_index()),
+            Integer.valueOf(request.getView_size()));
 
         QueryKeAcPriceResponse v = new QueryKeAcPriceResponse(invlist);
         return new ResponseEntity<>(v, HttpStatus.OK);

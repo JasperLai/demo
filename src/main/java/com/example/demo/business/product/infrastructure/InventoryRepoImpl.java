@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.business.product.domain.repository.InventoryRepo;
 import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.infrastructure.mapper.InventoryMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Repository
 public class InventoryRepoImpl implements InventoryRepo{
@@ -38,10 +40,10 @@ public class InventoryRepoImpl implements InventoryRepo{
     }
 
     @Override
-    public List<InventoryDTO> findInventoryList() {
-        // TODO Auto-generated method stub
+    public PageInfo<InventoryDTO> findInventoryList(int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
         List<InventoryDTO> list = inventoryMapper.findInventoryList();
-        return list;
+        return new PageInfo<>(list);
     }
 
 

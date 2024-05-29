@@ -25,6 +25,7 @@ import com.example.demo.common.exception.BizException;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
 import com.example.demo.common.exception.data.ListDataFactory;
+import com.github.pagehelper.PageInfo;
 @Component
 @CatchAndLog
 public class BondProductService {
@@ -58,16 +59,16 @@ public class BondProductService {
 
     }
 
-    public ListData<InventoryDTO> getInventoryList(){
+    public ListData<InventoryDTO> getInventoryList(int startPage, int size){
 
-        List<InventoryDTO> result = invRepo.findInventoryList();
+        // PageInfo<InventoryDTO> result = invRepo.findInventoryList(startPage, size);
  
-        if(result != null){
-            return ListDataFactory.createListData(result);
-        }else{
-            throw new BizException("12333", "null list");
-        }
-        // throw new BizException("12333", "null list");
+        // if(result != null){
+        //     return ListDataFactory.createListData(result);
+        // }else{
+        //     throw new BizException("12333", "null list");
+        // }
+        throw new BizException("12333", "null list");
 
     }
 
