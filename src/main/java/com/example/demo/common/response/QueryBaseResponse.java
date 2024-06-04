@@ -2,6 +2,7 @@ package com.example.demo.common.response;
 
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.util.DateUtil;
+import com.github.pagehelper.PageInfo;
 
 public class QueryBaseResponse {
     private String trade_date;
@@ -34,6 +35,17 @@ public class QueryBaseResponse {
         this.setMessage(inv.getReturnMsg());
         this.setType(BaseData.mapType(inv.isSuccess()));
     }
+
+    @SuppressWarnings("rawtypes")
+    public void initPageInfo(PageInfo page){
+        this.low_index = (int)page.getStartRow();
+        this.hight_index = (int)page.getEndRow();
+        this.all_size = (int)page.getTotal();
+        this.all_page_size = page.getPages();
+        this.view_index = page.getPageNum();
+        this.view_size = page.getPageSize();
+    }
+
 
     public String getTrade_date() {
         return this.trade_date;

@@ -14,6 +14,10 @@ public class QueryKeAcFacilityResponse extends QueryBaseResponse {
     private String max_quota;
     private String min_quota;
 
+    public QueryKeAcFacilityResponse(BaseData inv) {
+        super(inv);
+    }
+    
     public String getProduce_code() {
         return produce_code;
     }
@@ -84,9 +88,7 @@ public class QueryKeAcFacilityResponse extends QueryBaseResponse {
     }
 
 
-    public QueryKeAcFacilityResponse(BaseData inv) {
-        super(inv);
-    }
+    
 
 
     

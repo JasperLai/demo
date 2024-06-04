@@ -15,6 +15,7 @@ public class QueryKeAcPriceResponse extends QueryBaseResponse {
     public QueryKeAcPriceResponse(ListData<InventoryDTO> inv) {
         super(inv);
         convert(inv);
+        initPageInfo(inv.getList());
     }
     public List<protocoInventorylDTO> getResult() {
         return result;
@@ -44,7 +45,6 @@ public class QueryKeAcPriceResponse extends QueryBaseResponse {
 
         this.result = protocoList;
     }
-
     private class protocoInventorylDTO {
         
         private String int_Org_Num;
@@ -52,37 +52,38 @@ public class QueryKeAcPriceResponse extends QueryBaseResponse {
         private Long bond_Limit;
         private String sale_Stragety;
         private String trust_ProNum;
-
+        
         public String getInt_Org_Num() {
             return int_Org_Num;
-        }
-        public void setInt_Org_Num(String int_Org_Num) {
-            this.int_Org_Num = int_Org_Num;
         }
         public String getBond_Cd() {
             return bond_Cd;
         }
-        public void setBond_Cd(String bond_Cd) {
-            this.bond_Cd = bond_Cd;
-        }
         public Long getBond_Limit() {
             return bond_Limit;
-        }
-        public void setBond_Limit(Long bond_Limit) {
-            this.bond_Limit = bond_Limit;
         }
         public String getSale_Stragety() {
             return sale_Stragety;
         }
-        public void setSale_Stragety(String sale_Stragety) {
-            this.sale_Stragety = sale_Stragety;
-        }
         public String getTrust_ProNum() {
             return trust_ProNum;
+        }
+        public void setInt_Org_Num(String int_Org_Num) {
+            this.int_Org_Num = int_Org_Num;
+        }
+        public void setBond_Cd(String bond_Cd) {
+            this.bond_Cd = bond_Cd;
+        }
+        public void setBond_Limit(Long bond_Limit) {
+            this.bond_Limit = bond_Limit;
+        }
+        public void setSale_Stragety(String sale_Stragety) {
+            this.sale_Stragety = sale_Stragety;
         }
         public void setTrust_ProNum(String trust_ProNum) {
             this.trust_ProNum = trust_ProNum;
         }
+
     }
 
 }

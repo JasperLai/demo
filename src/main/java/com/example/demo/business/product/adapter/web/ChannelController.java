@@ -1,7 +1,5 @@
 package com.example.demo.business.product.adapter.web;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.business.product.adapter.request.QueryKeAcPriceRequest;
 import com.example.demo.business.product.adapter.response.QueryKeAcFacilityResponse;
 import com.example.demo.business.product.adapter.response.QueryKeAcPriceResponse;
-import com.example.demo.business.product.domain.repository.InventoryRepo;
-import com.example.demo.business.product.domain.repository.TraderRepo;
 import com.example.demo.business.product.domain.repository.dto.AgentDTO;
 import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.domain.service.BondProductService;
@@ -25,9 +21,6 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("/bond/channel")
 public class ChannelController {
 
-    private InventoryRepo invRepo;
-
-    private TraderRepo traderRepo;
 
     @Autowired
     private BondProductService  service;
@@ -102,17 +95,12 @@ public class ChannelController {
     @PostMapping("/inventory/queryAll")
     public ResponseEntity<QueryKeAcPriceResponse> queryKeAcFacilitylist(@RequestBody QueryKeAcPriceRequest request) {
 
-        // InventoryDTO inv = (InventoryDTO) service.getInventoryList();
         ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList(
             Integer.valueOf(request.getView_index()),
             Integer.valueOf(request.getView_size()));
 
         QueryKeAcPriceResponse v = new QueryKeAcPriceResponse(invlist);
-        PageInfo<InventoryDTO> page = invlist.getList();
-        v.setView_index(page.getPageNum());
-        v.setView_size(page.getPageSize());
-        v.setAll_size(page.getPages());
-        v.setAll_page_size((int)page.getTotal());
+        
         return new ResponseEntity<>(v, HttpStatus.OK);
 
     

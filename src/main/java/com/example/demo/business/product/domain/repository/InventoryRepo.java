@@ -1,6 +1,5 @@
 package com.example.demo.business.product.domain.repository;
 
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 

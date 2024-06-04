@@ -1,6 +1,5 @@
 package com.example.demo.common.exception.data;
 
-import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 
