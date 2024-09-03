@@ -35,3 +35,4 @@ src/main/resources/log4j2.xml
 src/main/java/com/example/demo/model/Report/.DS_Store
 */.DS_Store
 app.log
+src/main/java/com/example/demo/common/.DS_Store
