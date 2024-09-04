@@ -9,7 +9,6 @@ public class BondProduct {
     private FDMProductCode FDMCode;
     private Bond bond;
     private BondBusinessAuth authority;
-    private BondQuotation quotation;
     private Inventory inventory;
     public long upperLimit = Long.MAX_VALUE;  //默认无上限
     public long lowerLimit = 0; //默认下限为 0
@@ -47,11 +46,6 @@ public class BondProduct {
         return this;
     }
 
-    public BondProduct withQuotation(BondQuotation quotation) {
-        this.quotation = quotation;
-        return this;
-    }
-
     // 在链式初始化完成后，可以调用 build 方法获取最终的对象
     public BondProduct build() {
         return this;
@@ -83,14 +77,6 @@ public class BondProduct {
         this.authority = authority;
     }
 
-    public BondQuotation getQuotation() {
-        return this.quotation;
-    }
-
-    public void setQuotation(BondQuotation quotation) {
-        this.quotation = quotation;
-    }
-
     public Inventory getInventory() {
         return this.inventory;
     }
@@ -98,8 +84,6 @@ public class BondProduct {
     public void setQuotation(Inventory inv) {
         this.inventory = inv;
     }
-
-
 
     /**
      * 获取产品生命周期，发行前，发行中，上市流通期

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.github.pagehelper.PageInfo;
 @Component
-public interface InventoryRepo {
+public interface InventoryRepository {
 
 
     public void saveInventory(InventoryDTO inventory);

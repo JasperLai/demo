@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.business.product.adapter.request.SetKeepAccountRequest;
 import com.example.demo.business.product.domain.domainObject.Bond;
 import com.example.demo.business.product.domain.domainObject.BondProduct;
-import com.example.demo.business.product.domain.repository.BondProductRepo;
+import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.response.ManageBaseResponse;
@@ -26,7 +26,7 @@ public class ProductController {
     private BondProductService productServcie;
 
     @Autowired
-    private BondProductRepo productRepo;
+    private BondProductRepository productRepo;
 
     /**
      * !!!债券录入，本方法合并了 adapter 和 app 层
@@ -38,8 +38,9 @@ public class ProductController {
     public ResponseEntity<ManageBaseResponse> setKeepAccount(@RequestBody SetKeepAccountRequest request) {
         // adapter层任务，构建领域对象
         
-        BaseData data = productServcie.registProduct(request.getBondVO(), Boolean.getBoolean(request.getXfx_flag()));
-        return new ResponseEntity<>(new ManageBaseResponse(data), HttpStatus.OK);
+        ManageBaseResponse res = new ManageBaseResponse();
+        return new ResponseEntity<>(res, HttpStatus.OK);
+
 
     }
 
@@ -67,7 +68,6 @@ public class ProductController {
     public ResponseEntity<String> keepAccountsLimitSet(@RequestParam String bondCode,
             @RequestParam long upperLimit, @RequestParam long lowerLimit) {
 
-        productRepo.updateLimit(upperLimit, lowerLimit);
         return ResponseEntity.ok("processed");
 
     }

@@ -83,8 +83,8 @@ public class ChannelController {
     @PostMapping("/inventory/query")
     public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestBody QueryKeAcPriceRequest request) {
 
-        InventoryDTO inv = service.getInventory(request.getBond_Code(),request.getProduct_Code());
-
+        // InventoryDTO inv = service.getInventory(request.getBond_Code(),request.getProduct_Code());
+        InventoryDTO inv = null;
         QueryKeAcFacilityResponse v = new QueryKeAcFacilityResponse(inv);
         v.setBond_code(inv.getBondCd());
         v.setProduce_code(request.getProduct_Code());
@@ -95,10 +95,11 @@ public class ChannelController {
     @PostMapping("/inventory/queryAll")
     public ResponseEntity<QueryKeAcPriceResponse> queryKeAcFacilitylist(@RequestBody QueryKeAcPriceRequest request) {
 
-        ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList(
-            Integer.valueOf(request.getView_index()),
-            Integer.valueOf(request.getView_size()));
+        // ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList(
+        //     Integer.valueOf(request.getView_index()),
+        //     Integer.valueOf(request.getView_size()));
 
+        ListData<InventoryDTO> invlist = null;
         QueryKeAcPriceResponse v = new QueryKeAcPriceResponse(invlist);
         
         return new ResponseEntity<>(v, HttpStatus.OK);
