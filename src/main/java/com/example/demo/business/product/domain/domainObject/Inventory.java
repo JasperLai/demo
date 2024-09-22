@@ -7,7 +7,7 @@ import com.example.demo.business.product.domain.service.OrgService;
 public class Inventory {
     private String orgId;
     private String bondCode;
-    private long limit;
+    private long availableQuota;
     private SaleStrategy strategy;
 
     // Constructor
@@ -15,7 +15,7 @@ public class Inventory {
         this.orgId = orgId;
         this.bondCode = bondCode;
         this.strategy = strategy;
-        this.limit = (strategy == SaleStrategy.GLOBAL) ? 0 : -1; // -1 can denote "unset" for SPECIFIC strategy
+        this.availableQuota = (strategy == SaleStrategy.GLOBAL) ? 0 : -1; // -1 can denote "unset" for SPECIFIC strategy
     }
 
     // Getters and setters
@@ -35,20 +35,20 @@ public class Inventory {
         this.bondCode = bondCode;
     }
 
-    public long getLimit() {
+    public long getAvailableQuota() {
         // For global strategy, it could potentially fetch the limit from a global setting
         if(this.strategy == SaleStrategy.GLOBAL) {
             // Simulate fetching global limit
             return fetchGlobalLimit();
         } else {
-            return limit;
+            return availableQuota;
         }
     }
 
 
-    public void setLimit(long limit) {
+    public void setAvailableQuota(long limit) {
         if (this.strategy == SaleStrategy.SPECIFIC) {
-            this.limit = limit;
+            this.availableQuota = limit;
         }
         // If the strategy is GLOBAL, setting limit might be ignored or throw an error
     }

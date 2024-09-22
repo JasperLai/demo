@@ -28,7 +28,7 @@ public interface ProductManageService {
     public BaseData setRenewDefaultSwitch(String productID, TransactionVO trans);
     
     public ListData<TradeSwitchDTO> queryTradeSwitch(TradeSwitchVO vo);
-
+    
     public BaseData queryProductSwitch(String productID);
 
     /* PRODUCT QUERYING */

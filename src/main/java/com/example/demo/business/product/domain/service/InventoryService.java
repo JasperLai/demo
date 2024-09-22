@@ -23,7 +23,7 @@ public class InventoryService {
     }
 
     // Transfer inventory from one org to another
-    public void transferInventory(String bondCode, int quantity, String fromOrg, String toOrg) {
+    public void transferInventory(String bondCode, long quantity, String fromOrg, String toOrg) {
         // Business logic to transfer inventory between organizations
         System.out.println("Transferring " + quantity + " units of bond: " + bondCode + " from org: " + fromOrg + " to org: " + toOrg);
         // Perform the transfer using the repository
