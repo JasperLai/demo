@@ -35,8 +35,8 @@ public class BondBusinessAuth {
     }
 
     public BondBusinessAuth() {
-        // 将所有权限位初始化为1，表示所有权限默认打开
-        this.permissions = 0b111111; 
+        // 包含总开关在内的所有权限默认开启
+        this.permissions = 0b1111111; 
     }
     
     public void setPermissions(int permissions) {
@@ -72,12 +72,11 @@ public class BondBusinessAuth {
     }
 
     public void enable(TransactionType transactionType) {
-        if (TRANSACTION_TYPE_MASK_MAP.containsKey(transactionType)) {
-            int mask = TRANSACTION_TYPE_MASK_MAP.get(transactionType);
-            permissions |= mask; // 将指定位置为1，其他位置保持不变
-        } else {
-            System.out.println("无效的交易类型。");
+        if (!TRANSACTION_TYPE_MASK_MAP.containsKey(transactionType)) {
+            throw new IllegalArgumentException("Invalid transaction type: " + transactionType);
         }
+        int mask = TRANSACTION_TYPE_MASK_MAP.get(transactionType);
+        permissions |= mask;
     }
 
     // 新增方法：禁用所有交易
@@ -101,7 +100,7 @@ public class BondBusinessAuth {
         return binaryString;
     }
 
-    //将二进制数据转换位 int
+    //将二进���数据转换位 int
     public void setPermissionsFromBinaryString(String binaryString) {
         // 将二进制字符串转换为整型
         permissions = Integer.parseInt(binaryString, 2);
@@ -127,5 +126,26 @@ public class BondBusinessAuth {
         // 关闭所有交易权限
         auth.disableAllTransactions();
         System.out.println("After Disabling All Transactions: " + auth.getPermissionsAsBinaryString());
+    }
+
+    public void setBondCode(String bondCode) {
+        this.bondCode = bondCode;
+    }
+
+    public Map<TransactionType, Boolean> getAllPermissionStatus() {
+        Map<TransactionType, Boolean> status = new EnumMap<>(TransactionType.class);
+        for (TransactionType type : TransactionType.values()) {
+            status.put(type, canExectute(type));
+        }
+        return status;
+    }
+
+    private synchronized void updatePermissions(TransactionType type, boolean enable) {
+        int mask = TRANSACTION_TYPE_MASK_MAP.get(type);
+        if (enable) {
+            permissions |= mask;
+        } else {
+            permissions &= ~mask;
+        }
     }
 }

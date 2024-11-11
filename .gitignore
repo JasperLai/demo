@@ -18,7 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
-
+.DS_Store
+*/.DS_Store
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -36,3 +37,4 @@ src/main/java/com/example/demo/model/Report/.DS_Store
 */.DS_Store
 app.log
 src/main/java/com/example/demo/common/.DS_Store
+src/.DS_Store

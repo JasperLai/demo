@@ -5,24 +5,27 @@ import java.time.LocalDate;
 public class NextCouponDateCalculator {
 
     public static LocalDate calculateNextCouponDate(int couponFrequencyMonths, int bondDurationYears, LocalDate issueDate) {
-        // 计算债券的到期日
+        // 参数验证
+        if (couponFrequencyMonths <= 0 || bondDurationYears <= 0 || issueDate == null) {
+            throw new IllegalArgumentException("Invalid parameters");
+        }
+
         LocalDate maturityDate = issueDate.plusYears(bondDurationYears);
-        
-        // 获取当前日期
         LocalDate currentDate = LocalDate.now();
         
-        // 从起息日开始，按付息频率增加日期，直到找到大于或等于当前日期的付息日
-        LocalDate nextCouponDate = issueDate;
-        while (nextCouponDate.isBefore(currentDate) && !nextCouponDate.isEqual(maturityDate)) {
-            nextCouponDate = nextCouponDate.plusMonths(couponFrequencyMonths);
-        }
-        
-        // 如果计算出的付息日超过了到期日，则返回到期日
-        if (nextCouponDate.isAfter(maturityDate)) {
+        // 如果当前日期在到期日之后，返回到期日
+        if (currentDate.isAfter(maturityDate)) {
             return maturityDate;
         }
         
-        return nextCouponDate;
+        // 计算从起息日到当前日期的月份差
+        long monthsBetween = issueDate.until(currentDate).toTotalMonths();
+        // 计算需要的付息周期数
+        long periods = monthsBetween / couponFrequencyMonths;
+        // 计算下一个付息日
+        LocalDate nextCouponDate = issueDate.plusMonths((periods + 1) * couponFrequencyMonths);
+        
+        return nextCouponDate.isAfter(maturityDate) ? maturityDate : nextCouponDate;
     }
 
     public static void main(String[] args) {
