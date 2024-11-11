@@ -9,10 +9,9 @@ public class BondProduct {
     private FDMProductCode FDMCode;
     private Bond bond;
     private BondBusinessAuth authority;
-    private Inventory inventory;
     public long upperLimit = Long.MAX_VALUE;  //默认无上限
     public long lowerLimit = 0; //默认下限为 0
- 
+    
 
     private BondProduct() {
     }
@@ -28,11 +27,6 @@ public class BondProduct {
 
     public BondProduct withFDMCode(String bondCode) {
         this.FDMCode = FDMProductCode.create(bondCode);
-        return this;
-    }
-
-    public BondProduct withInventory(Inventory inventory) {
-        this.inventory = inventory;
         return this;
     }
 
@@ -75,14 +69,6 @@ public class BondProduct {
 
     public void setAuthority(BondBusinessAuth authority) {
         this.authority = authority;
-    }
-
-    public Inventory getInventory() {
-        return this.inventory;
-    }
-
-    public void setQuotation(Inventory inv) {
-        this.inventory = inv;
     }
 
     /**

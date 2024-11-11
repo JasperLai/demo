@@ -9,8 +9,7 @@ import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.TraderDTO;
-import com.example.demo.business.product.app.dto.request.TraderVO;
-import com.example.demo.business.product.app.dto.request.TransferVO;
+import com.example.demo.business.product.app.dto.request.QuotaTransferDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.business.product.client.ChannelManageService;
 import com.example.demo.business.product.domain.domainObject.Inventory;
@@ -42,7 +41,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
 
     // Public methods for bond quota services
     @Override
-    public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<TransferVO> transferList,
+    public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<QuotaTransferDTO> transferList,
             TransactionVO transactionVO) {
 
         String transID = transactionManageService.createTransaction(transactionVO, TradeType.BOND_QUOTA_TRANSFER);
@@ -50,13 +49,13 @@ public class ChannelManageServiceImpl implements ChannelManageService {
         Inventory outInventory = inventoryService.queryInventory(bondCode, outOrg);
 
         //Validate if outOrg has sufficient quota for all transfers
-        long totalTransferAmount = transferList.stream().mapToLong(TransferVO::getAmount).sum();
+        long totalTransferAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
         if (outInventory.getAvailableQuota() < totalTransferAmount) {
             throw new IllegalArgumentException("Insufficient quota in " + outOrg);
         }
 
         //Process each transfer
-        for (TransferVO transfer : transferList) {
+        for (QuotaTransferDTO transfer : transferList) {
             String inOrg = transfer.getOrgId(); // Target organization
             long amount = transfer.getAmount(); // Transfer amount
             // Reduce quota from outOrg's inventory
@@ -86,7 +85,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
 
     // Public methods for trader services
     @Override
-    public void addTrader(TraderVO vo) {
+    public void addTrader(TraderDTO vo) {
         // Business logic for adding a trader
     }
 
@@ -96,7 +95,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
     }
 
     @Override
-    public void storeTrader(TraderVO vo) {
+    public void storeTrader(TraderDTO vo) {
         // Business logic for storing/updating a trader
     }
 
@@ -108,7 +107,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
     }
 
     @Override
-    public ListData<TraderDTO> queryTraderList(TraderVO vo) {
+    public ListData<TraderDTO> queryTraderList(TraderDTO vo) {
         // Business logic for querying trader list
         // Returning a placeholder response for now
         return new ListData<>();
