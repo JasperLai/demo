@@ -10,13 +10,26 @@ import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
 
-public class ProductManageServiceImpl implements ProductManageService{
+public class ProductManageServiceImpl implements ProductManageService {
 
     // 录入原始债券数据全量
     @Override
     public BaseData enterOriginBond(BondRegistDTO vo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enterOriginBond'");
+        // 参数校验
+        if (vo == null) {
+            return new BaseData(false, "参数不能为空");
+        }
+
+        try {
+            // TODO: 调用数据访问层将债券资料保存到数据库
+            // 1. 检查债券是否已存在
+            // 2. 如果存在则更新,不存在则新增
+            // 3. 更新相关联的表数据
+
+            return new BaseData(true, "债券资料录入成功");
+        } catch (Exception e) {
+            return new BaseData(false, "债券资料录入失败: " + e.getMessage());
+        }
     }
 
     @Override

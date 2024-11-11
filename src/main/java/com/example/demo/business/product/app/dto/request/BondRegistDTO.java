@@ -16,7 +16,7 @@ public class BondRegistDTO {
     @NonNull
     private String bondShortName;
 
-    //债券性质
+    // 债券性质
     @NonNull
     private String bondNature;
 
@@ -24,7 +24,7 @@ public class BondRegistDTO {
     @NonNull
     private String denominatedCurrency;
 
-    // 债券期限 
+    // 债券期限
     @NonNull
     private String bondTerm;
 
@@ -87,11 +87,11 @@ public class BondRegistDTO {
     // 债权登记日
     private String bondRegistrationDate;
 
-    // 当前本金值 
+    // 当前本金值
     @NonNull
     private String currentPrincipalValue;
 
-    // 本金值生效日 
+    // 本金值生效日
     private String principalValueEffectiveDate;
 
     // 第一次付息日
@@ -100,4 +100,213 @@ public class BondRegistDTO {
     // 截止过户日
     @NonNull
     private String cutoffTransferDate;
+
+    public String getBusinessDate() {
+        return this.businessDate;
+    }
+
+    public void setBusinessDate(String businessDate) {
+        this.businessDate = businessDate;
+    }
+
+    public String getBondCode() {
+        return this.bondCode;
+    }
+
+    public void setBondCode(String bondCode) {
+        this.bondCode = bondCode;
+    }
+
+    public String getBondShortName() {
+        return this.bondShortName;
+    }
+
+    public void setBondShortName(String bondShortName) {
+        this.bondShortName = bondShortName;
+    }
+
+    public String getBondNature() {
+        return this.bondNature;
+    }
+
+    public void setBondNature(String bondNature) {
+        this.bondNature = bondNature;
+    }
+
+    public String getDenominatedCurrency() {
+        return this.denominatedCurrency;
+    }
+
+    public void setDenominatedCurrency(String denominatedCurrency) {
+        this.denominatedCurrency = denominatedCurrency;
+    }
+
+    public String getBondTerm() {
+        return this.bondTerm;
+    }
+
+    public void setBondTerm(String bondTerm) {
+        this.bondTerm = bondTerm;
+    }
+
+    public String getBondTermUnit() {
+        return this.bondTermUnit;
+    }
+
+    public void setBondTermUnit(String bondTermUnit) {
+        this.bondTermUnit = bondTermUnit;
+    }
+
+    public String getBondIssuePrice() {
+        return this.bondIssuePrice;
+    }
+
+    public void setBondIssuePrice(String bondIssuePrice) {
+        this.bondIssuePrice = bondIssuePrice;
+    }
+
+    public String getInterestCalculationMethod() {
+        return this.interestCalculationMethod;
+    }
+
+    public void setInterestCalculationMethod(String interestCalculationMethod) {
+        this.interestCalculationMethod = interestCalculationMethod;
+    }
+
+    public String getInterestPaymentCycle() {
+        return this.interestPaymentCycle;
+    }
+
+    public void setInterestPaymentCycle(String interestPaymentCycle) {
+        this.interestPaymentCycle = interestPaymentCycle;
+    }
+
+    public String getCouponRate() {
+        return this.couponRate;
+    }
+
+    public void setCouponRate(String couponRate) {
+        this.couponRate = couponRate;
+    }
+
+    public String getIssueStartDate() {
+        return this.issueStartDate;
+    }
+
+    public void setIssueStartDate(String issueStartDate) {
+        this.issueStartDate = issueStartDate;
+    }
+
+    public String getInterestStartDate() {
+        return this.interestStartDate;
+    }
+
+    public void setInterestStartDate(String interestStartDate) {
+        this.interestStartDate = interestStartDate;
+    }
+
+    public String getDistributionStartDate() {
+        return this.distributionStartDate;
+    }
+
+    public void setDistributionStartDate(String distributionStartDate) {
+        this.distributionStartDate = distributionStartDate;
+    }
+
+    public String getDistributionEndDate() {
+        return this.distributionEndDate;
+    }
+
+    public void setDistributionEndDate(String distributionEndDate) {
+        this.distributionEndDate = distributionEndDate;
+    }
+
+    public String getListingDate() {
+        return this.listingDate;
+    }
+
+    public void setListingDate(String listingDate) {
+        this.listingDate = listingDate;
+    }
+
+    public String getInterestPaymentDate() {
+        return this.interestPaymentDate;
+    }
+
+    public void setInterestPaymentDate(String interestPaymentDate) {
+        this.interestPaymentDate = interestPaymentDate;
+    }
+
+    public String getMaturityDate() {
+        return this.maturityDate;
+    }
+
+    public void setMaturityDate(String maturityDate) {
+        this.maturityDate = maturityDate;
+    }
+
+    public String getBondStatus() {
+        return this.bondStatus;
+    }
+
+    public void setBondStatus(String bondStatus) {
+        this.bondStatus = bondStatus;
+    }
+
+    public String getAddTimes() {
+        return this.addTimes;
+    }
+
+    public void setAddTimes(String addTimes) {
+        this.addTimes = addTimes;
+    }
+
+    public String getBondPauseStatus() {
+        return this.bondPauseStatus;
+    }
+
+    public void setBondPauseStatus(String bondPauseStatus) {
+        this.bondPauseStatus = bondPauseStatus;
+    }
+
+    public String getBondRegistrationDate() {
+        return this.bondRegistrationDate;
+    }
+
+    public void setBondRegistrationDate(String bondRegistrationDate) {
+        this.bondRegistrationDate = bondRegistrationDate;
+    }
+
+    public String getCurrentPrincipalValue() {
+        return this.currentPrincipalValue;
+    }
+
+    public void setCurrentPrincipalValue(String currentPrincipalValue) {
+        this.currentPrincipalValue = currentPrincipalValue;
+    }
+
+    public String getPrincipalValueEffectiveDate() {
+        return this.principalValueEffectiveDate;
+    }
+
+    public void setPrincipalValueEffectiveDate(String principalValueEffectiveDate) {
+        this.principalValueEffectiveDate = principalValueEffectiveDate;
+    }
+
+    public String getFirstInterestPaymentDate() {
+        return this.firstInterestPaymentDate;
+    }
+
+    public void setFirstInterestPaymentDate(String firstInterestPaymentDate) {
+        this.firstInterestPaymentDate = firstInterestPaymentDate;
+    }
+
+    public String getCutoffTransferDate() {
+        return this.cutoffTransferDate;
+    }
+
+    public void setCutoffTransferDate(String cutoffTransferDate) {
+        this.cutoffTransferDate = cutoffTransferDate;
+    }
+
 }
