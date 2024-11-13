@@ -1,11 +1,14 @@
 package com.example.demo.business.product.app;
 
+import java.math.BigDecimal;
+
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.BondRegistDTO;
 import com.example.demo.business.product.app.dto.request.ProductQueryDTO;
 import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
+import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
@@ -96,6 +99,30 @@ public class ProductManageServiceImpl implements ProductManageService {
     public ListData<BondProductDTO> queryRecommendBondList(RecommendBondQueryDTO vo) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'queryRecommendBondList'");
+    }
+
+    @Override
+    public QuotaDTO getCurrentQuotation(String productID) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentQuotation'");
+    }
+
+    @Override
+    public void isUnderDistribution(String productId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isUnderDistribution'");
+    }
+
+    @Override
+    public void checkInventory(BigDecimal faceAmount, String productId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkInventory'");
+    }
+
+    @Override
+    public void validateSaleArea(String productId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateSaleArea'");
     }
 
 }

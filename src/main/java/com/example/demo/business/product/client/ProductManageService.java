@@ -1,11 +1,14 @@
 package com.example.demo.business.product.client;
 
+import java.math.BigDecimal;
+
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.BondRegistDTO;
 import com.example.demo.business.product.app.dto.request.ProductQueryDTO;
 import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
+import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
 
@@ -41,5 +44,12 @@ public interface ProductManageService {
 
     public ListData<BondProductDTO> queryRecommendBondList(RecommendBondQueryDTO vo);
 
+    public QuotaDTO getCurrentQuotation(String productID);
+
+    public void isUnderDistribution(String productId);
+
+    public void checkInventory(BigDecimal faceAmount, String productId);
+
+    public void validateSaleArea(String productId);
 
 }
