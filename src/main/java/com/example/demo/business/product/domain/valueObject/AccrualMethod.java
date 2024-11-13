@@ -13,7 +13,7 @@ public enum AccrualMethod {
     OTHER("99", "-2", "无");
 
     private final String code;
-    private final String originalCode;
+    private final String originalCode; //原系统字段类型
     private final String description;
     private static final List<AccrualMethod> list = new ArrayList<>();
 
