@@ -12,7 +12,7 @@ import com.example.demo.common.exception.data.ListData;
 public interface ProductManageService {
 
     /* bond product regist */
-    public BaseData enterOriginBond(BondRegistDTO vo); 
+    public boolean enterOriginBond(BondRegistDTO vo); 
 
     public BaseData registBondProduct(BondRegistDTO vo);
 

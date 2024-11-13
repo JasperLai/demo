@@ -14,10 +14,10 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     // 录入原始债券数据全量
     @Override
-    public BaseData enterOriginBond(BondRegistDTO vo) {
+    public boolean enterOriginBond(BondRegistDTO vo) {
         // 参数校验
         if (vo == null) {
-            return new BaseData(false, "参数不能为空");
+            return false;
         }
 
         try {
@@ -26,9 +26,9 @@ public class ProductManageServiceImpl implements ProductManageService {
             // 2. 如果存在则更新,不存在则新增
             // 3. 更新相关联的表数据
 
-            return new BaseData(true, "债券资料录入成功");
+            return true;
         } catch (Exception e) {
-            return new BaseData(false, "债券资料录入失败: " + e.getMessage());
+            return false;
         }
     }
 

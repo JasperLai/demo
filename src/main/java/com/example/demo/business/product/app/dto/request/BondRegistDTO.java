@@ -72,7 +72,7 @@ public class BondRegistDTO {
     @NonNull
     private String maturityDate;
 
-    // 债券状态 00-正常 01-到期兑付
+        // 债券状态 00-正常 01-到期兑付
     @NonNull
     private String bondStatus;
 

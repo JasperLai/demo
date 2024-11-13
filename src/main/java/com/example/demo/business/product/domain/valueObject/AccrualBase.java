@@ -1,7 +1,6 @@
 package com.example.demo.business.product.domain.valueObject;
 
 public enum AccrualBase {
-    //TODO 参照 ddm 标准定义
     ACT366(1, "按 366 日/年计息"),
     ACT360(2, "按 360 日/年计息"),
     ACT365(3, "按 365 日/年计息"),

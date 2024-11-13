@@ -4,4 +4,6 @@ import com.example.demo.common.exception.data.BaseData;
 
 public class BondProductDTO extends BaseData{
 
+    
+
 }

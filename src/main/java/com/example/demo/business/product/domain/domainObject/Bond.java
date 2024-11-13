@@ -10,44 +10,169 @@ import com.example.demo.business.product.domain.valueObject.AccrualMethod;
 
 public class Bond {
 
+    /**
+     * 债券代码
+     * 对应 BondRegistDTO.bondCode
+     */
     private String bondCode;
 
-    private String fullName;
-
+    /**
+     * 债券简称
+     * 对应 BondRegistDTO.bondShortName
+     */
     private String shortName;
 
+    /**
+     * 债券品种
+     * 对应 BondRegistDTO.bondNature
+     */
     private BondVariety variety;
 
-    private int bondTerm; //3 years, 5 years , etc
+    /**
+     * 债券期限（年）
+     * 对应 BondRegistDTO.bondTerm 和 bondTermUnit
+     * 注：需要根据bondTermUnit进行单位转换
+     */
+    private int bondTerm;
 
-    private BigDecimal coupon; // % as unit
+    /**
+     * 票面利率（%）
+     * 对应 BondRegistDTO.couponRate
+     */
+    private BigDecimal coupon;
 
+    /**
+     * 币种
+     * 对应 BondRegistDTO.denominatedCurrency
+     */
     private String currency;
 
-    private String issuer;
-
+    /**
+     * 发行价格
+     * 对应 BondRegistDTO.bondIssuePrice
+     */
     private BigDecimal issuePrice;
 
-    private int transferPauseDayBeforeCash; //付息兑付日转托管业务停止天数， 工作日
+    /**
+     * 付息兑付日转托管业务停止天数（工作日）
+     * 注：需要根据 BondRegistDTO.cutoffTransferDate 计算得出
+     */
+    private int transferPauseDayBeforeCash;
 
-    private Date matureDate; 
+    /**
+     * 到期日
+     * 对应 BondRegistDTO.maturityDate
+     */
+    private Date matureDate;
 
-    private Date issueEndDate;  
+    /**
+     * 发行结束日
+     * 对应 BondRegistDTO.distributionEndDate
+     */
+    private Date issueEndDate;
 
+    /**
+     * 上市流通日
+     * 对应 BondRegistDTO.listingDate
+     */
     private Date listingDate;
 
+    /**
+     * 起息日
+     * 对应 BondRegistDTO.interestStartDate
+     */
     private Date accrualDate;
 
+    /**
+     * 发行日
+     * 对应 BondRegistDTO.issueStartDate
+     */
     private Date issueDate;
 
+    /**
+     * 计息基础
+     * 注：需要根据 BondRegistDTO.interestCalculationMethod 转换得出
+     */
     private AccrualBase accrualBase;
 
+    /**
+     * 计息方式
+     * 对应 BondRegistDTO.interestCalculationMethod
+     * 10-贴现 20-利随本清 31-附息式固定利率 32-附息式浮动利率 40-零息 99-无
+     */
     private AccrualMethod accrualMethod;
 
-
+    /**
+     * 面值
+     * 对应 BondRegistDTO.currentPrincipalValue
+     */
     private int parValue;
 
+    /**
+     * 托管机构
+     * 注：BondRegistDTO中无对应字段
+     */
     private CustodyOrg custodyOrg;
+
+    /**
+     * 业务日期
+     * 对应 BondRegistDTO.businessDate
+     */
+    private Date businessDate;
+
+    /**
+     * 债券状态 00-正常 01-到期兑付
+     * 对应 BondRegistDTO.bondStatus
+     */
+    private String bondStatus;
+
+    /**
+     * 追加次数
+     * 对应 BondRegistDTO.addTimes
+     */
+    private int addTimes;
+
+    /**
+     * 债券暂停状态 1-正常 2-暂停
+     * 对应 BondRegistDTO.bondPauseStatus
+     */
+    private String bondPauseStatus;
+
+    /**
+     * 债权登记日
+     * 对应 BondRegistDTO.bondRegistrationDate
+     */
+    private Date bondRegistrationDate;
+
+    /**
+     * 本金值生效日
+     * 对应 BondRegistDTO.principalValueEffectiveDate
+     */
+    private Date principalValueEffectiveDate;
+
+    /**
+     * 第一次付息日
+     * 对应 BondRegistDTO.firstInterestPaymentDate
+     */
+    private Date firstInterestPaymentDate;
+
+    /**
+     * 付息周期
+     * 对应 BondRegistDTO.interestPaymentCycle
+     */
+    private String interestPaymentCycle;
+
+    /**
+     * 本计息期付息日
+     * 对应 BondRegistDTO.interestPaymentDate
+     */
+    private Date interestPaymentDate;
+
+    /**
+     * 债券期限单位 0-年 1-月 2-日
+     * 对应 BondRegistDTO.bondTermUnit 的映射值
+     */
+    private String bondTermUnit;
 
     public String getBondCode() {
         return this.bondCode;
@@ -55,14 +180,6 @@ public class Bond {
 
     public void setBondCode(String bondCode) {
         this.bondCode = bondCode;
-    }
-
-    public String getFullName() {
-        return this.fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getShortName() {
@@ -103,14 +220,6 @@ public class Bond {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public String getIssuer() {
-        return this.issuer;
-    }
-
-    public void setIssuer(String issuer) {
-        this.issuer = issuer;
     }
 
     public BigDecimal getIssuePrice() {
@@ -201,6 +310,86 @@ public class Bond {
         this.custodyOrg = custodyOrg;
     }
 
+    public Date getBusinessDate() {
+        return this.businessDate;
+    }
+
+    public void setBusinessDate(Date businessDate) {
+        this.businessDate = businessDate;
+    }
+
+    public String getBondStatus() {
+        return this.bondStatus;
+    }
+
+    public void setBondStatus(String bondStatus) {
+        this.bondStatus = bondStatus;
+    }
+
+    public int getAddTimes() {
+        return this.addTimes;
+    }
+
+    public void setAddTimes(int addTimes) {
+        this.addTimes = addTimes;
+    }
+
+    public String getBondPauseStatus() {
+        return this.bondPauseStatus;
+    }
+
+    public void setBondPauseStatus(String bondPauseStatus) {
+        this.bondPauseStatus = bondPauseStatus;
+    }
+
+    public Date getBondRegistrationDate() {
+        return this.bondRegistrationDate;
+    }
+
+    public void setBondRegistrationDate(Date bondRegistrationDate) {
+        this.bondRegistrationDate = bondRegistrationDate;
+    }
+
+    public Date getPrincipalValueEffectiveDate() {
+        return this.principalValueEffectiveDate;
+    }
+
+    public void setPrincipalValueEffectiveDate(Date principalValueEffectiveDate) {
+        this.principalValueEffectiveDate = principalValueEffectiveDate;
+    }
+
+    public Date getFirstInterestPaymentDate() {
+        return this.firstInterestPaymentDate;
+    }
+
+    public void setFirstInterestPaymentDate(Date firstInterestPaymentDate) {
+        this.firstInterestPaymentDate = firstInterestPaymentDate;
+    }
+
+    public String getInterestPaymentCycle() {
+        return this.interestPaymentCycle;
+    }
+
+    public void setInterestPaymentCycle(String interestPaymentCycle) {
+        this.interestPaymentCycle = interestPaymentCycle;
+    }
+
+    public Date getInterestPaymentDate() {
+        return this.interestPaymentDate;
+    }
+
+    public void setInterestPaymentDate(Date interestPaymentDate) {
+        this.interestPaymentDate = interestPaymentDate;
+    }
+
+    public String getBondTermUnit() {
+        return this.bondTermUnit;
+    }
+
+    public void setBondTermUnit(String bondTermUnit) {
+        this.bondTermUnit = bondTermUnit;
+    }
+
     /**
      * TODO 获取下一付息日
      * @return
@@ -222,6 +411,11 @@ public class Bond {
      */
      public boolean canTransferToday(){
         return false;
+    }
+
+    public int getBondTermByUnit(){
+
+        return 0;
     }
 
 }
