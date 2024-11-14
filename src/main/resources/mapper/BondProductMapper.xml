@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.product.infrastructure.mapper.BondProductMapper">
+    
+    <insert id="insert" parameterType="com.example.demo.business.product.domain.entity.BondProduct">
+        INSERT INTO BOND_PRODUCT (
+            PRODUCT_ID,
+            FDM_PRODUCT_CODE,
+            BOND_CODE,
+            SALE_AREA,
+            BOND_AUTH,
+            SELLABL_CUST_TYPE,
+            SELLABL_CUST_RISK_LEVEL,
+            PLEDGEABLE_SIGN,
+            REISSUE_FLAG,
+            REISSUE_INCOME_RATE,
+            RECOMMEND_FLAG,
+            QUOTA_MODE,
+            BID_SPREAD,
+            ASK_SPREAD,
+            UP_LIMIT_HOLDING,
+            DOWN_LIMIT_HOLDING
+        ) VALUES (
+            #{productCode},
+            #{FDMCode},
+            #{bond.bondCode},
+            #{saleArea},
+            #{authority.permissions},
+            #{sellableCustomerType},
+            #{sellableCustomerRiskLevel},
+            #{pledgeableSign},
+            #{reissueFlag},
+            #{reissueIncomeRate},
+            #{recommendFlag},
+            #{quotaMode},
+            #{bidSpread},
+            #{askSpread},
+            #{upperLimitHolding},
+            #{lowerLimitHolding}
+        )
+    </insert>
+    
+    <update id="update" parameterType="com.example.demo.business.product.domain.entity.BondProduct">
+        UPDATE BOND_PRODUCT 
+        <set>
+            <if test="FDMCode != null">FDM_PRODUCT_CODE = #{FDMCode},</if>
+            <if test="bond != null and bond.bondCode != null">BOND_CODE = #{bond.bondCode},</if>
+            <if test="saleArea != null">SALE_AREA = #{saleArea},</if>
+            <if test="authority != null">BOND_AUTH = #{authority.permissions},</if>
+            <if test="sellableCustomerType != null">SELLABL_CUST_TYPE = #{sellableCustomerType},</if>
+            <if test="sellableCustomerRiskLevel != null">SELLABL_CUST_RISK_LEVEL = #{sellableCustomerRiskLevel},</if>
+            <if test="pledgeableSign != null">PLEDGEABLE_SIGN = #{pledgeableSign},</if>
+            <if test="reissueFlag != null">REISSUE_FLAG = #{reissueFlag},</if>
+            <if test="reissueIncomeRate != null">REISSUE_INCOME_RATE = #{reissueIncomeRate},</if>
+            <if test="recommendFlag != null">RECOMMEND_FLAG = #{recommendFlag},</if>
+            <if test="quotaMode != null">QUOTA_MODE = #{quotaMode},</if>
+            <if test="bidSpread != null">BID_SPREAD = #{bidSpread},</if>
+            <if test="askSpread != null">ASK_SPREAD = #{askSpread},</if>
+            <if test="upperLimitHolding != null">UP_LIMIT_HOLDING = #{upperLimitHolding},</if>
+            <if test="lowerLimitHolding != null">DOWN_LIMIT_HOLDING = #{lowerLimitHolding}</if>
+        </set>
+        WHERE PRODUCT_ID = #{productCode}
+    </update>
+    
+    <select id="findByProductId" resultType="com.example.demo.business.product.domain.entity.BondProduct">
+        SELECT 
+            PRODUCT_ID as productCode,
+            FDM_PRODUCT_CODE as FDMCode,
+            BOND_CODE as "bond.bondCode",
+            SALE_AREA as saleArea,
+            BOND_AUTH as "authority.permissions",
+            SELLABL_CUST_TYPE as sellableCustomerType,
+            SELLABL_CUST_RISK_LEVEL as sellableCustomerRiskLevel,
+            PLEDGEABLE_SIGN as pledgeableSign,
+            REISSUE_FLAG as reissueFlag,
+            REISSUE_INCOME_RATE as reissueIncomeRate,
+            RECOMMEND_FLAG as recommendFlag,
+            QUOTA_MODE as quotaMode,
+            BID_SPREAD as bidSpread,
+            ASK_SPREAD as askSpread,
+            UP_LIMIT_HOLDING as upperLimitHolding,
+            DOWN_LIMIT_HOLDING as lowerLimitHolding
+        FROM BOND_PRODUCT
+        WHERE PRODUCT_ID = #{productId}
+    </select>
+    
+</mapper> 

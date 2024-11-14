@@ -1,8 +1,11 @@
 package com.example.demo.business.customer.app;
 
 
+import com.example.demo.business.customer.client.CancelAccountDTO;
 import com.example.demo.business.customer.client.CustomerDTO;
 import com.example.demo.business.customer.client.CustomerServiceInterface;
+import com.example.demo.business.customer.client.OpenAccountDTO;
+import com.example.demo.business.general.client.TransactionVO;
 
 public class CustomerManageService implements CustomerServiceInterface{
 
@@ -18,4 +21,17 @@ public class CustomerManageService implements CustomerServiceInterface{
         throw new UnsupportedOperationException("Unimplemented method 'verifyAccount'");
     }
 
+
+    @Override
+    public void openAccount(OpenAccountDTO openAccountDTO, TransactionVO trans) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'openAccount'");
+    }
+
+    @Override
+    public void cancelAccount(CancelAccountDTO cancelAccountDTO, TransactionVO trans) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cancelAccount'");
+    }
 }
+    

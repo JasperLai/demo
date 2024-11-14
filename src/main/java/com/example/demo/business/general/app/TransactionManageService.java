@@ -5,7 +5,10 @@ import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.general.app.dto.TransactionDTO;
+import java.util.Objects;
 
+import org.springframework.stereotype.Service;
+@Service
 public class TransactionManageService implements TMSInterface{
 
     @Override
@@ -18,7 +21,7 @@ public class TransactionManageService implements TMSInterface{
     public TransactionDTO query(String transactionNo) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'query'");
-            }
+    }
 
     @Override
     public boolean updateTransaction(String transactonID, TransStatus s) {
