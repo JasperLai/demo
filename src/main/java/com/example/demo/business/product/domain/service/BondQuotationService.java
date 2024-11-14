@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.business.product.domain.domainObject.BondQuotation;
+import com.example.demo.business.product.domain.entity.BondQuotation;
 import com.example.demo.business.product.domain.repository.BondQuotationRepo;
 @Component
 public class BondQuotationService {

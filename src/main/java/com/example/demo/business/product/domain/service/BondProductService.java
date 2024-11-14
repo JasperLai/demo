@@ -3,7 +3,7 @@ package com.example.demo.business.product.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.business.product.domain.domainObject.BondProduct;
+import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.common.catchall.CatchAndLog;
 @Component

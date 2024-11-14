@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.product.adapter.request.SetKeepAccountRequest;
-import com.example.demo.business.product.domain.domainObject.Bond;
-import com.example.demo.business.product.domain.domainObject.BondProduct;
+import com.example.demo.business.product.domain.entity.Bond;
+import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.common.exception.data.BaseData;

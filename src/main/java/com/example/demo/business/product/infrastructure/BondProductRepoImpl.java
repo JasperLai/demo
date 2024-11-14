@@ -2,7 +2,7 @@ package com.example.demo.business.product.infrastructure;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.business.product.domain.domainObject.BondProduct;
+import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 @Repository
 public class BondProductRepoImpl implements BondProductRepository {

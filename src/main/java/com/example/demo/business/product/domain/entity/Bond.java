@@ -1,4 +1,4 @@
-package com.example.demo.business.product.domain.domainObject;
+package com.example.demo.business.product.domain.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

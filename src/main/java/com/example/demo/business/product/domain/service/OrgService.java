@@ -3,7 +3,7 @@ package com.example.demo.business.product.domain.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.demo.business.product.domain.domainObject.OrgNode;
+import com.example.demo.business.product.domain.entity.OrgNode;
 
 public class OrgService {
     public static String getParentOrgId(String orgId) {

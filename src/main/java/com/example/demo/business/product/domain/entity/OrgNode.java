@@ -1,7 +1,8 @@
-package com.example.demo.business.product.domain.domainObject;
+package com.example.demo.business.product.domain.entity;
 
-import com.example.demo.business.product.domain.domainObject.Inventory.SaleStrategy;
 import java.util.Objects;
+
+import com.example.demo.business.product.domain.entity.Inventory.SaleStrategy;
 
 public class OrgNode {
     private String orgId;

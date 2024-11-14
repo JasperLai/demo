@@ -1,4 +1,4 @@
-package com.example.demo.business.product.domain.domainObject;
+package com.example.demo.business.product.domain.entity;
 
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 import com.example.demo.business.product.domain.valueObject.FDMProductCode;

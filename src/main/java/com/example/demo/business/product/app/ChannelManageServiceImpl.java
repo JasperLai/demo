@@ -12,7 +12,7 @@ import com.example.demo.business.product.app.dto.request.TraderDTO;
 import com.example.demo.business.product.app.dto.request.QuotaTransferDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.business.product.client.ChannelManageService;
-import com.example.demo.business.product.domain.domainObject.Inventory;
+import com.example.demo.business.product.domain.entity.Inventory;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.business.product.domain.service.InventoryService;

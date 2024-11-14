@@ -1,6 +1,6 @@
 package com.example.demo.business.product.domain.repository;
 
-import com.example.demo.business.product.domain.domainObject.BondProduct;
+import com.example.demo.business.product.domain.entity.BondProduct;
 
 public interface BondProductRepository {
 
