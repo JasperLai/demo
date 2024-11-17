@@ -37,6 +37,8 @@ public class BondDTO extends BaseData {
     private String interestPaymentCycle;     // 付息周期
     private Date interestPaymentDate;        // 本计息期付息日
     private String bondTermUnit;             // 债券期限单位
+    private Date distStartDate;              // 分销开始日
+    private Date cutoffTransferDate;         // 截止过户日
     
     public Bond toEntity() {
         Bond bond = new Bond();
@@ -67,6 +69,8 @@ public class BondDTO extends BaseData {
         bond.setInterestPaymentCycle(this.interestPaymentCycle);
         bond.setInterestPaymentDate(this.interestPaymentDate);
         bond.setBondTermUnit(this.bondTermUnit);
+        bond.setDistStartDate(this.distStartDate);
+        bond.setCutoffTransferDate(this.cutoffTransferDate);
         return bond;
     }
 
@@ -286,6 +290,22 @@ public class BondDTO extends BaseData {
         this.bondTermUnit = bondTermUnit;
     }
 
+    public Date getDistStartDate() {
+        return this.distStartDate;
+    }
+
+    public void setDistStartDate(Date distStartDate) {
+        this.distStartDate = distStartDate;
+    }
+
+    public Date getCutoffTransferDate() {
+        return cutoffTransferDate;
+    }
+
+    public void setCutoffTransferDate(Date cutoffTransferDate) {
+        this.cutoffTransferDate = cutoffTransferDate;
+    }
+
     public static BondDTO fromEntity(Bond bond) {
         if (bond == null) {
             return null;
@@ -308,7 +328,7 @@ public class BondDTO extends BaseData {
         dto.setAccrualBase(bond.getAccrualBase().getCode());
         dto.setAccrualMethod(bond.getAccrualMethod().getCode());
         dto.setParValue(bond.getParValue());
-        dto.setCustodyOrg(bond.getCustodyOrg().getDisplayName());
+        dto.setCustodyOrg(bond.getCustodyOrg() != null ? bond.getCustodyOrg().getDisplayName() : null);
         dto.setBusinessDate(bond.getBusinessDate());
         dto.setBondStatus(bond.getBondStatus());
         dto.setAddTimes(bond.getAddTimes());
@@ -319,6 +339,8 @@ public class BondDTO extends BaseData {
         dto.setInterestPaymentCycle(bond.getInterestPaymentCycle());
         dto.setInterestPaymentDate(bond.getInterestPaymentDate());
         dto.setBondTermUnit(bond.getBondTermUnit());
+        dto.setDistStartDate(bond.getDistStartDate());
+        dto.setCutoffTransferDate(bond.getCutoffTransferDate());
         return dto;
     }
 } 

@@ -103,7 +103,9 @@
             b.PRINCIPAL_VAL_EFFECT_DT as "bondDTO.principalValueEffectiveDate",
             b.FIRST_INT_PAY_DT as "bondDTO.firstInterestPaymentDate",
             b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
-            b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate"
+            b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate",
+            b.DIST_START_DATE as "bondDTO.distStartDate",
+            b.RECORD_DATE as "bondDTO.cutoffTransferDate"
         FROM BOND_PRODUCT bp
         LEFT JOIN BOND b ON bp.BOND_CODE = b.BOND_CODE
         WHERE bp.PRODUCT_ID = #{id}
@@ -151,7 +153,9 @@
         b.PRINCIPAL_VAL_EFFECT_DT as "bondDTO.principalValueEffectiveDate",
         b.FIRST_INT_PAY_DT as "bondDTO.firstInterestPaymentDate",
         b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
-        b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate"
+        b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate",
+        b.DIST_START_DATE as "bondDTO.distStartDate",
+        b.RECORD_DATE as "bondDTO.cutoffTransferDate"
         FROM BOND_PRODUCT bp
         LEFT JOIN BOND b ON bp.BOND_CODE = b.BOND_CODE
     </select>
@@ -183,7 +187,9 @@
             PRINCIPAL_VAL_EFFECT_DT,
             FIRST_INT_PAY_DT,
             INT_PAY_FREQ_MONTH,
-            CURR_BOND_PAY_DT
+            CURR_BOND_PAY_DT,
+            DIST_START_DATE,
+            RECORD_DATE
         ) VALUES (
             #{bondCode},
             #{shortName},
@@ -210,7 +216,9 @@
             #{principalValueEffectiveDate},
             #{firstInterestPaymentDate},
             #{interestPaymentCycle},
-            #{interestPaymentDate}
+            #{interestPaymentDate},
+            #{distStartDate},
+            #{cutoffTransferDate}
         ) ON DUPLICATE KEY UPDATE
             SHORT_NAME = VALUES(SHORT_NAME),
             VARIETY = VALUES(VARIETY),
@@ -236,7 +244,9 @@
             PRINCIPAL_VAL_EFFECT_DT = VALUES(PRINCIPAL_VAL_EFFECT_DT),
             FIRST_INT_PAY_DT = VALUES(FIRST_INT_PAY_DT),
             INT_PAY_FREQ_MONTH = VALUES(INT_PAY_FREQ_MONTH),
-            CURR_BOND_PAY_DT = VALUES(CURR_BOND_PAY_DT)
+            CURR_BOND_PAY_DT = VALUES(CURR_BOND_PAY_DT),
+            DIST_START_DATE = VALUES(DIST_START_DATE),
+            RECORD_DATE = VALUES(RECORD_DATE)
     </insert>
 
     <update id="updateBond" parameterType="com.example.demo.business.product.app.dto.response.BondDTO">
@@ -266,7 +276,9 @@
             PRINCIPAL_VAL_EFFECT_DT = #{principalValueEffectiveDate},
             FIRST_INT_PAY_DT = #{firstInterestPaymentDate},
             INT_PAY_FREQ_MONTH = #{interestPaymentCycle},
-            CURR_BOND_PAY_DT = #{interestPaymentDate}
+            CURR_BOND_PAY_DT = #{interestPaymentDate},
+            DIST_START_DATE = #{distStartDate},
+            RECORD_DATE = #{cutoffTransferDate}
         WHERE BOND_CODE = #{bondCode}
     </update>
 
@@ -297,7 +309,9 @@
             PRINCIPAL_VAL_EFFECT_DT as principalValueEffectiveDate,
             FIRST_INT_PAY_DT as firstInterestPaymentDate,
             INT_PAY_FREQ_MONTH as interestPaymentCycle,
-            CURR_BOND_PAY_DT as interestPaymentDate
+            CURR_BOND_PAY_DT as interestPaymentDate,
+            DIST_START_DATE as distStartDate,
+            RECORD_DATE as cutoffTransferDate
         FROM BOND
         WHERE BOND_CODE = #{bondCode}
     </select>
@@ -329,7 +343,9 @@
             PRINCIPAL_VAL_EFFECT_DT as principalValueEffectiveDate,
             FIRST_INT_PAY_DT as firstInterestPaymentDate,
             INT_PAY_FREQ_MONTH as interestPaymentCycle,
-            CURR_BOND_PAY_DT as interestPaymentDate
+            CURR_BOND_PAY_DT as interestPaymentDate,
+            DIST_START_DATE as distStartDate,
+            RECORD_DATE as cutoffTransferDate
         FROM BOND
     </select>
     

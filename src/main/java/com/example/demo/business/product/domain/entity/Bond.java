@@ -174,6 +174,18 @@ public class Bond {
      */
     private String bondTermUnit;
 
+    /**
+     * 分销开始日
+     * 对应 BondRegistDTO.distributionStartDate
+     */
+    private Date distStartDate;
+
+    /**
+     * 截止过户日
+     * 对应 BondRegistDTO.cutoffTransferDate
+     */
+    private Date cutoffTransferDate;
+
     public String getBondCode() {
         return this.bondCode;
     }
@@ -307,6 +319,9 @@ public class Bond {
     }
 
     public void setCustodyOrg(CustodyOrg custodyOrg) {
+        if (custodyOrg == null) {
+            throw new IllegalArgumentException("CustodyOrg cannot be null");
+        }
         this.custodyOrg = custodyOrg;
     }
 
@@ -388,6 +403,22 @@ public class Bond {
 
     public void setBondTermUnit(String bondTermUnit) {
         this.bondTermUnit = bondTermUnit;
+    }
+
+    public Date getDistStartDate() {
+        return this.distStartDate;
+    }
+
+    public void setDistStartDate(Date distStartDate) {
+        this.distStartDate = distStartDate;
+    }
+
+    public Date getCutoffTransferDate() {
+        return this.cutoffTransferDate;
+    }
+
+    public void setCutoffTransferDate(Date cutoffTransferDate) {
+        this.cutoffTransferDate = cutoffTransferDate;
     }
 
     /**
