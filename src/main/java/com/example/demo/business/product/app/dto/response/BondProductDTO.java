@@ -5,12 +5,17 @@ import com.example.demo.business.product.domain.valueObject.FDMProductCode;
 import com.example.demo.business.product.domain.valueObject.ProductCode;
 import com.example.demo.common.exception.data.BaseData;
 import java.math.BigDecimal;
+import javax.validation.constraints.NotNull;
 
 public class BondProductDTO extends BaseData{
     // BondProduct 相关字段
+    @NotNull
     private String productCode;              // 产品编码
+    @NotNull
     private String fdmProductCode;           // FDM产品编码
+    @NotNull
     private BondDTO bondDTO;                 // 债券代码（关联Bond）
+    @NotNull
     private int bondAuth;                    // 产品交易权限
     private String saleArea;                 // 销售区域
     private String sellableCustomerType;     // 可售客户类别
@@ -180,6 +185,29 @@ public class BondProductDTO extends BaseData{
         if (this.bondDTO != null) {
             product.setBond(this.bondDTO.toEntity());
         }
+        
+        return product;
+    }
+
+    public BondProduct toRegisterEntity() {
+        BondProduct product = BondProduct.builder()
+            .withSaleArea(this.saleArea)
+            .withSellableCustomerType(this.sellableCustomerType)
+            .build();
+            
+        // 设置其他基本属性
+        product.setFDMCode(FDMProductCode.of(this.fdmProductCode));
+        product.setProductCode(ProductCode.of(this.productCode));
+        product.setSellableCustomerRiskLevel(this.sellableCustomerRiskLevel);
+        product.setPledgeableSign(this.pledgeableSign);
+        product.setReissueFlag(this.reissueFlag);
+        product.setReissueIncomeRate(this.reissueIncomeRate);
+        product.setRecommendFlag(this.recommendFlag);
+        product.setQuotaMode(this.quotaMode);
+        product.setBidSpread(this.bidSpread);
+        product.setAskSpread(this.askSpread);
+        product.setUpperLimitHolding(this.upperLimitHolding);
+        product.setLowerLimitHolding(this.lowerLimitHolding);
         
         return product;
     }

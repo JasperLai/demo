@@ -28,14 +28,5 @@ public class ProductCode {
         if (code == null || code.isEmpty()) {
             throw new IllegalArgumentException("Product code cannot be null or empty");
         }
-        if (!code.startsWith(PREFIX)) {
-            throw new IllegalArgumentException("Product code must start with " + PREFIX);
-        }
-        if (code.length() != 12) { // 6位前缀 + 6位序列号
-            throw new IllegalArgumentException("Product code must be 12 digits");
-        }
-        if (!code.substring(PREFIX.length()).matches("\\d{6}")) {
-            throw new IllegalArgumentException("Product code sequence must be 6 digits");
-        }
     }
 }

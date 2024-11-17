@@ -28,7 +28,11 @@ public enum AccrualBase {
      * @param code 计息基础代码
      * @return 对应的计息基础枚举值，如果未找到则返回null
      */
-    public static AccrualBase fromCode(int code) {
+    public static AccrualBase fromCode(Integer code) {
+        if (code == null) {
+            return null;
+        }
+        
         for (AccrualBase base : AccrualBase.values()) {
             if (base.getCode() == code) {
                 return base;

@@ -20,53 +20,60 @@ public class BondProduct {
     private String quotaMode;                 // 报价模式 手动自动
     private String bidSpread;                 // 买价点差
     private String askSpread;                 // 卖价点差
-    private long upperLimitHolding = Long.MAX_VALUE;  // 银行持有上限
-    private long lowerLimitHolding = 0;              // 银行持有下限
+    private Long upperLimitHolding = Long.MAX_VALUE;  // 银行持有上限
+    private Long lowerLimitHolding = 0L;              // 银行持有下限
     
 
     private BondProduct() {
     }
 
-    public static BondProduct builder() {
-        return new BondProduct();
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public BondProduct withProductCode(String bondCode) {
-        this.productCode = ProductCode.create(bondCode);
-        return this;
+    // 内部构建器类
+    public static class Builder {
+        private BondProduct product;
+
+        public Builder() {
+            product = new BondProduct();
+        }
+
+        public Builder withProductCode(String productCode) {
+            product.setProductCode(ProductCode.of(productCode));
+            return this;
+        }
+
+        public Builder withFDMCode(String fdmCode) {
+            product.setFDMCode(FDMProductCode.of(fdmCode));
+            return this;
+        }
+
+        public Builder withBond(Bond bond) {
+            product.setBond(bond);
+            return this;
+        }
+
+        public Builder withAuthority(BondBusinessAuth authority) {
+            product.setAuthority(authority);
+            return this;
+        }
+
+        public Builder withSaleArea(String saleArea) {
+            product.setSaleArea(saleArea);
+            return this;
+        }
+
+        public Builder withSellableCustomerType(String type) {
+            product.setSellableCustomerType(type);
+            return this;
+        }
+
+        public BondProduct build() {
+            return product;
+        }
     }
 
-    public BondProduct withFDMCode(String bondCode) {
-        this.FDMCode = FDMProductCode.create(bondCode);
-        return this;
-    }
-
-    public BondProduct withBond(Bond bond) {
-        this.bond = bond;
-        return this;
-    }
-
-    public BondProduct withAuthority(BondBusinessAuth authority) {
-        this.authority = authority;
-        return this;
-    }
-
-    public BondProduct withSaleArea(String saleArea) {
-        this.saleArea = saleArea;
-        return this;
-    }
-
-    public BondProduct withSellableCustomerType(String type) {
-        this.sellableCustomerType = type;
-        return this;
-    }
-
-    // 在链式初始化完成后，可以调用 build 方法获取最终的对象
-    public BondProduct build() {
-        return this;
-    }
-
-    
     public void setProductCode(ProductCode productCode) {
         this.productCode = productCode;
     }
@@ -163,7 +170,7 @@ public class BondProduct {
         return upperLimitHolding;
     }
 
-    public void setUpperLimitHolding(long upperLimitHolding) {
+    public void setUpperLimitHolding(Long upperLimitHolding) {
         this.upperLimitHolding = upperLimitHolding;
     }
 
@@ -171,7 +178,7 @@ public class BondProduct {
         return lowerLimitHolding;
     }
 
-    public void setLowerLimitHolding(long lowerLimitHolding) {
+    public void setLowerLimitHolding(Long lowerLimitHolding) {
         this.lowerLimitHolding = lowerLimitHolding;
     }
 

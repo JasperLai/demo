@@ -33,7 +33,7 @@ public class Bond {
      * 对应 BondRegistDTO.bondTerm 和 bondTermUnit
      * 注：需要根据bondTermUnit进行单位转换
      */
-    private int bondTerm;
+    private Integer bondTerm;
 
     /**
      * 票面利率（%）
@@ -57,7 +57,7 @@ public class Bond {
      * 付息兑付日转托管业务停止天数（工作日）
      * 注：需要根据 BondRegistDTO.cutoffTransferDate 计算得出
      */
-    private int transferPauseDayBeforeCash;
+    private Integer transferPauseDayBeforeCash;
 
     /**
      * 到期日
@@ -106,7 +106,7 @@ public class Bond {
      * 面值
      * 对应 BondRegistDTO.currentPrincipalValue
      */
-    private int parValue;
+    private Integer parValue;
 
     /**
      * 托管机构
@@ -130,7 +130,7 @@ public class Bond {
      * 追加次数
      * 对应 BondRegistDTO.addTimes
      */
-    private int addTimes;
+    private Integer addTimes;
 
     /**
      * 债券暂停状态 1-正常 2-暂停
@@ -210,11 +210,11 @@ public class Bond {
         this.variety = variety;
     }
 
-    public int getBondTerm() {
+    public Integer getBondTerm() {
         return this.bondTerm;
     }
 
-    public void setBondTerm(int bondTerm) {
+    public void setBondTerm(Integer bondTerm) {
         this.bondTerm = bondTerm;
     }
 
@@ -242,11 +242,11 @@ public class Bond {
         this.issuePrice = issuePrice;
     }
 
-    public int getTransferPauseDayBeforeCash() {
+    public Integer getTransferPauseDayBeforeCash() {
         return this.transferPauseDayBeforeCash;
     }
 
-    public void setTransferPauseDayBeforeCash(int transferPauseDayBeforeCash) {
+    public void setTransferPauseDayBeforeCash(Integer transferPauseDayBeforeCash) {
         this.transferPauseDayBeforeCash = transferPauseDayBeforeCash;
     }
 
@@ -306,11 +306,11 @@ public class Bond {
         this.accrualMethod = interestType;
     }
 
-    public int getParValue() {
+    public Integer getParValue() {
         return this.parValue;
     }
 
-    public void setParValue(int parValue) {
+    public void setParValue(Integer parValue) {
         this.parValue = parValue;
     }
 
@@ -341,11 +341,11 @@ public class Bond {
         this.bondStatus = bondStatus;
     }
 
-    public int getAddTimes() {
+    public Integer getAddTimes() {
         return this.addTimes;
     }
 
-    public void setAddTimes(int addTimes) {
+    public void setAddTimes(Integer addTimes) {
         this.addTimes = addTimes;
     }
 
@@ -444,7 +444,7 @@ public class Bond {
         return false;
     }
 
-    public int getBondTermByUnit(){
+    public Integer getBondTermByUnit(){
 
         return 0;
     }
