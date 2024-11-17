@@ -44,4 +44,45 @@ public enum AccrualMethod {
     public static List<AccrualMethod> getList() {
         return list;
     }
+
+    /**
+     * 根据代码获取计息方式枚举值
+     * @param code 计息方式代码
+     * @return 对应的计息方式枚举值，如果未找到则返回null
+     */
+    public static AccrualMethod fromCode(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
+        
+        String trimmedCode = code.trim();
+        for (AccrualMethod method : AccrualMethod.values()) {
+            if (method.getCode().equals(trimmedCode) || 
+                method.getOriginalCode().equals(trimmedCode)) {
+                return method;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * 根据原系统代码获取计息方式枚举值
+     * @param originalCode 原系统计息方式代码
+     * @return 对应的计息方式枚举值，如果未找到则返回null
+     */
+    public static AccrualMethod fromOriginalCode(String originalCode) {
+        if (originalCode == null || originalCode.trim().isEmpty()) {
+            return null;
+        }
+        
+        String trimmedCode = originalCode.trim();
+        for (AccrualMethod method : AccrualMethod.values()) {
+            if (method.getOriginalCode().equals(trimmedCode)) {
+                return method;
+            }
+        }
+        
+        return null;
+    }
 }

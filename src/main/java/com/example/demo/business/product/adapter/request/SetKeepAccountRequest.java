@@ -1,6 +1,6 @@
 package com.example.demo.business.product.adapter.request;
 
-import com.example.demo.business.product.domain.repository.dto.BondDTO;
+import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.common.request.ManageBaseRequest;
 
 public class SetKeepAccountRequest extends ManageBaseRequest{
@@ -79,26 +79,6 @@ public class SetKeepAccountRequest extends ManageBaseRequest{
 
     public BondDTO getBondVO() {
         BondDTO bondVO = new BondDTO();
-        bondVO.setBondCode(this.bond_code);
-        bondVO.setBondName(this.bond_name);
-        bondVO.setBondShortName(this.bond_short_name);
-        bondVO.setBondVariety(this.bond_variety);
-        bondVO.setBondTerm(this.bond_issue_term);
-        bondVO.setCoupon(this.current_par_interest_rate);
-        bondVO.setCurrencyCode(this.currency_code);
-        bondVO.setIssuer(null); // 原接口未传发行人
-        bondVO.setIssuePrice(this.issue_price);
-        bondVO.setTransferPauseDayBeforeCash(this.close_transfer_days); // 截止过户日
-        bondVO.setMatureDate(this.cash_date);
-        bondVO.setIssueDeadline(this.end_sep_sell_date);
-        bondVO.setListingDate(this.market_circulating_date);
-        bondVO.setAccrualDate(this.begin_cal_interest_date);
-        bondVO.setIssueDate(this.initial_sep_sell_date);
-        bondVO.setAccrualBase(this.cal_interest_norm);
-        bondVO.setAccrualMethod(this.cal_interest_mode);
-        bondVO.setAccrualPeriod(this.pay_interest_frequency);
-        bondVO.setParValue("100"); // 原接口未传面值
-        bondVO.setCustodyOrg(this.trustship_site);
         return bondVO;
     }
 

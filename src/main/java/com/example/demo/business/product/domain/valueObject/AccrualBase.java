@@ -22,4 +22,18 @@ public enum AccrualBase {
     public String getDescription() {
         return description;
     }
+
+    /**
+     * 根据代码获取计息基础枚举值
+     * @param code 计息基础代码
+     * @return 对应的计息基础枚举值，如果未找到则返回null
+     */
+    public static AccrualBase fromCode(int code) {
+        for (AccrualBase base : AccrualBase.values()) {
+            if (base.getCode() == code) {
+                return base;
+            }
+        }
+        return null;
+    }
 }

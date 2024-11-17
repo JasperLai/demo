@@ -30,4 +30,47 @@ public enum BondVariety {
         return description;
     }
     
+    /**
+     * 根据代码获取债券品种枚举值
+     * @param code 债券品种代码
+     * @return 对应的债券品种枚举值
+     * @throws BusinessException 当找不到对应的债券品种时抛出异常
+     */
+    public static BondVariety fromCode(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
+        
+        for (BondVariety variety : BondVariety.values()) {
+            if (variety.getCode().equals(code.trim())) {
+                return variety;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 判断给定的代码是否是有效的债券品种代码
+     * @param code 待验证的债券品种代码
+     * @return 如果是有效的债券品种代码返回true，否则返回false
+     */
+    public static boolean isValidCode(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return false;
+        }
+        
+        for (BondVariety variety : BondVariety.values()) {
+            if (variety.getCode().equals(code.trim())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", this.name(), this.description);
+    }
 }

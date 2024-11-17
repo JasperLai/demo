@@ -24,5 +24,9 @@ public class FDMProductCode {
         }
         // 添加其他校验逻辑...
     }
+
+    public static FDMProductCode of(String fdmProductCode) {
+        return new FDMProductCode(fdmProductCode);
+    }
 }
 

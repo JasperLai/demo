@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.business.product.infrastructure.mapper.BondProductMapper">
     
-    <insert id="insert" parameterType="com.example.demo.business.product.domain.entity.BondProduct">
+    <insert id="insert" parameterType="com.example.demo.business.product.app.dto.response.BondProductDTO">
         INSERT INTO BOND_PRODUCT (
             PRODUCT_ID,
             FDM_PRODUCT_CODE,
             BOND_CODE,
-            SALE_AREA,
             BOND_AUTH,
+            SALE_AREA,
             SELLABL_CUST_TYPE,
             SELLABL_CUST_RISK_LEVEL,
             PLEDGEABLE_SIGN,
@@ -22,10 +22,10 @@
             DOWN_LIMIT_HOLDING
         ) VALUES (
             #{productCode},
-            #{FDMCode},
-            #{bond.bondCode},
+            #{fdmProductCode},
+            #{bondDTO.bondCode},
+            #{bondAuth},
             #{saleArea},
-            #{authority.permissions},
             #{sellableCustomerType},
             #{sellableCustomerRiskLevel},
             #{pledgeableSign},
@@ -40,48 +40,297 @@
         )
     </insert>
     
-    <update id="update" parameterType="com.example.demo.business.product.domain.entity.BondProduct">
-        UPDATE BOND_PRODUCT 
-        <set>
-            <if test="FDMCode != null">FDM_PRODUCT_CODE = #{FDMCode},</if>
-            <if test="bond != null and bond.bondCode != null">BOND_CODE = #{bond.bondCode},</if>
-            <if test="saleArea != null">SALE_AREA = #{saleArea},</if>
-            <if test="authority != null">BOND_AUTH = #{authority.permissions},</if>
-            <if test="sellableCustomerType != null">SELLABL_CUST_TYPE = #{sellableCustomerType},</if>
-            <if test="sellableCustomerRiskLevel != null">SELLABL_CUST_RISK_LEVEL = #{sellableCustomerRiskLevel},</if>
-            <if test="pledgeableSign != null">PLEDGEABLE_SIGN = #{pledgeableSign},</if>
-            <if test="reissueFlag != null">REISSUE_FLAG = #{reissueFlag},</if>
-            <if test="reissueIncomeRate != null">REISSUE_INCOME_RATE = #{reissueIncomeRate},</if>
-            <if test="recommendFlag != null">RECOMMEND_FLAG = #{recommendFlag},</if>
-            <if test="quotaMode != null">QUOTA_MODE = #{quotaMode},</if>
-            <if test="bidSpread != null">BID_SPREAD = #{bidSpread},</if>
-            <if test="askSpread != null">ASK_SPREAD = #{askSpread},</if>
-            <if test="upperLimitHolding != null">UP_LIMIT_HOLDING = #{upperLimitHolding},</if>
-            <if test="lowerLimitHolding != null">DOWN_LIMIT_HOLDING = #{lowerLimitHolding}</if>
-        </set>
+    <update id="update" parameterType="com.example.demo.business.product.app.dto.response.BondProductDTO">
+        UPDATE BOND_PRODUCT
+        SET 
+            FDM_PRODUCT_CODE = #{fdmProductCode},
+            BOND_CODE = #{bondDTO.bondCode},
+            BOND_AUTH = #{bondAuth},
+            SALE_AREA = #{saleArea},
+            SELLABL_CUST_TYPE = #{sellableCustomerType},
+            SELLABL_CUST_RISK_LEVEL = #{sellableCustomerRiskLevel},
+            PLEDGEABLE_SIGN = #{pledgeableSign},
+            REISSUE_FLAG = #{reissueFlag},
+            REISSUE_INCOME_RATE = #{reissueIncomeRate},
+            RECOMMEND_FLAG = #{recommendFlag},
+            QUOTA_MODE = #{quotaMode},
+            BID_SPREAD = #{bidSpread},
+            ASK_SPREAD = #{askSpread},
+            UP_LIMIT_HOLDING = #{upperLimitHolding},
+            DOWN_LIMIT_HOLDING = #{lowerLimitHolding}
         WHERE PRODUCT_ID = #{productCode}
     </update>
     
-    <select id="findByProductId" resultType="com.example.demo.business.product.domain.entity.BondProduct">
+    <select id="selectById" resultType="com.example.demo.business.product.app.dto.response.BondProductDTO">
         SELECT 
-            PRODUCT_ID as productCode,
-            FDM_PRODUCT_CODE as FDMCode,
-            BOND_CODE as "bond.bondCode",
-            SALE_AREA as saleArea,
-            BOND_AUTH as "authority.permissions",
-            SELLABL_CUST_TYPE as sellableCustomerType,
-            SELLABL_CUST_RISK_LEVEL as sellableCustomerRiskLevel,
-            PLEDGEABLE_SIGN as pledgeableSign,
-            REISSUE_FLAG as reissueFlag,
-            REISSUE_INCOME_RATE as reissueIncomeRate,
-            RECOMMEND_FLAG as recommendFlag,
-            QUOTA_MODE as quotaMode,
-            BID_SPREAD as bidSpread,
-            ASK_SPREAD as askSpread,
-            UP_LIMIT_HOLDING as upperLimitHolding,
-            DOWN_LIMIT_HOLDING as lowerLimitHolding
-        FROM BOND_PRODUCT
-        WHERE PRODUCT_ID = #{productId}
+            bp.PRODUCT_ID as productCode,
+            bp.FDM_PRODUCT_CODE as fdmProductCode,
+            bp.BOND_CODE as "bondDTO.bondCode",
+            bp.BOND_AUTH as bondAuth,
+            bp.SALE_AREA as saleArea,
+            bp.SELLABL_CUST_TYPE as sellableCustomerType,
+            bp.SELLABL_CUST_RISK_LEVEL as sellableCustomerRiskLevel,
+            bp.PLEDGEABLE_SIGN as pledgeableSign,
+            bp.REISSUE_FLAG as reissueFlag,
+            bp.REISSUE_INCOME_RATE as reissueIncomeRate,
+            bp.RECOMMEND_FLAG as recommendFlag,
+            bp.QUOTA_MODE as quotaMode,
+            bp.BID_SPREAD as bidSpread,
+            bp.ASK_SPREAD as askSpread,
+            bp.UP_LIMIT_HOLDING as upperLimitHolding,
+            bp.DOWN_LIMIT_HOLDING as lowerLimitHolding,
+            b.SHORT_NAME as "bondDTO.shortName",
+            b.VARIETY as "bondDTO.bondVariety",
+            b.BOND_TERM as "bondDTO.bondTerm",
+            b.BOND_TERM_COMP as "bondDTO.bondTermUnit",
+            b.COUPON_RATE as "bondDTO.coupon",
+            b.CURRENCY as "bondDTO.currency",
+            b.ISSUE_PRICE as "bondDTO.issuePrice",
+            b.ALTERTRUST_STOP_DAY_CNT as "bondDTO.transferPauseDayBeforeCash",
+            b.MATURE_DATE as "bondDTO.matureDate",
+            b.DIST_END_DATE as "bondDTO.issueEndDate",
+            b.LISTING_DATE as "bondDTO.listingDate",
+            b.START_INT_DATE as "bondDTO.accrualDate",
+            b.ISSUE_DATE as "bondDTO.issueDate",
+            b.ACCRUAL_BASE as "bondDTO.accrualBase",
+            b.ACCRUAL_METHOD as "bondDTO.accrualMethod",
+            b.PAR_VALUE as "bondDTO.parValue",
+            b.CUSTODY_ORG as "bondDTO.custodyOrg",
+            b.BOND_STATUS as "bondDTO.bondStatus",
+            b.APPEND_NUM as "bondDTO.addTimes",
+            b.BOND_SUSPEND_STATUS as "bondDTO.bondPauseStatus",
+            b.CLAIM_DEST_RGST_DT as "bondDTO.bondRegistrationDate",
+            b.PRINCIPAL_VAL_EFFECT_DT as "bondDTO.principalValueEffectiveDate",
+            b.FIRST_INT_PAY_DT as "bondDTO.firstInterestPaymentDate",
+            b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
+            b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate"
+        FROM BOND_PRODUCT bp
+        LEFT JOIN BOND b ON bp.BOND_CODE = b.BOND_CODE
+        WHERE bp.PRODUCT_ID = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.example.demo.business.product.app.dto.response.BondProductDTO">
+        SELECT 
+        bp.PRODUCT_ID as productCode,
+        bp.FDM_PRODUCT_CODE as fdmProductCode,
+        bp.BOND_CODE as "bondDTO.bondCode",
+        bp.BOND_AUTH as bondAuth,
+        bp.SALE_AREA as saleArea,
+        bp.SELLABL_CUST_TYPE as sellableCustomerType,
+        bp.SELLABL_CUST_RISK_LEVEL as sellableCustomerRiskLevel,
+        bp.PLEDGEABLE_SIGN as pledgeableSign,
+        bp.REISSUE_FLAG as reissueFlag,
+        bp.REISSUE_INCOME_RATE as reissueIncomeRate,
+        bp.RECOMMEND_FLAG as recommendFlag,
+        bp.QUOTA_MODE as quotaMode,
+        bp.BID_SPREAD as bidSpread,
+        bp.ASK_SPREAD as askSpread,
+        bp.UP_LIMIT_HOLDING as upperLimitHolding,
+        bp.DOWN_LIMIT_HOLDING as lowerLimitHolding,
+        b.SHORT_NAME as "bondDTO.shortName",
+        b.VARIETY as "bondDTO.bondVariety",
+        b.BOND_TERM as "bondDTO.bondTerm",
+        b.BOND_TERM_COMP as "bondDTO.bondTermUnit",
+        b.COUPON_RATE as "bondDTO.coupon",
+        b.CURRENCY as "bondDTO.currency",
+        b.ISSUE_PRICE as "bondDTO.issuePrice",
+        b.ALTERTRUST_STOP_DAY_CNT as "bondDTO.transferPauseDayBeforeCash",
+        b.MATURE_DATE as "bondDTO.matureDate",
+        b.DIST_END_DATE as "bondDTO.issueEndDate",
+        b.LISTING_DATE as "bondDTO.listingDate",
+        b.START_INT_DATE as "bondDTO.accrualDate",
+        b.ISSUE_DATE as "bondDTO.issueDate",
+        b.ACCRUAL_BASE as "bondDTO.accrualBase",
+        b.ACCRUAL_METHOD as "bondDTO.accrualMethod",
+        b.PAR_VALUE as "bondDTO.parValue",
+        b.CUSTODY_ORG as "bondDTO.custodyOrg",
+        b.BOND_STATUS as "bondDTO.bondStatus",
+        b.APPEND_NUM as "bondDTO.addTimes",
+        b.BOND_SUSPEND_STATUS as "bondDTO.bondPauseStatus",
+        b.CLAIM_DEST_RGST_DT as "bondDTO.bondRegistrationDate",
+        b.PRINCIPAL_VAL_EFFECT_DT as "bondDTO.principalValueEffectiveDate",
+        b.FIRST_INT_PAY_DT as "bondDTO.firstInterestPaymentDate",
+        b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
+        b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate"
+        FROM BOND_PRODUCT bp
+        LEFT JOIN BOND b ON bp.BOND_CODE = b.BOND_CODE
+    </select>
+    
+    <insert id="insertBond" parameterType="com.example.demo.business.product.app.dto.response.BondDTO">
+        INSERT INTO BOND (
+            BOND_CODE,
+            SHORT_NAME,
+            VARIETY,
+            BOND_TERM,
+            BOND_TERM_COMP,
+            COUPON_RATE,
+            CURRENCY,
+            ISSUE_PRICE,
+            ALTERTRUST_STOP_DAY_CNT,
+            MATURE_DATE,
+            DIST_END_DATE,
+            LISTING_DATE,
+            START_INT_DATE,
+            ISSUE_DATE,
+            ACCRUAL_BASE,
+            ACCRUAL_METHOD,
+            PAR_VALUE,
+            CUSTODY_ORG,
+            BOND_STATUS,
+            APPEND_NUM,
+            BOND_SUSPEND_STATUS,
+            CLAIM_DEST_RGST_DT,
+            PRINCIPAL_VAL_EFFECT_DT,
+            FIRST_INT_PAY_DT,
+            INT_PAY_FREQ_MONTH,
+            CURR_BOND_PAY_DT
+        ) VALUES (
+            #{bondCode},
+            #{shortName},
+            #{bondVariety},
+            #{bondTerm},
+            #{bondTermUnit},
+            #{coupon},
+            #{currency},
+            #{issuePrice},
+            #{transferPauseDayBeforeCash},
+            #{matureDate},
+            #{issueEndDate},
+            #{listingDate},
+            #{accrualDate},
+            #{issueDate},
+            #{accrualBase},
+            #{accrualMethod},
+            #{parValue},
+            #{custodyOrg},
+            #{bondStatus},
+            #{addTimes},
+            #{bondPauseStatus},
+            #{bondRegistrationDate},
+            #{principalValueEffectiveDate},
+            #{firstInterestPaymentDate},
+            #{interestPaymentCycle},
+            #{interestPaymentDate}
+        ) ON DUPLICATE KEY UPDATE
+            SHORT_NAME = VALUES(SHORT_NAME),
+            VARIETY = VALUES(VARIETY),
+            BOND_TERM = VALUES(BOND_TERM),
+            BOND_TERM_COMP = VALUES(BOND_TERM_COMP),
+            COUPON_RATE = VALUES(COUPON_RATE),
+            CURRENCY = VALUES(CURRENCY),
+            ISSUE_PRICE = VALUES(ISSUE_PRICE),
+            ALTERTRUST_STOP_DAY_CNT = VALUES(ALTERTRUST_STOP_DAY_CNT),
+            MATURE_DATE = VALUES(MATURE_DATE),
+            DIST_END_DATE = VALUES(DIST_END_DATE),
+            LISTING_DATE = VALUES(LISTING_DATE),
+            START_INT_DATE = VALUES(START_INT_DATE),
+            ISSUE_DATE = VALUES(ISSUE_DATE),
+            ACCRUAL_BASE = VALUES(ACCRUAL_BASE),
+            ACCRUAL_METHOD = VALUES(ACCRUAL_METHOD),
+            PAR_VALUE = VALUES(PAR_VALUE),
+            CUSTODY_ORG = VALUES(CUSTODY_ORG),
+            BOND_STATUS = VALUES(BOND_STATUS),
+            APPEND_NUM = VALUES(APPEND_NUM),
+            BOND_SUSPEND_STATUS = VALUES(BOND_SUSPEND_STATUS),
+            CLAIM_DEST_RGST_DT = VALUES(CLAIM_DEST_RGST_DT),
+            PRINCIPAL_VAL_EFFECT_DT = VALUES(PRINCIPAL_VAL_EFFECT_DT),
+            FIRST_INT_PAY_DT = VALUES(FIRST_INT_PAY_DT),
+            INT_PAY_FREQ_MONTH = VALUES(INT_PAY_FREQ_MONTH),
+            CURR_BOND_PAY_DT = VALUES(CURR_BOND_PAY_DT)
+    </insert>
+
+    <update id="updateBond" parameterType="com.example.demo.business.product.app.dto.response.BondDTO">
+        UPDATE BOND
+        SET 
+            SHORT_NAME = #{shortName},
+            VARIETY = #{bondVariety},
+            BOND_TERM = #{bondTerm},
+            BOND_TERM_COMP = #{bondTermUnit},
+            COUPON_RATE = #{coupon},
+            CURRENCY = #{currency},
+            ISSUE_PRICE = #{issuePrice},
+            ALTERTRUST_STOP_DAY_CNT = #{transferPauseDayBeforeCash},
+            MATURE_DATE = #{matureDate},
+            DIST_END_DATE = #{issueEndDate},
+            LISTING_DATE = #{listingDate},
+            START_INT_DATE = #{accrualDate},
+            ISSUE_DATE = #{issueDate},
+            ACCRUAL_BASE = #{accrualBase},
+            ACCRUAL_METHOD = #{accrualMethod},
+            PAR_VALUE = #{parValue},
+            CUSTODY_ORG = #{custodyOrg},
+            BOND_STATUS = #{bondStatus},
+            APPEND_NUM = #{addTimes},
+            BOND_SUSPEND_STATUS = #{bondPauseStatus},
+            CLAIM_DEST_RGST_DT = #{bondRegistrationDate},
+            PRINCIPAL_VAL_EFFECT_DT = #{principalValueEffectiveDate},
+            FIRST_INT_PAY_DT = #{firstInterestPaymentDate},
+            INT_PAY_FREQ_MONTH = #{interestPaymentCycle},
+            CURR_BOND_PAY_DT = #{interestPaymentDate}
+        WHERE BOND_CODE = #{bondCode}
+    </update>
+
+    <select id="selectBondByBondCode" resultType="com.example.demo.business.product.app.dto.response.BondDTO">
+        SELECT 
+            BOND_CODE as bondCode,
+            SHORT_NAME as shortName,
+            VARIETY as bondVariety,
+            BOND_TERM as bondTerm,
+            BOND_TERM_COMP as bondTermUnit,
+            COUPON_RATE as coupon,
+            CURRENCY as currency,
+            ISSUE_PRICE as issuePrice,
+            ALTERTRUST_STOP_DAY_CNT as transferPauseDayBeforeCash,
+            MATURE_DATE as matureDate,
+            DIST_END_DATE as issueEndDate,
+            LISTING_DATE as listingDate,
+            START_INT_DATE as accrualDate,
+            ISSUE_DATE as issueDate,
+            ACCRUAL_BASE as accrualBase,
+            ACCRUAL_METHOD as accrualMethod,
+            PAR_VALUE as parValue,
+            CUSTODY_ORG as custodyOrg,
+            BOND_STATUS as bondStatus,
+            APPEND_NUM as addTimes,
+            BOND_SUSPEND_STATUS as bondPauseStatus,
+            CLAIM_DEST_RGST_DT as bondRegistrationDate,
+            PRINCIPAL_VAL_EFFECT_DT as principalValueEffectiveDate,
+            FIRST_INT_PAY_DT as firstInterestPaymentDate,
+            INT_PAY_FREQ_MONTH as interestPaymentCycle,
+            CURR_BOND_PAY_DT as interestPaymentDate
+        FROM BOND
+        WHERE BOND_CODE = #{bondCode}
+    </select>
+
+    <select id="selectAllBonds" resultType="com.example.demo.business.product.app.dto.response.BondDTO">
+        SELECT 
+            BOND_CODE as bondCode,
+            SHORT_NAME as shortName,
+            VARIETY as bondVariety,
+            BOND_TERM as bondTerm,
+            BOND_TERM_COMP as bondTermUnit,
+            COUPON_RATE as coupon,
+            CURRENCY as currency,
+            ISSUE_PRICE as issuePrice,
+            ALTERTRUST_STOP_DAY_CNT as transferPauseDayBeforeCash,
+            MATURE_DATE as matureDate,
+            DIST_END_DATE as issueEndDate,
+            LISTING_DATE as listingDate,
+            START_INT_DATE as accrualDate,
+            ISSUE_DATE as issueDate,
+            ACCRUAL_BASE as accrualBase,
+            ACCRUAL_METHOD as accrualMethod,
+            PAR_VALUE as parValue,
+            CUSTODY_ORG as custodyOrg,
+            BOND_STATUS as bondStatus,
+            APPEND_NUM as addTimes,
+            BOND_SUSPEND_STATUS as bondPauseStatus,
+            CLAIM_DEST_RGST_DT as bondRegistrationDate,
+            PRINCIPAL_VAL_EFFECT_DT as principalValueEffectiveDate,
+            FIRST_INT_PAY_DT as firstInterestPaymentDate,
+            INT_PAY_FREQ_MONTH as interestPaymentCycle,
+            CURR_BOND_PAY_DT as interestPaymentDate
+        FROM BOND
     </select>
     
 </mapper> 
