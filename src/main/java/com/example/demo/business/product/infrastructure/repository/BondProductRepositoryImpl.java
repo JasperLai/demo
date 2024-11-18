@@ -23,13 +23,13 @@ public class BondProductRepositoryImpl implements BondProductRepository {
     
     @Override
     public void saveProduct(BondProduct bondProduct) {
-        BondProductDTO dto = BondProductDTO.fromEntity(bondProduct);
+        BondProductDTO dto = BondProductDTO.fromEntity(bondProduct, false);
         bondProductMapper.insert(dto);
     }
 
     @Override
     public void updateProduct(BondProduct bondProduct) {
-        BondProductDTO dto = BondProductDTO.fromEntity(bondProduct);
+        BondProductDTO dto = BondProductDTO.fromEntity(bondProduct, false);
         bondProductMapper.update(dto);
     }
 

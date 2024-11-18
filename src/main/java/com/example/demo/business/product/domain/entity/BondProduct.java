@@ -39,13 +39,13 @@ public class BondProduct {
             product = new BondProduct();
         }
 
-        public Builder withProductCode(String productCode) {
-            product.setProductCode(ProductCode.of(productCode));
+        public Builder withProductCode(String bondCode) {
+            product.setProductCode(ProductCode.create(bondCode));
             return this;
         }
 
-        public Builder withFDMCode(String fdmCode) {
-            product.setFDMCode(FDMProductCode.of(fdmCode));
+        public Builder withFDMCode(String bondCode) {
+            product.setFDMCode(FDMProductCode.create(bondCode));
             return this;
         }
 

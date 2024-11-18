@@ -54,12 +54,8 @@ class ProductManageServiceImplTest {
         when(bondProductRepository.findByProductId(productDTO.getProductCode())).thenReturn(null);
         
         // 执行测试
-        BaseData result = productManageService.registBondProduct(bondCode, productDTO);
-        
-        // 验证结果
-        assertTrue(result.isSuccess());
-        assertEquals("产品录入成功", result.getReturnMsg());
-        
+        productManageService.registBondProduct(bondCode, productDTO);
+    
         // 验证方法调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
         verify(bondProductRepository).findByProductId(productDTO.getProductCode());
@@ -76,11 +72,7 @@ class ProductManageServiceImplTest {
         when(bondProductRepository.findBondByBondCode(bondCode)).thenReturn(null);
         
         // 执行测试
-        BaseData result = productManageService.registBondProduct(bondCode, productDTO);
-        
-        // 验证结果
-        assertFalse(result.isSuccess());
-        assertEquals("债券代码不存在", result.getReturnMsg());
+        productManageService.registBondProduct(bondCode, productDTO);
         
         // 验证方法调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
@@ -112,11 +104,7 @@ class ProductManageServiceImplTest {
         when(bondProductRepository.findByProductId(productDTO.getProductCode())).thenReturn(existingProduct);
         
         // 执行测试
-        BaseData result = productManageService.registBondProduct(bondCode, productDTO);
-        
-        // 验证结果
-        assertFalse(result.isSuccess());
-        assertEquals("产品编码已存在", result.getReturnMsg());
+        productManageService.registBondProduct(bondCode, productDTO);
         
         // 验证方法调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
@@ -146,12 +134,9 @@ class ProductManageServiceImplTest {
         doThrow(new RuntimeException("数据库错误")).when(bondProductRepository).saveProduct(any(BondProduct.class));
         
         // 执行测试
-        BaseData result = productManageService.registBondProduct(bondCode, productDTO);
+        productManageService.registBondProduct(bondCode, productDTO);
         
-        // 验证结果
-        assertFalse(result.isSuccess());
-        assertEquals("产品录入失败：数据库错误", result.getReturnMsg());
-        
+  
         // 验证方法调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
         verify(bondProductRepository).findByProductId(productDTO.getProductCode());

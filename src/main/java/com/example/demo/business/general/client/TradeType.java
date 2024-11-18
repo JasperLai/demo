@@ -13,7 +13,7 @@ public enum TradeType {
     UNPLEDGE("009", "解押"),
     SET_SWITCH("103", "产品交易开关设置"),
     BOND_QUOTA_TRANSFER("104", "债券额度调拨"),
-    BOND_ENTER("105", "债券录入"),
+    PRODUCT_ENTER("105", "债券录入"),
     TRADER_ENTER("106", "交易商录入");
 
     private final String code;

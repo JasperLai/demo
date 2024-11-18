@@ -1,5 +1,6 @@
 package com.example.demo.business.product.app.dto.response;
 
+import com.example.demo.business.product.domain.entity.BondBusinessAuth;
 import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.valueObject.FDMProductCode;
 import com.example.demo.business.product.domain.valueObject.ProductCode;
@@ -123,8 +124,19 @@ public class BondProductDTO extends BaseData{
     public void setBondDTO(BondDTO bondDTO) {
         this.bondDTO = bondDTO;
     }
+
+    public String getBondCode() {
+        return bondDTO.getBondCode();
+    }
+
+    public int getBondAuth() {
+        return bondAuth;
+    }
+    public void setBondAuth(int bondAuth) {
+        this.bondAuth = bondAuth;
+    }
    
-    public static BondProductDTO fromEntity(BondProduct entity) {
+    public static BondProductDTO fromEntity(BondProduct entity, boolean withBondDetail) {
         if (entity == null) {
             return null;
         }
@@ -146,21 +158,18 @@ public class BondProductDTO extends BaseData{
         dto.setUpperLimitHolding(entity.getUpperLimitHolding());
         dto.setLowerLimitHolding(entity.getLowerLimitHolding());
         
-        // 如果需要转换Bond相关信息
-        if (entity.getBond() != null) {
-            BondDTO bondDTO = new BondDTO();
-            bondDTO.setBondCode(entity.getBond().getBondCode());
-            dto.setBondDTO(bondDTO);
-        }
-        
+        if (withBondDetail) {
+            dto.setBondDTO(BondDTO.fromEntity(entity.getBond()));   
+        }else{
+            if (entity.getBond() != null) {
+                BondDTO bondDTO = new BondDTO();
+                bondDTO.setBondCode(entity.getBond().getBondCode());
+                dto.setBondDTO(bondDTO);
+            }
+        }           
         return dto;
     }
-    public int getBondAuth() {
-        return bondAuth;
-    }
-    public void setBondAuth(int bondAuth) {
-        this.bondAuth = bondAuth;
-    }
+    
     public BondProduct toEntity() {
         BondProduct product = BondProduct.builder()
             .withSaleArea(this.saleArea)
@@ -191,13 +200,13 @@ public class BondProductDTO extends BaseData{
 
     public BondProduct toRegisterEntity() {
         BondProduct product = BondProduct.builder()
+            .withProductCode(this.getBondCode())
+            .withFDMCode(this.getBondCode())
             .withSaleArea(this.saleArea)
             .withSellableCustomerType(this.sellableCustomerType)
             .build();
             
         // 设置其他基本属性
-        product.setFDMCode(FDMProductCode.of(this.fdmProductCode));
-        product.setProductCode(ProductCode.of(this.productCode));
         product.setSellableCustomerRiskLevel(this.sellableCustomerRiskLevel);
         product.setPledgeableSign(this.pledgeableSign);
         product.setReissueFlag(this.reissueFlag);

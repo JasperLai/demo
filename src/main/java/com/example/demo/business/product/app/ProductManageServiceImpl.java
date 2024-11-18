@@ -4,11 +4,15 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.business.general.client.TMSInterface;
+import com.example.demo.business.general.client.TradeType;
+import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.BondRegistDTO;
 import com.example.demo.business.product.app.dto.request.ProductQueryDTO;
 import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
+import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.business.product.client.ProductManageService;
@@ -22,62 +26,61 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     @Autowired
     private BondProductRepository bondProductRepository;
-    
-        // 录入原始债券数据全量
-        @Override
-        public boolean enterOriginBond(BondRegistDTO vo) {
-            // 参数校验
-            if (vo == null) {
-                return false;
-            }
-    
-            try {
-                // TODO: 调用数据访问层将债券资料保存到数据库
-                // 1. 检查债券是否已存在
-                // 2. 如果存在则更新,不存在则新增
-                // 3. 更新相关联的表数据
-    
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
+
+    @Autowired
+    private TMSInterface transactionService;
+
+    // 录入原始债券数据全量
+    @Override
+    public boolean enterOriginBond(BondRegistDTO vo) {
+        // 参数校验
+        if (vo == null) {
+            return false;
         }
-    
-        @Override
-        public BaseData registBondProduct(String bondCode, BondProductDTO productDTO) {
-            BaseData result = new BaseData();
-            
-            try {
-                // 1. 检查债券代码是否存在
-                Bond bond = bondProductRepository.findBondByBondCode(bondCode);
-            if (bond == null) {
-                result.setSuccess(false);
-                result.setReturnMsg("债券代码不存在");
-                return result;
-            }
 
-            // 2. 检查产品编码是否已存在
-            BondProduct existingProduct = bondProductRepository.findByProductId(productDTO.getProductCode());
-            if (existingProduct != null) {
-                result.setSuccess(false);
-                result.setReturnMsg("产品编码已存在");
-                return result;
-            }
+        try {
+            // TODO: 调用数据访问层将债券资料保存到数据库
+            // 1. 检查债券是否已存在
+            // 2. 如果存在则更新,不存在则新增
+            // 3. 更新相关联的表数据
 
-            // 3. 转换并保存产品信息
-            BondProduct product = productDTO.toRegisterEntity();
-            product.setBond(bond);
-            bondProductRepository.saveProduct(product);
-
-            result.setSuccess(true);
-            result.setReturnMsg("产品录入成功");
-            
+            return true;
         } catch (Exception e) {
-            result.setSuccess(false);
-            result.setReturnMsg("产品录入失败：" + e.getMessage());
+            return false;
         }
-        
+    }
+
+    @Override
+    public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionVO trans) {
+        BaseData result = new BaseData();
+        String transID = transactionService.createTransaction(trans, TradeType.PRODUCT_ENTER);
+
+        registBondProduct(bondCode, productDTO);
+
+        transactionService.updateTransaction(transID, TransStatus.SUCCESS);
+        result.setSuccess(true);
+        result.setReturnMsg("债券产品录入成功");
         return result;
+    }
+
+    @Override
+    public void registBondProduct(String bondCode, BondProductDTO productDTO) {
+        // 1. 检查债券是否存在
+        BondDTO bondDTO = queryBondDetailWithCheck(bondCode);
+        // 2. 将债券信息转换为债券产品实体
+        BondProduct bondProduct = productDTO.toRegisterEntity();
+        // 3. 设置债券产品中的债券信息
+        bondProduct.setBond(bondDTO.toEntity());
+        // 4. 保存债券产品
+        bondProductRepository.saveProduct(bondProduct);
+    }
+
+    public BondDTO queryBondDetailWithCheck(String bondCode) {
+        Bond bond = bondProductRepository.findBondByBondCode(bondCode);
+        if (bond == null) {
+            throw new RuntimeException("债券代码不存在");
+        }
+        return BondDTO.fromEntity(bond);
     }
 
     @Override

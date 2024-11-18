@@ -17,7 +17,10 @@ public interface ProductManageService {
     /* bond product regist */
     public boolean enterOriginBond(BondRegistDTO vo); 
 
-    public BaseData registBondProduct(String bondCode,BondProductDTO productDTO);
+    public BaseData registBondProduct(String bondCode,BondProductDTO productDTO, TransactionVO trans);
+
+    public void registBondProduct(String bondCode,BondProductDTO productDTO);
+
 
     public BaseData updateBondProduct(BondRegistDTO vo);
 
