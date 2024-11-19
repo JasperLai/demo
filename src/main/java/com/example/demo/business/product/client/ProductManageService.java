@@ -22,7 +22,9 @@ public interface ProductManageService {
     public void registBondProduct(String bondCode,BondProductDTO productDTO);
 
 
-    public BaseData updateBondProduct(BondRegistDTO vo);
+    public BaseData updateBondProduct(BondProductDTO productDTO, TransactionVO trans);
+
+    public void updateBondProduct(BondProductDTO productDTO);
 
 
     /*switch manage */

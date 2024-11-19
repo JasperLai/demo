@@ -84,9 +84,24 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData updateBondProduct(BondRegistDTO vo) {
+    public BaseData updateBondProduct(BondProductDTO dto, TransactionVO trans) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateBondProduct'");
+    }
+
+    @Override
+    public void updateBondProduct(BondProductDTO dto) {
+        // 1. 检查并获取现有产品
+        BondProduct existingProduct = bondProductRepository.findByProductId(dto.getProductCode());
+        if (existingProduct == null) {
+            throw new RuntimeException("产品不存在: " + dto.getProductCode());
+        }
+
+        // 2. 更新产品信息
+        existingProduct.updateFromDTO(dto);
+
+        // 3. 保存更新后的产品
+        bondProductRepository.updateProduct(existingProduct);
     }
 
     @Override
