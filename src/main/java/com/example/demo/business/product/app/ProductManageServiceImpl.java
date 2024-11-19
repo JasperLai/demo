@@ -70,7 +70,7 @@ public class ProductManageServiceImpl implements ProductManageService {
         // 2. 将债券信息转换为债券产品实体
         BondProduct bondProduct = productDTO.toRegisterEntity();
         // 3. 设置债券产品中的债券信息
-        bondProduct.setBond(bondDTO.toEntity());
+        bondProduct.setBond(new Bond(bondDTO.getBondCode()));
         // 4. 保存债券产品
         bondProductRepository.saveProduct(bondProduct);
     }

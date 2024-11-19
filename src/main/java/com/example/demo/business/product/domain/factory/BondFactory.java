@@ -17,10 +17,9 @@ public class BondFactory {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     
     public static Bond createFrom(BondRegistDTO dto) {
-        Bond bond = new Bond();
+        Bond bond = new Bond(dto.getBondCode());
         
         // 基本字段转换
-        bond.setBondCode(dto.getBondCode());
         bond.setShortName(dto.getBondShortName());
         bond.setVariety(convertToBondVariety(dto.getBondNature()));
         bond.setBondTerm(Integer.parseInt(dto.getBondTerm()));

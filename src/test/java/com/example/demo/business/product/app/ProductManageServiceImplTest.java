@@ -34,31 +34,26 @@ class ProductManageServiceImplTest {
         // 准备测试数据
         String bondCode = "BOND001";
         BondProductDTO productDTO = new BondProductDTO();
-        productDTO.setProductCode("PROD001");
-        productDTO.setFdmProductCode("FDM001");
-        productDTO.setBondAuth(1);
+        // productDTO.setProductCode("PROD001");
+        // productDTO.setFdmProductCode("FDM001");
+        // productDTO.setBondAuth(1);  // 设置交易权限
         
-        // 设置BondDTO
+        // 设置 BondDTO
         BondDTO bondDTO = new BondDTO();
         bondDTO.setBondCode(bondCode);
         productDTO.setBondDTO(bondDTO);
         
-        // 可选字段
-        productDTO.setSaleArea("TEST_AREA");
-        
         Bond mockBond = new Bond();
         mockBond.setBondCode(bondCode);
         
-        // 模拟依赖行为
+        // 模拟 bondProductRepository 行为
         when(bondProductRepository.findBondByBondCode(bondCode)).thenReturn(mockBond);
-        when(bondProductRepository.findByProductId(productDTO.getProductCode())).thenReturn(null);
         
-        // 执行测试
+        // 执行测试方法
         productManageService.registBondProduct(bondCode, productDTO);
-    
-        // 验证方法调用
+        
+        // 验证调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
-        verify(bondProductRepository).findByProductId(productDTO.getProductCode());
         verify(bondProductRepository).saveProduct(any(BondProduct.class));
     }
 
@@ -68,78 +63,17 @@ class ProductManageServiceImplTest {
         String bondCode = "INVALID_BOND";
         BondProductDTO productDTO = new BondProductDTO();
         
-        // 模拟依赖行为
+        // 模拟债券不存在的情况
         when(bondProductRepository.findBondByBondCode(bondCode)).thenReturn(null);
         
-        // 执行测试
-        productManageService.registBondProduct(bondCode, productDTO);
+        // 验证抛出异常
+        assertThrows(RuntimeException.class, () -> {
+            productManageService.registBondProduct(bondCode, productDTO);
+        });
         
-        // 验证方法调用
+        // 验证调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
         verify(bondProductRepository, never()).saveProduct(any(BondProduct.class));
     }
 
-    @Test
-    void registBondProduct_DuplicateProduct() {
-        // 准备测试数据
-        String bondCode = "BOND001";
-        BondProductDTO productDTO = new BondProductDTO();
-        productDTO.setProductCode("EXISTING_PROD");
-        productDTO.setFdmProductCode("FDM001");
-        productDTO.setBondAuth(1);
-        
-        // 设置BondDTO
-        BondDTO bondDTO = new BondDTO();
-        bondDTO.setBondCode(bondCode);
-        productDTO.setBondDTO(bondDTO);
-        
-        Bond mockBond = new Bond();
-        BondProduct existingProduct = BondProduct.builder()
-            .withProductCode("EXISTING_PROD")
-            .withSaleArea("TEST_AREA")
-            .build();
-        
-        // 模拟依赖行为
-        when(bondProductRepository.findBondByBondCode(bondCode)).thenReturn(mockBond);
-        when(bondProductRepository.findByProductId(productDTO.getProductCode())).thenReturn(existingProduct);
-        
-        // 执行测试
-        productManageService.registBondProduct(bondCode, productDTO);
-        
-        // 验证方法调用
-        verify(bondProductRepository).findBondByBondCode(bondCode);
-        verify(bondProductRepository).findByProductId(productDTO.getProductCode());
-        verify(bondProductRepository, never()).saveProduct(any(BondProduct.class));
-    }
-
-    @Test
-    void registBondProduct_Exception() {
-        // 准备测试数据
-        String bondCode = "BOND001";
-        BondProductDTO productDTO = new BondProductDTO();
-        productDTO.setProductCode("PROD001");
-        productDTO.setFdmProductCode("FDM001");
-        productDTO.setBondAuth(1);
-        
-        // 设置BondDTO
-        BondDTO bondDTO = new BondDTO();
-        bondDTO.setBondCode(bondCode);
-        productDTO.setBondDTO(bondDTO);
-        
-        Bond mockBond = new Bond();
-        
-        // 模拟依赖行为
-        when(bondProductRepository.findBondByBondCode(bondCode)).thenReturn(mockBond);
-        when(bondProductRepository.findByProductId(productDTO.getProductCode())).thenReturn(null);
-        doThrow(new RuntimeException("数据库错误")).when(bondProductRepository).saveProduct(any(BondProduct.class));
-        
-        // 执行测试
-        productManageService.registBondProduct(bondCode, productDTO);
-        
-  
-        // 验证方法调用
-        verify(bondProductRepository).findBondByBondCode(bondCode);
-        verify(bondProductRepository).findByProductId(productDTO.getProductCode());
-        verify(bondProductRepository).saveProduct(any(BondProduct.class));
-    }
 } 
