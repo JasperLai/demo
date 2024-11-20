@@ -1,8 +1,8 @@
-package com.example.demo.business.product.app.dto.request;
+package com.example.demo.business.product.adapter.request;
 
 import org.springframework.lang.NonNull;
 
-public class BondRegistDTO {
+public class BondRegistRequest {
 
     // 业务日期 格式：YYYY-MM-DD
     @NonNull
@@ -72,7 +72,7 @@ public class BondRegistDTO {
     @NonNull
     private String maturityDate;
 
-        // 债券状态 00-正常 01-到期兑付
+    // 债券状态 00-正常 01-到期兑付
     @NonNull
     private String bondStatus;
 

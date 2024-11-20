@@ -8,7 +8,7 @@ import com.example.demo.business.general.client.TMSInterface;
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.client.TransactionVO;
-import com.example.demo.business.product.app.dto.request.BondRegistDTO;
+import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryDTO;
 import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
@@ -32,7 +32,7 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     // 录入原始债券数据全量
     @Override
-    public boolean enterOriginBond(BondRegistDTO vo) {
+    public boolean enterOriginBond(BondRegistRequest vo) {
         // 参数校验
         if (vo == null) {
             return false;
@@ -84,7 +84,7 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData updateBondProduct(BondRegistDTO vo) {
+    public BaseData updateBondProduct(BondRegistRequest vo) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateBondProduct'");
     }
