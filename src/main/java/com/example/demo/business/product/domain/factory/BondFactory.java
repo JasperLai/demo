@@ -16,6 +16,43 @@ public class BondFactory {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+    public static Bond createFrom(BondRegistDTO dto) {
+        Bond bond = new Bond(dto.getBondCode());
+
+        // 基本字段转换
+        bond.setShortName(dto.getBondShortName());
+        bond.setVariety(convertToBondVariety(dto.getBondNature()));
+        bond.setBondTerm(Integer.parseInt(dto.getBondTerm()));
+        bond.setBondTermUnit(BondTermUnit.convertToTargetCode(dto.getBondTermUnit()));
+        bond.setCoupon(dto.getCouponRate() != null ? new BigDecimal(dto.getCouponRate()) : null);
+        bond.setCurrency(dto.getDenominatedCurrency());
+        bond.setIssuePrice(new BigDecimal(dto.getBondIssuePrice()));
+
+        // 日期字段转换
+        bond.setMatureDate(parseDate(dto.getMaturityDate()));
+        bond.setIssueEndDate(parseDate(dto.getDistributionEndDate()));
+        bond.setListingDate(parseDate(dto.getListingDate()));
+        bond.setAccrualDate(parseDate(dto.getInterestStartDate()));
+        bond.setIssueDate(parseDate(dto.getIssueStartDate()));
+        bond.setBusinessDate(parseDate(dto.getBusinessDate()));
+        bond.setBondRegistrationDate(parseDate(dto.getBondRegistrationDate()));
+        bond.setPrincipalValueEffectiveDate(parseDate(dto.getPrincipalValueEffectiveDate()));
+        bond.setFirstInterestPaymentDate(parseDate(dto.getFirstInterestPaymentDate()));
+        bond.setInterestPaymentDate(parseDate(dto.getInterestPaymentDate()));
+
+        // 计息相关设置
+        bond.setAccrualBase(AccrualBase.ACT365); // 默认使用 ACT365
+        bond.setAccrualMethod(convertToAccrualMethod(dto.getInterestCalculationMethod()));
+
+        // 其他字段转换
+        bond.setBondStatus(dto.getBondStatus());
+        bond.setAddTimes(dto.getAddTimes() != null ? Integer.parseInt(dto.getAddTimes()) : 0);
+        bond.setBondPauseStatus(dto.getBondPauseStatus());
+        bond.setInterestPaymentCycle(dto.getInterestPaymentCycle());
+
+        return bond;
+    }
+
     /**
      * 转换债券品种
      * TODO 需要添加债券品种的映射转换逻辑

@@ -23,6 +23,10 @@ public interface ProductManageService {
 
     public BaseData updateBondProduct(BondRegistRequest vo);
 
+    public BaseData updateBondProduct(BondProductDTO productDTO, TransactionVO trans);
+
+    public void updateBondProduct(BondProductDTO productDTO);
+
     /* switch manage */
     public BaseData setProductSwitch(TradeSwitchDTO vo, TransactionVO trans);
 

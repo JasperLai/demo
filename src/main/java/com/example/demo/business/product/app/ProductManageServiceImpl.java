@@ -70,7 +70,7 @@ public class ProductManageServiceImpl implements ProductManageService {
         // 2. 将债券信息转换为债券产品实体
         BondProduct bondProduct = productDTO.toRegisterEntity();
         // 3. 设置债券产品中的债券信息
-        bondProduct.setBond(bondDTO.toEntity());
+        bondProduct.setBond(new Bond(bondDTO.getBondCode()));
         // 4. 保存债券产品
         bondProductRepository.saveProduct(bondProduct);
     }
@@ -84,9 +84,24 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData updateBondProduct(BondRegistRequest vo) {
+    public BaseData updateBondProduct(BondProductDTO dto, TransactionVO trans) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateBondProduct'");
+    }
+
+    @Override
+    public void updateBondProduct(BondProductDTO dto) {
+        // 1. 检查并获取现有产品
+        BondProduct existingProduct = bondProductRepository.findByProductId(dto.getProductCode());
+        if (existingProduct == null) {
+            throw new RuntimeException("产品不存在: " + dto.getProductCode());
+        }
+
+        // 2. 更新产品信息
+        existingProduct.updateFromDTO(dto);
+
+        // 3. 保存更新后的产品
+        bondProductRepository.updateProduct(existingProduct);
     }
 
     @Override

@@ -314,7 +314,9 @@ public class BondDTO extends BaseData {
         BondDTO dto = new BondDTO();
         dto.setBondCode(bond.getBondCode());
         dto.setShortName(bond.getShortName());
-        dto.setBondVariety(bond.getVariety().getCode());
+        if(bond.getVariety() != null) {
+            dto.setBondVariety(bond.getVariety().getCode());
+        }
         dto.setBondTerm(bond.getBondTerm());
         dto.setCoupon(bond.getCoupon());
         dto.setCurrency(bond.getCurrency());
@@ -325,8 +327,12 @@ public class BondDTO extends BaseData {
         dto.setListingDate(bond.getListingDate());
         dto.setAccrualDate(bond.getAccrualDate());
         dto.setIssueDate(bond.getIssueDate());
-        dto.setAccrualBase(bond.getAccrualBase().getCode());
-        dto.setAccrualMethod(bond.getAccrualMethod().getCode());
+        if(bond.getAccrualBase() != null) {
+            dto.setAccrualBase(bond.getAccrualBase().getCode());
+        }
+        if(bond.getAccrualMethod() != null) {
+            dto.setAccrualMethod(bond.getAccrualMethod().getCode());
+        }
         dto.setParValue(bond.getParValue());
         dto.setCustodyOrg(bond.getCustodyOrg() != null ? bond.getCustodyOrg().getDisplayName() : null);
         dto.setBusinessDate(bond.getBusinessDate());

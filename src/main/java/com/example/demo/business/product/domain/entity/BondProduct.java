@@ -1,5 +1,6 @@
 package com.example.demo.business.product.domain.entity;
 
+import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 import com.example.demo.business.product.domain.valueObject.FDMProductCode;
 import com.example.demo.business.product.domain.valueObject.ProductCode;
@@ -223,6 +224,45 @@ public class BondProduct {
      */
     public boolean isReissue(){
         return true;
+    }
+
+    public void updateFromDTO(BondProductDTO dto) {
+        if (dto.getSaleArea() != null) {
+            this.saleArea = dto.getSaleArea();
+        }
+        if (dto.getSellableCustomerType() != null) {
+            this.sellableCustomerType = dto.getSellableCustomerType();
+        }
+        if (dto.getSellableCustomerRiskLevel() != null) {
+            this.sellableCustomerRiskLevel = dto.getSellableCustomerRiskLevel();
+        }
+        if (dto.getPledgeableSign() != null) {
+            this.pledgeableSign = dto.getPledgeableSign();
+        }
+        if (dto.getReissueFlag() != null) {
+            this.reissueFlag = dto.getReissueFlag();
+        }
+        if (dto.getReissueIncomeRate() != null) {
+            this.reissueIncomeRate = dto.getReissueIncomeRate();
+        }
+        if (dto.getRecommendFlag() != null) {
+            this.recommendFlag = dto.getRecommendFlag();
+        }
+        if (dto.getQuotaMode() != null) {
+            this.quotaMode = dto.getQuotaMode();
+        }
+        if (dto.getBidSpread() != null) {
+            this.bidSpread = dto.getBidSpread();
+        }
+        if (dto.getAskSpread() != null) {
+            this.askSpread = dto.getAskSpread();
+        }
+        if (dto.getUpperLimitHolding() != null) {
+            this.upperLimitHolding = dto.getUpperLimitHolding();
+        }
+        if (dto.getLowerLimitHolding() != null) {
+            this.lowerLimitHolding = dto.getLowerLimitHolding();
+        }
     }
 
 }

@@ -1,6 +1,4 @@
 package com.example.demo.business.product.app.dto.response;
-
-import com.example.demo.business.product.domain.entity.BondBusinessAuth;
 import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.valueObject.FDMProductCode;
 import com.example.demo.business.product.domain.valueObject.ProductCode;
@@ -171,7 +169,9 @@ public class BondProductDTO extends BaseData {
         BondProductDTO dto = new BondProductDTO();
         dto.setProductCode(entity.getProductCode());
         dto.setFdmProductCode(entity.getFDMCode());
-        dto.setBondAuth(entity.getAuthority().getPermissions());
+        if(entity.getAuthority() != null) {
+            dto.setBondAuth(entity.getAuthority().getPermissions());
+        }
         dto.setSaleArea(entity.getSaleArea());
         dto.setSellableCustomerType(entity.getSellableCustomerType());
         dto.setSellableCustomerRiskLevel(entity.getSellableCustomerRiskLevel());

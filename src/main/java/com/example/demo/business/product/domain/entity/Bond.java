@@ -186,6 +186,14 @@ public class Bond {
      */
     private Date cutoffTransferDate;
 
+    
+    public Bond() {
+    }
+
+    public Bond(String bondCode) {
+        this.bondCode = bondCode;
+    }
+
     public String getBondCode() {
         return this.bondCode;
     }
