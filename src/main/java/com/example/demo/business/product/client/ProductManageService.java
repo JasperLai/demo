@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryVO;
-import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
@@ -20,8 +19,6 @@ public interface ProductManageService {
     public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionVO trans);
 
     public void registBondProduct(String bondCode, BondProductDTO productDTO);
-
-    public BaseData updateBondProduct(BondRegistRequest vo);
 
     public BaseData updateBondProduct(BondProductDTO productDTO, TransactionVO trans);
 

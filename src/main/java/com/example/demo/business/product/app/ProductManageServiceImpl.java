@@ -10,7 +10,6 @@ import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryVO;
-import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
@@ -174,12 +173,6 @@ public class ProductManageServiceImpl implements ProductManageService {
     public void validateSaleArea(String productId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'validateSaleArea'");
-    }
-
-    @Override
-    public BaseData updateBondProduct(BondRegistRequest vo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateBondProduct'");
     }
 
 }
