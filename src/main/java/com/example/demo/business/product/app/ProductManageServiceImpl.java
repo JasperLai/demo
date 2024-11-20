@@ -92,9 +92,9 @@ public class ProductManageServiceImpl implements ProductManageService {
     @Override
     public void updateBondProduct(BondProductDTO dto) {
         // 1. 检查并获取现有产品
-        BondProduct existingProduct = bondProductRepository.findByProductId(dto.getProductCode());
+        BondProduct existingProduct = bondProductRepository.findByProductId(dto.getProductId());
         if (existingProduct == null) {
-            throw new RuntimeException("产品不存在: " + dto.getProductCode());
+            throw new RuntimeException("产品不存在: " + dto.getProductId());
         }
 
         // 2. 更新产品信息

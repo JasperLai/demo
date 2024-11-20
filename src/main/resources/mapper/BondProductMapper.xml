@@ -21,7 +21,7 @@
             UP_LIMIT_HOLDING,
             DOWN_LIMIT_HOLDING
         ) VALUES (
-            #{productCode},
+            #{productId},
             #{fdmProductCode},
             #{bondDTO.bondCode},
             #{bondAuth},
@@ -58,12 +58,12 @@
             ASK_SPREAD = #{askSpread},
             UP_LIMIT_HOLDING = #{upperLimitHolding},
             DOWN_LIMIT_HOLDING = #{lowerLimitHolding}
-        WHERE PRODUCT_ID = #{productCode}
+        WHERE PRODUCT_ID = #{productId}
     </update>
     
     <select id="selectById" resultType="com.example.demo.business.product.app.dto.response.BondProductDTO">
         SELECT 
-            bp.PRODUCT_ID as productCode,
+            bp.PRODUCT_ID as productId,
             bp.FDM_PRODUCT_CODE as fdmProductCode,
             bp.BOND_CODE as "bondDTO.bondCode",
             bp.BOND_AUTH as bondAuth,
@@ -114,7 +114,7 @@
 
     <select id="selectAll" resultType="com.example.demo.business.product.app.dto.response.BondProductDTO">
         SELECT 
-        bp.PRODUCT_ID as productCode,
+        bp.PRODUCT_ID as productId,
         bp.FDM_PRODUCT_CODE as fdmProductCode,
         bp.BOND_CODE as "bondDTO.bondCode",
         bp.BOND_AUTH as bondAuth,

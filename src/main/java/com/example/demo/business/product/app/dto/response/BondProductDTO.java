@@ -3,7 +3,7 @@ package com.example.demo.business.product.app.dto.response;
 import com.example.demo.business.product.domain.entity.BondBusinessAuth;
 import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.valueObject.FDMProductCode;
-import com.example.demo.business.product.domain.valueObject.ProductCode;
+import com.example.demo.business.product.domain.valueObject.ProductId;
 import com.example.demo.common.exception.data.BaseData;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class BondProductDTO extends BaseData {
     // BondProduct 相关字段
     @NotNull
-    private String productCode; // 产品编码
+    private String productId; // 产品编码
     @NotNull
     private String fdmProductCode; // FDM产品编码
     @NotNull
@@ -31,12 +31,12 @@ public class BondProductDTO extends BaseData {
     private Long upperLimitHolding; // 银行持有上限
     private Long lowerLimitHolding; // 银行持有下限
 
-    public String getProductCode() {
-        return productCode;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setProductId(String productCode) {
+        this.productId = productCode;
     }
 
     public String getFdmProductCode() {
@@ -169,7 +169,7 @@ public class BondProductDTO extends BaseData {
         }
 
         BondProductDTO dto = new BondProductDTO();
-        dto.setProductCode(entity.getProductCode());
+        dto.setProductId(entity.getProductCode());
         dto.setFdmProductCode(entity.getFDMCode());
         if (entity.getAuthority() != null) {
             dto.setBondAuth(entity.getAuthority().getPermissions());
@@ -207,7 +207,7 @@ public class BondProductDTO extends BaseData {
 
         // 设置其他基本属性
         product.setFDMCode(FDMProductCode.of(this.fdmProductCode));
-        product.setProductCode(ProductCode.of(this.productCode));
+        product.setProductCode(ProductId.of(this.productId));
         product.setAuthority(new BondBusinessAuth(this.bondAuth));
         product.setSellableCustomerRiskLevel(this.sellableCustomerRiskLevel);
         product.setPledgeableSign(this.pledgeableSign);

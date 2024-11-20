@@ -3,27 +3,26 @@ package com.example.demo.business.product.domain.entity;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 import com.example.demo.business.product.domain.valueObject.FDMProductCode;
-import com.example.demo.business.product.domain.valueObject.ProductCode;
+import com.example.demo.business.product.domain.valueObject.ProductId;
 import java.math.BigDecimal;
 
 public class BondProduct {
-    private ProductCode productCode;              // 产品编码152029+序号
-    private FDMProductCode FDMCode;               // 账务核算产品代码
-    private Bond bond;                            // 债券
-    private BondBusinessAuth authority;           // 业务权限
-    private String saleArea;                      // 销售区域
-    private String sellableCustomerType;          // 可售客户类别
-    private String sellableCustomerRiskLevel;     // 可售客户风险等级
-    private String pledgeableSign;            // 可质押标志
-    private String reissueFlag;               // 续发行标志
-    private BigDecimal reissueIncomeRate;     // 续发行到期收益率
-    private String recommendFlag;             // 推荐标志
-    private String quotaMode;                 // 报价模式 手动自动
-    private String bidSpread;                 // 买价点差
-    private String askSpread;                 // 卖价点差
-    private Long upperLimitHolding = Long.MAX_VALUE;  // 银行持有上限
-    private Long lowerLimitHolding = 0L;              // 银行持有下限
-    
+    private ProductId productCode; // 产品编码152029+序号
+    private FDMProductCode FDMCode; // 账务核算产品代码
+    private Bond bond; // 债券
+    private BondBusinessAuth authority; // 业务权限
+    private String saleArea; // 销售区域
+    private String sellableCustomerType; // 可售客户类别
+    private String sellableCustomerRiskLevel; // 可售客户风险等级
+    private String pledgeableSign; // 可质押标志
+    private String reissueFlag; // 续发行标志
+    private BigDecimal reissueIncomeRate; // 续发行到期收益率
+    private String recommendFlag; // 推荐标志
+    private String quotaMode; // 报价模式 手动自动
+    private String bidSpread; // 买价点差
+    private String askSpread; // 卖价点差
+    private Long upperLimitHolding = Long.MAX_VALUE; // 银行持有上限
+    private Long lowerLimitHolding = 0L; // 银行持有下限
 
     private BondProduct() {
     }
@@ -41,7 +40,7 @@ public class BondProduct {
         }
 
         public Builder withProductCode(String bondCode) {
-            product.setProductCode(ProductCode.create(bondCode));
+            product.setProductCode(ProductId.create(bondCode));
             return this;
         }
 
@@ -75,7 +74,7 @@ public class BondProduct {
         }
     }
 
-    public void setProductCode(ProductCode productCode) {
+    public void setProductCode(ProductId productCode) {
         this.productCode = productCode;
     }
 
@@ -187,18 +186,16 @@ public class BondProduct {
         return this.productCode.getCode();
     }
 
-
     public String getFDMCode() {
         return this.FDMCode.getCode();
     }
-
 
     public Bond getBond() {
         return this.bond;
     }
 
     // public void setBond(Bond bond) {
-    //     this.bond = bond;
+    // this.bond = bond;
     // }
 
     public BondBusinessAuth getAuthority() {
@@ -212,17 +209,19 @@ public class BondProduct {
     /**
      * 获取产品生命周期，发行前，发行中，上市流通期
      * TODO 根据 bond 的日期参数，和当前日期，判断生命周期
+     * 
      * @return
      */
-    public BondLifeCycle getLifeCycle(){
+    public BondLifeCycle getLifeCycle() {
         return null;
     }
 
     /**
-     *  TODO 根据产品编码判断是否续发行
+     * TODO 根据产品编码判断是否续发行
+     * 
      * @return
      */
-    public boolean isReissue(){
+    public boolean isReissue() {
         return true;
     }
 
