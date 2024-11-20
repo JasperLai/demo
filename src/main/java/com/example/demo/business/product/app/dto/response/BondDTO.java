@@ -10,36 +10,37 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class BondDTO extends BaseData {
-    private String bondCode;                 // 债券代码
-    private String shortName;                // 债券简称
-    private String bondVariety;              // 债券品种
-    private Integer bondTerm;                // 债券期限
-    private BigDecimal coupon;               // 票面利率
-    private String currency;                 // 币种
-    private BigDecimal issuePrice;           // 发行价格
+    private String bondCode; // 债券代码
+    private String shortName; // 债券简称
+    private String bondVariety; // 债券品种
+    private Integer bondTerm; // 债券期限
+    private BigDecimal coupon; // 票面利率
+    private String currency; // 币种
+    private BigDecimal issuePrice; // 发行价格
     private Integer transferPauseDayBeforeCash; // 付息兑付日转托管业务停止天数
-    private Date matureDate;                 // 到期日
-    private Date issueEndDate;               // 发行结束日
-    private Date listingDate;                // 上市流通日
-    private Date accrualDate;                // 起息日
-    private Date issueDate;                  // 发行日
-    private Integer accrualBase;             // 计息基础
-    private String accrualMethod;            // 计息方式
-    private Integer parValue;                // 面值
-    private String custodyOrg;               // 托管机构
-    private Date businessDate;               // 业务日期
-    private String bondStatus;               // 债券状态
-    private Integer addTimes;                // 追加次数
-    private String bondPauseStatus;          // 债券暂停状态
-    private Date bondRegistrationDate;       // 债权登记日
+    private Date matureDate; // 到期日
+    private Date issueEndDate; // 发行结束日
+    private Date listingDate; // 上市流通日
+    private Date accrualDate; // 起息日
+    private Date issueDate; // 发行日
+    private Integer accrualBase; // 计息基础
+    private String accrualMethod; // 计息方式
+    private Integer parValue; // 面值
+    private String custodyOrg; // 托管机构
+    private Date businessDate; // 业务日期
+    private String bondStatus; // 债券状态
+    private Integer addTimes; // 追加次数
+    private String bondPauseStatus; // 债券暂停状态
+    private Date bondRegistrationDate; // 债权登记日
+    private BigDecimal currentPrincipalValue; // 当前本金值
     private Date principalValueEffectiveDate;// 本金值生效日
-    private Date firstInterestPaymentDate;   // 第一次付息日
-    private String interestPaymentCycle;     // 付息周期
-    private Date interestPaymentDate;        // 本计息期付息日
-    private String bondTermUnit;             // 债券期限单位
-    private Date distStartDate;              // 分销开始日
-    private Date cutoffTransferDate;         // 截止过户日
-    
+    private Date firstInterestPaymentDate; // 第一次付息日
+    private String interestPaymentCycle; // 付息周期
+    private Date interestPaymentDate; // 本计息期付息日
+    private String bondTermUnit; // 债券期限单位
+    private Date distStartDate; // 分销开始日
+    private Date cutoffTransferDate; // 截止过户日
+
     public Bond toEntity() {
         Bond bond = new Bond();
         bond.setBondCode(this.bondCode);
@@ -58,6 +59,7 @@ public class BondDTO extends BaseData {
         bond.setAccrualBase(AccrualBase.fromCode(this.accrualBase));
         bond.setAccrualMethod(AccrualMethod.fromCode(this.accrualMethod));
         bond.setParValue(this.parValue);
+        bond.setCurrentPrincipalValue(this.currentPrincipalValue);
         bond.setCustodyOrg(CustodyOrg.fromCode(this.custodyOrg));
         bond.setBusinessDate(this.businessDate);
         bond.setBondStatus(this.bondStatus);
@@ -314,7 +316,7 @@ public class BondDTO extends BaseData {
         BondDTO dto = new BondDTO();
         dto.setBondCode(bond.getBondCode());
         dto.setShortName(bond.getShortName());
-        if(bond.getVariety() != null) {
+        if (bond.getVariety() != null) {
             dto.setBondVariety(bond.getVariety().getCode());
         }
         dto.setBondTerm(bond.getBondTerm());
@@ -327,10 +329,10 @@ public class BondDTO extends BaseData {
         dto.setListingDate(bond.getListingDate());
         dto.setAccrualDate(bond.getAccrualDate());
         dto.setIssueDate(bond.getIssueDate());
-        if(bond.getAccrualBase() != null) {
+        if (bond.getAccrualBase() != null) {
             dto.setAccrualBase(bond.getAccrualBase().getCode());
         }
-        if(bond.getAccrualMethod() != null) {
+        if (bond.getAccrualMethod() != null) {
             dto.setAccrualMethod(bond.getAccrualMethod().getCode());
         }
         dto.setParValue(bond.getParValue());
@@ -349,4 +351,12 @@ public class BondDTO extends BaseData {
         dto.setCutoffTransferDate(bond.getCutoffTransferDate());
         return dto;
     }
-} 
+
+    public BigDecimal getCurrentPrincipalValue() {
+        return currentPrincipalValue;
+    }
+
+    public void setCurrentPrincipalValue(BigDecimal currentPrincipalValue) {
+        this.currentPrincipalValue = currentPrincipalValue;
+    }
+}

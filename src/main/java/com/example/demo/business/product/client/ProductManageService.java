@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
-import com.example.demo.business.product.app.dto.request.ProductQueryDTO;
+import com.example.demo.business.product.app.dto.request.ProductQueryVO;
 import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
@@ -39,15 +39,13 @@ public interface ProductManageService {
     public BaseData queryProductSwitch(String productID);
 
     /* PRODUCT QUERYING */
-    public ListData<BondProductDTO> queryProductList(ProductQueryDTO vo);
+    public ListData<BondProductDTO> queryProductList(ProductQueryVO vo);
 
     public BondProductDTO queryProductDetail(String productID);
 
     /* recommend setting */
 
     public void setRecommendBond(String productID, boolean isRecmd);
-
-    public ListData<BondProductDTO> queryRecommendBondList(RecommendBondQueryDTO vo);
 
     public QuotaDTO getCurrentQuotation(String productID);
 

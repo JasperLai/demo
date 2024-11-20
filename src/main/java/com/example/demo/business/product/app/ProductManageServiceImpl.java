@@ -9,7 +9,7 @@ import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
-import com.example.demo.business.product.app.dto.request.ProductQueryDTO;
+import com.example.demo.business.product.app.dto.request.ProductQueryVO;
 import com.example.demo.business.product.app.dto.request.RecommendBondQueryDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondDTO;
@@ -135,7 +135,7 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public ListData<BondProductDTO> queryProductList(ProductQueryDTO vo) {
+    public ListData<BondProductDTO> queryProductList(ProductQueryVO vo) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'queryProductList'");
     }
@@ -150,12 +150,6 @@ public class ProductManageServiceImpl implements ProductManageService {
     public void setRecommendBond(String productID, boolean isRecmd) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setRecommendBond'");
-    }
-
-    @Override
-    public ListData<BondProductDTO> queryRecommendBondList(RecommendBondQueryDTO vo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'queryRecommendBondList'");
     }
 
     @Override

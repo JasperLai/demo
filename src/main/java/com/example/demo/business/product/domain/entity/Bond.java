@@ -66,7 +66,7 @@ public class Bond {
     private Date matureDate;
 
     /**
-     * 发行结束日
+     * 分销结束日
      * 对应 BondRegistDTO.distributionEndDate
      */
     private Date issueEndDate;
@@ -107,6 +107,12 @@ public class Bond {
      * 对应 BondRegistDTO.currentPrincipalValue
      */
     private Integer parValue;
+
+    /**
+     * 当前本金值
+     * 对应 BondRegistDTO.currentPrincipalValue
+     */
+    private BigDecimal currentPrincipalValue;
 
     /**
      * 托管机构
@@ -186,7 +192,6 @@ public class Bond {
      */
     private Date cutoffTransferDate;
 
-    
     public Bond() {
     }
 
@@ -431,32 +436,40 @@ public class Bond {
 
     /**
      * TODO 获取下一付息日
+     * 
      * @return
      */
-    public Date getNextDayForPayingInterest(){
+    public Date getNextDayForPayingInterest() {
         return null;
     }
 
     /**
      * TODO 计算当前付息周期的应计利息（以面额为单位）
+     * 
      * @return 2 位小叔
      */
-    public BigDecimal calculateCurrentInt(){
+    public BigDecimal calculateCurrentInt() {
         return null;
     }
 
     /**
-     *  TODO 判断当天是否可以进行转托管交易
+     * TODO 判断当天是否可以进行转托管交易
      */
-     public boolean canTransferToday(){
+    public boolean canTransferToday() {
         return false;
     }
 
-    public Integer getBondTermByUnit(){
+    public Integer getBondTermByUnit() {
 
         return 0;
     }
 
-}
+    public BigDecimal getCurrentPrincipalValue() {
+        return currentPrincipalValue;
+    }
 
-   
+    public void setCurrentPrincipalValue(BigDecimal currentPrincipalValue) {
+        this.currentPrincipalValue = currentPrincipalValue;
+    }
+
+}
