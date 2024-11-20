@@ -149,8 +149,9 @@
         b.CUSTODY_ORG as "bondDTO.custodyOrg",
         b.BOND_STATUS as "bondDTO.bondStatus",
         b.APPEND_NUM as "bondDTO.addTimes",
+        b.CURR_PRINCIPAL_VAL as "bondDTO.currentPrincipalValue",
         b.BOND_SUSPEND_STATUS as "bondDTO.bondPauseStatus",
-        b.CLAIM_DEST_RGST_DT as "bondDTO.bondRegistrationDate",
+        b.CLAIM_DEBT_RGST_DT as "bondDTO.bondRegistrationDate",
         b.PRINCIPAL_VAL_EFFECT_DT as "bondDTO.principalValueEffectiveDate",
         b.FIRST_INT_PAY_DT as "bondDTO.firstInterestPaymentDate",
         b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
@@ -184,7 +185,7 @@
             BOND_STATUS,
             APPEND_NUM,
             BOND_SUSPEND_STATUS,
-            CLAIM_DEST_RGST_DT,
+            CLAIM_DEBT_RGST_DT,
             PRINCIPAL_VAL_EFFECT_DT,
             FIRST_INT_PAY_DT,
             INT_PAY_FREQ_MONTH,
@@ -241,7 +242,7 @@
             BOND_STATUS = VALUES(BOND_STATUS),
             APPEND_NUM = VALUES(APPEND_NUM),
             BOND_SUSPEND_STATUS = VALUES(BOND_SUSPEND_STATUS),
-            CLAIM_DEST_RGST_DT = VALUES(CLAIM_DEST_RGST_DT),
+            CLAIM_DEBT_RGST_DT = VALUES(CLAIM_DEST_RGST_DT),
             PRINCIPAL_VAL_EFFECT_DT = VALUES(PRINCIPAL_VAL_EFFECT_DT),
             FIRST_INT_PAY_DT = VALUES(FIRST_INT_PAY_DT),
             INT_PAY_FREQ_MONTH = VALUES(INT_PAY_FREQ_MONTH),
@@ -273,7 +274,7 @@
             BOND_STATUS = #{bondStatus},
             APPEND_NUM = #{addTimes},
             BOND_SUSPEND_STATUS = #{bondPauseStatus},
-            CLAIM_DEST_RGST_DT = #{bondRegistrationDate},
+            CLAIM_DEBT_RGST_DT = #{bondRegistrationDate},
             PRINCIPAL_VAL_EFFECT_DT = #{principalValueEffectiveDate},
             FIRST_INT_PAY_DT = #{firstInterestPaymentDate},
             INT_PAY_FREQ_MONTH = #{interestPaymentCycle},
@@ -306,7 +307,7 @@
             BOND_STATUS as bondStatus,
             APPEND_NUM as addTimes,
             BOND_SUSPEND_STATUS as bondPauseStatus,
-            CLAIM_DEST_RGST_DT as bondRegistrationDate,
+            CLAIM_DEBT_RGST_DT as bondRegistrationDate,
             PRINCIPAL_VAL_EFFECT_DT as principalValueEffectiveDate,
             FIRST_INT_PAY_DT as firstInterestPaymentDate,
             INT_PAY_FREQ_MONTH as interestPaymentCycle,
@@ -340,7 +341,7 @@
             BOND_STATUS as bondStatus,
             APPEND_NUM as addTimes,
             BOND_SUSPEND_STATUS as bondPauseStatus,
-            CLAIM_DEST_RGST_DT as bondRegistrationDate,
+            CLAIM_DEBT_RGST_DT as bondRegistrationDate,
             PRINCIPAL_VAL_EFFECT_DT as principalValueEffectiveDate,
             FIRST_INT_PAY_DT as firstInterestPaymentDate,
             INT_PAY_FREQ_MONTH as interestPaymentCycle,
@@ -348,6 +349,73 @@
             DIST_START_DATE as distStartDate,
             RECORD_DATE as cutoffTransferDate
         FROM BOND
+    </select>
+    
+    <select id="selectByCondition" parameterType="com.example.demo.business.product.app.dto.request.ProductQueryVO" resultMap="BondProductResultMap">
+        SELECT 
+            bp.PRODUCT_ID as productId,
+            bp.FDM_PRODUCT_CODE as fdmProductCode,
+            bp.BOND_CODE as "bondDTO.bondCode",
+            bp.BOND_AUTH as bondAuth,
+            bp.SALE_AREA as saleArea,
+            bp.SELLABL_CUST_TYPE as sellableCustomerType,
+            bp.SELLABL_CUST_RISK_LEVEL as sellableCustomerRiskLevel,
+            bp.PLEDGEABLE_SIGN as pledgeableSign,
+            bp.REISSUE_FLAG as reissueFlag,
+            bp.REISSUE_INCOME_RATE as reissueIncomeRate,
+            bp.RECOMMEND_FLAG as recommendFlag,
+            bp.QUOTA_MODE as quotaMode,
+            bp.BID_SPREAD as bidSpread,
+            bp.ASK_SPREAD as askSpread,
+            bp.UP_LIMIT_HOLDING as upperLimitHolding,
+            bp.DOWN_LIMIT_HOLDING as lowerLimitHolding,
+            b.SHORT_NAME as "bondDTO.shortName",
+            b.VARIETY as "bondDTO.bondVariety",
+            b.BOND_TERM as "bondDTO.bondTerm",
+            b.BOND_TERM_COMP as "bondDTO.bondTermUnit",
+            b.COUPON_RATE as "bondDTO.coupon",
+            b.CURRENCY as "bondDTO.currency",
+            b.ISSUE_PRICE as "bondDTO.issuePrice",
+            b.ALTERTRUST_STOP_DAY_CNT as "bondDTO.transferPauseDayBeforeCash",
+            b.MATURE_DATE as "bondDTO.matureDate",
+            b.DIST_END_DATE as "bondDTO.issueEndDate",
+            b.LISTING_DATE as "bondDTO.listingDate",
+            b.START_INT_DATE as "bondDTO.accrualDate",
+            b.ISSUE_DATE as "bondDTO.issueDate",
+            b.ACCRUAL_BASE as "bondDTO.accrualBase",
+            b.ACCRUAL_METHOD as "bondDTO.accrualMethod",
+            b.PAR_VALUE as "bondDTO.parValue",
+            b.CUSTODY_ORG as "bondDTO.custodyOrg",
+            b.BOND_STATUS as "bondDTO.bondStatus",
+            b.APPEND_NUM as "bondDTO.addTimes",
+            b.CURR_PRINCIPAL_VAL as "bondDTO.currentPrincipalValue",
+            b.BOND_SUSPEND_STATUS as "bondDTO.bondPauseStatus",
+            b.CLAIM_DEBT_RGST_DT as "bondDTO.bondRegistrationDate",
+            b.PRINCIPAL_VAL_EFFECT_DT as "bondDTO.principalValueEffectiveDate",
+            b.FIRST_INT_PAY_DT as "bondDTO.firstInterestPaymentDate",
+            b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
+            b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate",
+            b.DIST_START_DATE as "bondDTO.distStartDate",
+            b.RECORD_DATE as "bondDTO.cutoffTransferDate"
+            FROM bond_product bp
+            LEFT JOIN bond b ON bp.bond_code = b.bond_code
+        <where>
+            <if test="producdId != null and producdId != ''">
+                AND bp.product_id = #{producdId}
+            </if>
+            <if test="bondCode != null and bondCode != ''">
+                AND b.bond_code = #{bondCode}
+            </if>
+            <if test="bondName != null and bondName != ''">
+                AND b.short_name LIKE CONCAT('%', #{bondName}, '%')
+            </if>
+            <if test="bondVariety != null and bondVariety != ''">
+                AND b.bond_variety = #{bondVariety}
+            </if>
+            <if test="recmdFlag != null and recmdFlag != ''">
+                AND bp.recommend_flag = #{recmdFlag}
+            </if>
+        </where>
     </select>
     
 </mapper> 

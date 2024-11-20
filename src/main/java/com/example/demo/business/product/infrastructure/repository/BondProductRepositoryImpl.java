@@ -4,6 +4,7 @@ import com.example.demo.business.product.domain.entity.Bond;
 import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.business.product.infrastructure.mapper.BondProductMapper;
+import com.example.demo.business.product.app.dto.request.ProductQueryVO;
 import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
 
@@ -14,13 +15,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BondProductRepositoryImpl implements BondProductRepository {
-    
+
     private final BondProductMapper bondProductMapper;
-    
+
     public BondProductRepositoryImpl(BondProductMapper bondProductMapper) {
         this.bondProductMapper = bondProductMapper;
     }
-    
+
     @Override
     public void saveProduct(BondProduct bondProduct) {
         BondProductDTO dto = BondProductDTO.fromEntity(bondProduct, false);
@@ -40,11 +41,17 @@ public class BondProductRepositoryImpl implements BondProductRepository {
     }
 
     @Override
-    public List<BondProduct> findAll() {
+    public List<BondProductDTO> findAll() {
         List<BondProductDTO> dtos = bondProductMapper.selectAll();
-        return dtos.stream()
-                .map(BondProductDTO::toEntity)
-                .collect(Collectors.toList());
+        return dtos;
+        // return dtos.stream()
+        // .map(BondProductDTO::toEntity)
+        // .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BondProductDTO> findByCondition(ProductQueryVO vo) {
+        return bondProductMapper.selectByCondition(vo);
     }
 
     @Override
@@ -70,4 +77,4 @@ public class BondProductRepositoryImpl implements BondProductRepository {
         List<BondDTO> dtos = bondProductMapper.selectAllBonds();
         return dtos.stream().map(BondDTO::toEntity).collect(Collectors.toList());
     }
-} 
+}
