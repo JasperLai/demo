@@ -40,6 +40,8 @@ public class BondDTO extends BaseData {
     private String bondTermUnit; // 债券期限单位
     private Date distStartDate; // 分销开始日
     private Date cutoffTransferDate; // 截止过户日
+    private Integer bondRegisterStopDayCnt; // 债权登记间隔
+    private Integer recordDayCnt; // 截止过户间隔
 
     public Bond toEntity() {
         Bond bond = new Bond();
@@ -59,7 +61,7 @@ public class BondDTO extends BaseData {
         bond.setAccrualBase(AccrualBase.fromCode(this.accrualBase));
         bond.setAccrualMethod(AccrualMethod.fromCode(this.accrualMethod));
         bond.setParValue(this.parValue);
-        bond.setCurrentPrincipalValue(this.currentPrincipalValue);
+        bond.setCurrPrincipalVal(this.currentPrincipalValue);
         bond.setCustodyOrg(CustodyOrg.fromCode(this.custodyOrg));
         bond.setBusinessDate(this.businessDate);
         bond.setBondStatus(this.bondStatus);
@@ -73,8 +75,31 @@ public class BondDTO extends BaseData {
         bond.setBondTermUnit(this.bondTermUnit);
         bond.setDistStartDate(this.distStartDate);
         bond.setCutoffTransferDate(this.cutoffTransferDate);
+        bond.setBondRegisterStopDayCnt(this.bondRegisterStopDayCnt);
+        bond.setRecordDayCnt(this.recordDayCnt);
         return bond;
     }
+
+    
+    public Integer getBondRegisterStopDayCnt() {
+        return bondRegisterStopDayCnt;
+    }
+
+
+    public void setBondRegisterStopDayCnt(Integer bondRegisterStopDayCnt) {
+        this.bondRegisterStopDayCnt = bondRegisterStopDayCnt;
+    }
+
+
+    public Integer getRecordDayCnt() {
+        return recordDayCnt;
+    }
+
+
+    public void setRecordDayCnt(Integer recordDayCnt) {
+        this.recordDayCnt = recordDayCnt;
+    }
+
 
     public String getBondCode() {
         return bondCode;
@@ -349,6 +374,8 @@ public class BondDTO extends BaseData {
         dto.setBondTermUnit(bond.getBondTermUnit());
         dto.setDistStartDate(bond.getDistStartDate());
         dto.setCutoffTransferDate(bond.getCutoffTransferDate());
+        dto.setBondRegisterStopDayCnt(bond.getBondRegisterStopDayCnt());
+        dto.setRecordDayCnt(bond.getRecordDayCnt());
         return dto;
     }
 

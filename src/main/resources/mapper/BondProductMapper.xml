@@ -157,7 +157,9 @@
         b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
         b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate",
         b.DIST_START_DATE as "bondDTO.distStartDate",
-        b.RECORD_DATE as "bondDTO.cutoffTransferDate"
+        b.RECORD_DATE as "bondDTO.cutoffTransferDate",
+        b.BOND_REGISTER_STOP_DAY_CNT as "bondDTO.bondRegisterStopDayCnt",
+        b.RECORD_DAY_CNT as "bondDTO.recordDayCnt"
         FROM BOND_PRODUCT bp
         LEFT JOIN BOND b ON bp.BOND_CODE = b.BOND_CODE
     </select>
@@ -280,7 +282,9 @@
             INT_PAY_FREQ_MONTH = #{interestPaymentCycle},
             CURR_BOND_PAY_DT = #{interestPaymentDate},
             DIST_START_DATE = #{distStartDate},
-            RECORD_DATE = #{cutoffTransferDate}
+            RECORD_DATE = #{cutoffTransferDate},
+            BOND_REGISTER_STOP_DAY_CNT = #{bondRegisterStopDayCnt},
+            RECORD_DAY_CNT = #{recordDayCnt}
         WHERE BOND_CODE = #{bondCode}
     </update>
 
@@ -313,7 +317,9 @@
             INT_PAY_FREQ_MONTH as interestPaymentCycle,
             CURR_BOND_PAY_DT as interestPaymentDate,
             DIST_START_DATE as distStartDate,
-            RECORD_DATE as cutoffTransferDate
+            RECORD_DATE as cutoffTransferDate,
+            BOND_REGISTER_STOP_DAY_CNT as bondRegisterStopDayCnt,
+            RECORD_DAY_CNT as recordDayCnt
         FROM BOND
         WHERE BOND_CODE = #{bondCode}
     </select>
@@ -347,7 +353,9 @@
             INT_PAY_FREQ_MONTH as interestPaymentCycle,
             CURR_BOND_PAY_DT as interestPaymentDate,
             DIST_START_DATE as distStartDate,
-            RECORD_DATE as cutoffTransferDate
+            RECORD_DATE as cutoffTransferDate,
+            BOND_REGISTER_STOP_DAY_CNT as bondRegisterStopDayCnt,
+            RECORD_DAY_CNT as recordDayCnt
         FROM BOND
     </select>
     
@@ -396,7 +404,9 @@
             b.INT_PAY_FREQ_MONTH as "bondDTO.interestPaymentCycle",
             b.CURR_BOND_PAY_DT as "bondDTO.interestPaymentDate",
             b.DIST_START_DATE as "bondDTO.distStartDate",
-            b.RECORD_DATE as "bondDTO.cutoffTransferDate"
+            b.RECORD_DATE as "bondDTO.cutoffTransferDate",
+            b.BOND_REGISTER_STOP_DAY_CNT as "bondDTO.bondRegisterStopDayCnt",
+            b.RECORD_DAY_CNT as "bondDTO.recordDayCnt"
             FROM bond_product bp
             LEFT JOIN bond b ON bp.bond_code = b.bond_code
         <where>

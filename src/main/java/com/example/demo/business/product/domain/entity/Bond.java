@@ -112,7 +112,7 @@ public class Bond {
      * 当前本金值
      * 对应 BondRegistDTO.currentPrincipalValue
      */
-    private BigDecimal currentPrincipalValue;
+    private BigDecimal currPrincipalVal;
 
     /**
      * 托管机构
@@ -192,8 +192,33 @@ public class Bond {
      */
     private Date cutoffTransferDate;
 
+    private Integer bondRegisterStopDayCnt; //
+
+    private Integer recordDayCnt; //截止过户间隔
+
     public Bond() {
     }
+
+    
+    public Integer getBondRegisterStopDayCnt() {
+        return bondRegisterStopDayCnt;
+    }
+
+
+    public void setBondRegisterStopDayCnt(Integer bondRegisterStopDayCnt) {
+        this.bondRegisterStopDayCnt = bondRegisterStopDayCnt;
+    }
+
+
+    public Integer getRecordDayCnt() {
+        return recordDayCnt;
+    }
+
+
+    public void setRecordDayCnt(Integer recordDayCnt) {
+        this.recordDayCnt = recordDayCnt;
+    }
+
 
     public Bond(String bondCode) {
         this.bondCode = bondCode;
@@ -464,12 +489,12 @@ public class Bond {
         return 0;
     }
 
-    public BigDecimal getCurrentPrincipalValue() {
-        return currentPrincipalValue;
+    public BigDecimal getCurrPrincipalVal() {
+        return currPrincipalVal;
     }
 
-    public void setCurrentPrincipalValue(BigDecimal currentPrincipalValue) {
-        this.currentPrincipalValue = currentPrincipalValue;
+    public void setCurrPrincipalVal(BigDecimal currentPrincipalValue) {
+        this.currPrincipalVal = currentPrincipalValue;
     }
 
 }
