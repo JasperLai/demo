@@ -477,7 +477,7 @@ public class Bond {
 
      
     /**
-     * TODO 判断当天是否可以进行转托管交易
+     * 判断当天是否可以进行转托管交易
      */
     public boolean canTransferToday() {
         // 如果债券状态不正常或者处于暂停状态，不允许转托管
@@ -507,7 +507,7 @@ public class Bond {
     }
 
     /**
-     * TODO 获取下一个付息日
+     * 获取下一个付息日
      */
     public LocalDate getNextCouponDate() {
         // 检查付息方式，某些类型不需要计算下一付息日
@@ -594,9 +594,9 @@ public class Bond {
     }
 
     /**
-     * TODO 获取截止至当日，以 PAR_VALUE 计算的应计利息
+     * 获取截止至当日，以 PAR_VALUE 计算的应计利息
      */
-    public BigDecimal getAccruedInterest() {
+    public BigDecimal getAccruedInterestTillNow() {
         // 如果没有票面利率或面值，返回0
         if (coupon == null || parValue == null) {
             return BigDecimal.ZERO;
