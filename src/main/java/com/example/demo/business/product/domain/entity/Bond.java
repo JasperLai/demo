@@ -1,7 +1,10 @@
 package com.example.demo.business.product.domain.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 import com.example.demo.business.product.domain.valueObject.BondVariety;
 import com.example.demo.business.product.domain.valueObject.CustodyOrg;
@@ -163,7 +166,7 @@ public class Bond {
     private Date firstInterestPaymentDate;
 
     /**
-     * 付息周期
+     * 付息周期 单位为月
      * 对应 BondRegistDTO.interestPaymentCycle
      */
     private String interestPaymentCycle;
@@ -459,33 +462,8 @@ public class Bond {
         this.cutoffTransferDate = cutoffTransferDate;
     }
 
-    /**
-     * TODO 获取下一付息日
-     * 
-     * @return
-     */
-    public Date getNextDayForPayingInterest() {
-        return null;
-    }
-
-    /**
-     * TODO 计算当前付息周期的应计利息（以面额为单位）
-     * 
-     * @return 2 位小叔
-     */
-    public BigDecimal calculateCurrentInt() {
-        return null;
-    }
-
-    /**
-     * TODO 判断当天是否可以进行转托管交易
-     */
-    public boolean canTransferToday() {
-        return false;
-    }
-
+  
     public Integer getBondTermByUnit() {
-
         return 0;
     }
 
@@ -495,6 +473,214 @@ public class Bond {
 
     public void setCurrPrincipalVal(BigDecimal currentPrincipalValue) {
         this.currPrincipalVal = currentPrincipalValue;
+    }
+
+     
+    /**
+     * TODO 判断当天是否可以进行转托管交易
+     */
+    public boolean canTransferToday() {
+        // 如果债券状态不正常或者处于暂停状态，不允许转托管
+        if (!"00".equals(bondStatus) || "2".equals(bondPauseStatus)) {
+            return false;
+        }
+        
+        // 获取下一个付息日
+        LocalDate nextCouponDate = getNextCouponDate();
+        if (nextCouponDate == null) {
+            return true;
+        }
+        
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        
+        // 如果转托管停办天数未设置，默认可以转托管
+        if (transferPauseDayBeforeCash == null) {
+            return true;
+        }
+        
+        // 计算当前日期到下一付息日的天数
+        long daysUntilCoupon = ChronoUnit.DAYS.between(today, nextCouponDate);
+        
+        // 如果距离付息日的天数小于等于停办天数，则不允许转托管
+        return daysUntilCoupon > transferPauseDayBeforeCash;
+    }
+
+    /**
+     * TODO 获取下一个付息日
+     */
+    public LocalDate getNextCouponDate() {
+        // 检查付息方式，某些类型不需要计算下一付息日
+        if (this.accrualMethod == null) {
+            return null;
+        }
+        
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        
+        // 检查第一次付息日
+        if (firstInterestPaymentDate != null) {
+            LocalDate firstPaymentDate = firstInterestPaymentDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            if (!today.isAfter(firstPaymentDate)) {
+                return firstPaymentDate;
+            }
+        }
+        
+        // 检查本期付息日
+        if (interestPaymentDate != null) {
+            LocalDate currentPaymentDate = interestPaymentDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            if (!today.isAfter(currentPaymentDate)) {
+                return currentPaymentDate;
+            }
+        }
+        
+        // 如果以上都不满足，根据付息方式计算
+        switch (this.accrualMethod) {
+            case DISCOUNTING:        // 贴现
+            case ZEROCOUPON:     // 零息
+            case FULLREPAYMENT: // 利随本清
+                return this.matureDate == null ? null : 
+                    this.matureDate.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                
+            case FIXRATE:      // 固定利率
+            case FLOATRATE:   // 浮动利率
+                return calculateNextPaymentDate();          
+            case OTHER:            // 无付息
+            default:
+                return null;
+        }
+    }
+
+    private LocalDate calculateNextPaymentDate() {
+        // 检查必要参数
+        if (this.interestPaymentCycle == null || !this.interestPaymentCycle.matches("\\d+") || this.accrualDate == null) {
+            return null;
+        }
+        
+        // 获取当前日期和起息日
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = this.accrualDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        
+        // 获取付息周期（月）
+        int cycleMonths = Integer.parseInt(this.interestPaymentCycle);
+        
+        // 计算从起息日开始到当前日期经过了多少个完整周期
+        long monthsBetween = ChronoUnit.MONTHS.between(startDate, today);
+        int completedCycles = (int) (monthsBetween / cycleMonths);
+        
+        // 计算下一个付息日
+        LocalDate nextPaymentDate = startDate.plusMonths((completedCycles + 1) * cycleMonths);
+        
+        // 如果债券已到期或下一付息日超过到期日，则返回到期日
+        if (this.matureDate != null) {
+            LocalDate maturityDate = this.matureDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            
+            if ("01".equals(this.bondStatus) || nextPaymentDate.isAfter(maturityDate)) {
+                return maturityDate;
+            }
+        }
+        
+        return nextPaymentDate;
+    }
+
+    /**
+     * TODO 获取截止至当日，以 PAR_VALUE 计算的应计利息
+     */
+    public BigDecimal getAccruedInterest() {
+        // 如果没有票面利率或面值，返回0
+        if (coupon == null || parValue == null) {
+            return BigDecimal.ZERO;
+        }
+
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        
+        // 获取起息日
+        if (accrualDate == null) {
+            return BigDecimal.ZERO;
+        }
+        LocalDate startDate = accrualDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            
+        // 如果当前日期在起息日之前，返回0
+        if (today.isBefore(startDate)) {
+            return BigDecimal.ZERO;
+        }
+
+        // 根据不同的计息方式计算应计利息
+        switch (accrualMethod) {
+            case DISCOUNTING:
+            case ZEROCOUPON:
+            case OTHER:
+                return BigDecimal.ZERO;
+                
+            case FULLREPAYMENT:
+            case FIXRATE:
+            case FLOATRATE:
+                return calculateAccruedInterest(today, startDate);
+                
+            default:
+                return BigDecimal.ZERO;
+        }
+    }
+
+    private BigDecimal calculateAccruedInterest(LocalDate today, LocalDate startDate) {
+        // 获取计息天数
+        long actualDays = ChronoUnit.DAYS.between(startDate, today);
+        
+        // 获取计息基础的年天数
+        int daysInYear;
+        switch (accrualBase) {
+            case ACT366:
+                daysInYear = 366;
+                break;
+            case ACT360:
+                daysInYear = 360;
+                break;
+            case ACT365:
+                daysInYear = 365;
+                break;
+            case ACTACT:
+                daysInYear = startDate.isLeapYear() ? 366 : 365;
+                break;
+            case T30360:
+                // 对于30/360的情况，需要特殊处理天数计算
+                actualDays = calculate30360Days(startDate, today);
+                daysInYear = 360;
+                break;
+            default:
+                daysInYear = 365;
+        }
+        
+        // 计算利息：面值 * 票面利率 * (实际天数/年化天数)
+        return new BigDecimal(parValue)
+                .multiply(coupon)
+                .multiply(BigDecimal.valueOf(actualDays))
+                .divide(BigDecimal.valueOf(daysInYear * 100), 8, BigDecimal.ROUND_HALF_UP);
+    }
+
+    private long calculate30360Days(LocalDate startDate, LocalDate endDate) {
+        int y1 = startDate.getYear();
+        int m1 = startDate.getMonthValue();
+        int d1 = Math.min(startDate.getDayOfMonth(), 30);
+        
+        int y2 = endDate.getYear();
+        int m2 = endDate.getMonthValue();
+        int d2 = Math.min(endDate.getDayOfMonth(), 30);
+        
+        // 30/360 计算公式：(Y2-Y1)*360 + (M2-M1)*30 + (D2-D1)
+        return (y2 - y1) * 360L + (m2 - m1) * 30L + (d2 - d1);
     }
 
 }
