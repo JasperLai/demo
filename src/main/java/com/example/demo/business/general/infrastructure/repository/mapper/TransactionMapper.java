@@ -4,18 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.business.general.client.TransStatus;
-import com.example.demo.business.general.domain.entity.Transaction;
+import com.example.demo.business.general.app.dto.TransactionDTO;
 
 @Mapper
 public interface TransactionMapper {
 
-    void insert(Transaction transaction);
+    void insert(TransactionDTO transaction);
 
-    Transaction selectById(String transactionId);
+    TransactionDTO selectById(String transactionId);
 
-    void updateStatus(String transactionId, TransStatus status);
-
-    List<Transaction> selectByOperatorId(String operatorId);
+    void update(TransactionDTO transaction);
 
 }

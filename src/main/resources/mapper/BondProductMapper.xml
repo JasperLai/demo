@@ -242,7 +242,7 @@
             BOND_STATUS = VALUES(BOND_STATUS),
             APPEND_NUM = VALUES(APPEND_NUM),
             BOND_SUSPEND_STATUS = VALUES(BOND_SUSPEND_STATUS),
-            CLAIM_DEBT_RGST_DT = VALUES(CLAIM_DEST_RGST_DT),
+            CLAIM_DEBT_RGST_DT = VALUES(CLAIM_DEBT_RGST_DT),
             PRINCIPAL_VAL_EFFECT_DT = VALUES(PRINCIPAL_VAL_EFFECT_DT),
             FIRST_INT_PAY_DT = VALUES(FIRST_INT_PAY_DT),
             INT_PAY_FREQ_MONTH = VALUES(INT_PAY_FREQ_MONTH),
@@ -351,7 +351,7 @@
         FROM BOND
     </select>
     
-    <select id="selectByCondition" parameterType="com.example.demo.business.product.app.dto.request.ProductQueryVO" resultMap="BondProductResultMap">
+    <select id="selectByCondition" parameterType="com.example.demo.business.product.app.dto.request.ProductQueryVO" resultType="com.example.demo.business.product.app.dto.response.BondProductDTO">
         SELECT 
             bp.PRODUCT_ID as productId,
             bp.FDM_PRODUCT_CODE as fdmProductCode,
@@ -400,20 +400,20 @@
             FROM bond_product bp
             LEFT JOIN bond b ON bp.bond_code = b.bond_code
         <where>
-            <if test="producdId != null and producdId != ''">
-                AND bp.product_id = #{producdId}
+            <if test="productId != null and productId != ''">
+                AND bp.PRODUCT_ID = #{productId}
             </if>
             <if test="bondCode != null and bondCode != ''">
-                AND b.bond_code = #{bondCode}
+                AND b.BOND_CODE = #{bondCode}
             </if>
             <if test="bondName != null and bondName != ''">
-                AND b.short_name LIKE CONCAT('%', #{bondName}, '%')
+                AND b.SHORT_NAME LIKE CONCAT('%', #{bondName}, '%')
             </if>
             <if test="bondVariety != null and bondVariety != ''">
-                AND b.bond_variety = #{bondVariety}
+                AND b.VARIETY = #{bondVariety}
             </if>
             <if test="recmdFlag != null and recmdFlag != ''">
-                AND bp.recommend_flag = #{recmdFlag}
+                AND bp.RECOMMEND_FLAG = #{recmdFlag}
             </if>
         </where>
     </select>

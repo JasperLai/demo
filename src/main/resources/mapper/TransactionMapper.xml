@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.general.infrastructure.repository.mapper.TransactionMapper">
+    
+    <resultMap id="TransactionMap" type="com.example.demo.business.general.app.dto.TransactionDTO">
+        <id column="tx_trace_num" property="txTraceNum"/>
+        <result column="init_tx_trace_num" property="initTxTraceNum"/>
+        <result column="channel_no" property="channelNo"/>
+        <result column="tx_int_org_num" property="txIntOrgNum"/>
+        <result column="teller_no" property="tellerNo"/>
+        <result column="trade_type" property="tradeType"/>
+        <result column="trade_acc" property="tradeAcc"/>
+        <result column="business_date" property="businessDate"/>
+        <result column="trade_time" property="tradeTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.demo.business.general.app.dto.TransactionDTO">
+        INSERT INTO t_transaction (
+            tx_trace_num,
+            init_tx_trace_num,
+            channel_no,
+            tx_int_org_num,
+            teller_no,
+            trade_type,
+            trade_acc,
+            business_date,
+            trade_time,
+            update_time,
+            status,
+            remark
+        ) VALUES (
+            #{txTraceNum},
+            #{initTxTraceNum},
+            #{channelNo},
+            #{txIntOrgNum},
+            #{tellerNo},
+            #{tradeType},
+            #{tradeAcc},
+            #{businessDate},
+            #{tradeTime},
+            #{updateTime},
+            #{status},
+            #{remark}
+        )
+    </insert>
+
+    <select id="selectById" resultMap="TransactionMap">
+        SELECT 
+            tx_trace_num,
+            init_tx_trace_num,
+            channel_no,
+            tx_int_org_num,
+            teller_no,
+            trade_type,
+            trade_acc,
+            business_date,
+            trade_time,
+            update_time,
+            status,
+            remark
+        FROM t_transaction
+        WHERE tx_trace_num = #{transactionId}
+    </select>
+
+    <update id="update" parameterType="com.example.demo.business.general.app.dto.TransactionDTO">
+        UPDATE t_transaction
+        SET 
+            init_tx_trace_num = #{initTxTraceNum},
+            channel_no = #{channelNo},
+            tx_int_org_num = #{txIntOrgNum},
+            teller_no = #{tellerNo},
+            trade_type = #{tradeType},
+            trade_acc = #{tradeAcc},
+            business_date = #{businessDate},
+            trade_time = #{tradeTime},
+            update_time = #{updateTime},
+            status = #{status},
+            remark = #{remark}
+        WHERE tx_trace_num = #{txTraceNum}
+    </update>
+
+</mapper>

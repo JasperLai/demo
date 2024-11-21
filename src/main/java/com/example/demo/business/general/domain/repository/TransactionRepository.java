@@ -2,9 +2,6 @@ package com.example.demo.business.general.domain.repository;
 
 import com.example.demo.business.general.domain.entity.Transaction;
 
-import java.util.List;
-
-import com.example.demo.business.general.client.TransStatus;
 
 public interface TransactionRepository {
     
@@ -21,10 +18,7 @@ public interface TransactionRepository {
     /**
      * 更新交易状态
      */
-    void updateStatus(String transactionId, TransStatus status);
+    void updateStatus(Transaction transaction);
     
-    /**
-     * 根据操作员ID查询交易列表
-     */
-    List<Transaction> findByOperatorId(String operatorId);
+
 } 

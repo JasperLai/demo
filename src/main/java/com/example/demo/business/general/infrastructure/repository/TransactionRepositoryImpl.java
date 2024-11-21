@@ -8,31 +8,31 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.business.general.domain.entity.Transaction;
 import com.example.demo.business.general.domain.repository.TransactionRepository;
 import com.example.demo.business.general.infrastructure.repository.mapper.TransactionMapper;
-import com.example.demo.business.general.client.TransStatus;
+import com.example.demo.business.general.app.dto.TransactionDTO;
 
 @Repository
 public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Autowired
     private TransactionMapper transactionMapper;
-    
+
     @Override
     public void save(Transaction transaction) {
-        transactionMapper.insert(transaction);
+        TransactionDTO dto = TransactionDTO.fromEntity(transaction);
+        transactionMapper.insert(dto);
     }
-    
+
     @Override
     public Transaction findById(String transactionId) {
-        return transactionMapper.selectById(transactionId);
+        TransactionDTO dto = transactionMapper.selectById(transactionId);
+        return dto.toEntity();
     }
-    
+
     @Override
-    public void updateStatus(String transactionId, TransStatus status) {
-        transactionMapper.updateStatus(transactionId, status);
+    public void updateStatus(Transaction transaction) {
+        TransactionDTO dto = TransactionDTO.fromEntity(transaction);
+        transactionMapper.update(dto);
     }
-    
-    @Override
-    public List<Transaction> findByOperatorId(String operatorId) {
-        return transactionMapper.selectByOperatorId(operatorId);
-    }
+
+
 } 
