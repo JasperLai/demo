@@ -32,7 +32,7 @@ public class BondPricingService {
         BigDecimal sellNetPrice = calculateNetPriceByDCF(bond, sellYield);
         
         // 3. 计算应计利息
-        BigDecimal accruedInterest = calculateAccruedInterest(bond);
+        BigDecimal accruedInterest = bond.getAccruedInterestTillNow();
         
         // 4. 创建报价对象
         BondQuotation quotation = BondQuotation.builder()
@@ -100,15 +100,6 @@ public class BondPricingService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
                 
         return presentValue.setScale(PRICE_SCALE, RoundingMode.HALF_UP);
-    }
-    
-    /**
-     * 计算应计利息
-     */
-    private BigDecimal calculateAccruedInterest(Bond bond) {
-        // 根据债券的计息规则计算应计利息
-        // TODO: 实现具体的应计利息计算逻辑
-        return BigDecimal.ZERO;
     }
     
     /**

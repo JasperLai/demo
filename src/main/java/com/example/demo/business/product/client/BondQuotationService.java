@@ -1,6 +1,7 @@
 package com.example.demo.business.product.client;
 
 import com.example.demo.business.product.domain.entity.BondQuotation;
+import com.example.demo.business.product.app.dto.response.QuotationLogDTO;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -31,4 +32,11 @@ public interface BondQuotationService {
      * @param date 日期
      */
     void exportQuotationFile(Date date);
+
+    /**
+     * 接收报价中心推送的报价
+     * @param quotationLogDTO 报价日志DTO
+     * @return 流水号
+     */
+    String receiveQuotationPush(QuotationLogDTO quotationLogDTO);
 } 

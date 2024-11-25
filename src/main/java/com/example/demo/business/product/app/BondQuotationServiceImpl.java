@@ -7,6 +7,8 @@ import com.example.demo.business.product.domain.service.BondPricingService;
 import com.example.demo.business.product.domain.repository.BondQuotationRepository;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.business.product.client.BondQuotationService;
+import com.example.demo.business.product.app.dto.response.QuotationLogDTO;
+import com.example.demo.business.product.infrastructure.repository.QuotationLogRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +32,9 @@ public class BondQuotationServiceImpl implements BondQuotationService {
     
     @Autowired
     private BondProductRepository bondProductRepository;
+    
+    @Autowired
+    private QuotationLogRepository quotationLogRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -73,5 +78,28 @@ public class BondQuotationServiceImpl implements BondQuotationService {
     @Transactional(readOnly = true)
     public void exportQuotationFile(Date date) {
         // TODO: 实现报价文件导出逻辑
+    }
+
+    @Override
+    @Transactional
+    public String receiveQuotationPush(QuotationLogDTO quotationLogDTO) {
+        logger.info("接收报价推送, 债券代码: {}, 报价来源: {}", quotationLogDTO.getBondCode(), quotationLogDTO.getPriceSource());
+        
+        try {
+            // 参数校验
+            if (quotationLogDTO == null || quotationLogDTO.getBondCode() == null || quotationLogDTO.getTransNo() == null) {
+                throw new IllegalArgumentException("报价推送参数不完整");
+            }
+
+            // 保存报价日志
+            quotationLogRepository.save(quotationLogDTO);
+            
+            logger.info("报价推送记录成功, 流水号: {}", quotationLogDTO.getTransNo());
+            return quotationLogDTO.getTransNo();
+            
+        } catch (Exception e) {
+            logger.error("报价推送记录失败", e);
+            throw new RuntimeException("报价推送记录失败: " + e.getMessage());
+        }
     }
 } 

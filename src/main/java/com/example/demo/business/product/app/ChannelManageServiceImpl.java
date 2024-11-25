@@ -3,7 +3,6 @@ package com.example.demo.business.product.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.business.general.client.ExceptionHandlerInterface;
 import com.example.demo.business.general.client.TMSInterface;
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
