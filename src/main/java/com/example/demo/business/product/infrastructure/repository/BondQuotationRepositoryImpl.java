@@ -6,6 +6,7 @@ import com.example.demo.business.product.infrastructure.mapper.BondQuotationMapp
 import com.example.demo.business.product.app.dto.response.BondQuotationDTO;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,22 @@ public class BondQuotationRepositoryImpl implements BondQuotationRepository {
     @Override
     public List<BondQuotation> findAll() {
         List<BondQuotationDTO> dtos = bondQuotationMapper.selectAll();
+        return dtos.stream()
+                .map(BondQuotationDTO::toEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BondQuotation> findByBondCodeAndDate(String bondCode, Date startDate, Date endDate) {
+        List<BondQuotationDTO> dtos = bondQuotationMapper.selectByBondCodeAndDate(bondCode, startDate, endDate);
+        return dtos.stream()
+                .map(BondQuotationDTO::toEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BondQuotation> findByDate(Date startDate, Date endDate) {
+        List<BondQuotationDTO> dtos = bondQuotationMapper.selectByDate(startDate, endDate);
         return dtos.stream()
                 .map(BondQuotationDTO::toEntity)
                 .collect(Collectors.toList());

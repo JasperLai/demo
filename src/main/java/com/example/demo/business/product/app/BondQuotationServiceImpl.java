@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 
 @Service
 public class BondQuotationServiceImpl implements BondQuotationService {
@@ -40,8 +41,43 @@ public class BondQuotationServiceImpl implements BondQuotationService {
     @Transactional(readOnly = true)
     public List<BondQuotation> queryQuotation(Date date, String bondCode) {
         logger.info("查询报价信息, 日期: {}, 债券代码: {}", date, bondCode);
-        // TODO: 实现报价查询逻辑
-        return null;
+        
+        try {
+            // 如果未指定日期，默认查询当天
+            if (date == null) {
+                date = new Date();
+            }
+            
+            // 设置日期范围（当日开始到结束）
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            Date startDate = calendar.getTime();
+            
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            Date endDate = calendar.getTime();
+
+            // 查询当前有效的报价
+            List<BondQuotation> quotations;
+            if (bondCode != null && !bondCode.isEmpty()) {
+                // 如果指定了债券代码，则按债券代码查询
+                quotations = bondQuotationRepository.findByBondCodeAndDate(bondCode, startDate, endDate);
+            } else {
+                // 否则查询所有当日有效的报价
+                quotations = bondQuotationRepository.findByDate(startDate, endDate);
+            }
+            
+            logger.info("查询到{}条有效报价记录", quotations.size());
+            return quotations;
+            
+        } catch (Exception e) {
+            logger.error("查询报价信息失败", e);
+            throw new RuntimeException("查询报价信息失败: " + e.getMessage());
+        }
     }
 
     @Override

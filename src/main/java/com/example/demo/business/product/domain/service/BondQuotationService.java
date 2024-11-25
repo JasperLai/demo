@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.business.product.domain.entity.BondQuotation;
-import com.example.demo.business.product.domain.repository.BondQuotationRepo;
+import com.example.demo.business.product.domain.repository.BondQuotationRepository;
 @Component
 public class BondQuotationService {
     private static final Logger logger = LogManager.getLogger(BondQuotationService.class);
 
     @Autowired
-    private BondQuotationRepo repo;
+    private BondQuotationRepository repo;
 
     /**
      * TODO 报价查询，  

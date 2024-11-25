@@ -4,6 +4,7 @@ import com.example.demo.business.product.app.dto.response.BondQuotationDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -17,4 +18,15 @@ public interface BondQuotationMapper {
     List<BondQuotationDTO> selectByProductId(@Param("productId") String productId);
     
     List<BondQuotationDTO> selectAll();
+    
+    List<BondQuotationDTO> selectByBondCodeAndDate(
+        @Param("bondCode") String bondCode,
+        @Param("startDate") Date startDate,
+        @Param("endDate") Date endDate
+    );
+    
+    List<BondQuotationDTO> selectByDate(
+        @Param("startDate") Date startDate,
+        @Param("endDate") Date endDate
+    );
 } 

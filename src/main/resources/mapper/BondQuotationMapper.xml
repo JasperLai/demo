@@ -101,4 +101,19 @@
             EXP_TIME as expTime
         FROM BOND_QUOTATION
     </select>
+
+    <select id="selectByBondCodeAndDate" resultMap="bondQuotationMap">
+        SELECT * FROM BOND_QUOTATION
+        WHERE BOND_CODE = #{bondCode}
+        AND QUOTA_TIME BETWEEN #{startDate} AND #{endDate}
+        AND EXP_TIME > NOW()
+        ORDER BY QUOTA_TIME DESC
+    </select>
+
+    <select id="selectByDate" resultMap="bondQuotationMap">
+        SELECT * FROM BOND_QUOTATION
+        WHERE QUOTA_TIME BETWEEN #{startDate} AND #{endDate}
+        AND EXP_TIME > NOW()
+        ORDER BY QUOTA_TIME DESC
+    </select>
 </mapper> 
