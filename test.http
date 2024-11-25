@@ -60,4 +60,17 @@ Content-Type: application/json
   "calinterest_norm": "Standard"
 }
 
+### quotation/push 返回结果
+POST http://localhost:8080/api/quotation/push
+Content-Type: application/json
+
+{
+  "transNo": "T2024012001",
+  "productId": "15202900001",
+  "bondCode": "BOND001",
+  "priceSource": "1",
+  "priceDecimal": 100.5,
+  "quotaTime": "2024-01-20T10:00:00"
+}
+
 

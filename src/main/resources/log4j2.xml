@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
     <Properties>
-        <Property name="basePath">/Users/mubinlai/code/demo</Property>
+        <Property name="LOG_FILE_PATH">${sys:user.home}/code/demo/app.log</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
         </Console>
-        <File name="File" fileName="${basePath}/app.log" append ="false">
+        <File name="File" fileName="${LOG_FILE_PATH}" append ="false">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
         </File>
     </Appenders>

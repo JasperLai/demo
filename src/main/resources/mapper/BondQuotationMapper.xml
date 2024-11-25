@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.business.product.infrastructure.mapper.BondQuotationMapper">
     
+    <resultMap id="bondQuotationMap" type="com.example.demo.business.product.app.dto.response.BondQuotationDTO">
+        <result column="QUOTA_TRANS_NO" property="quotaTransNo"/>
+        <result column="PRICE_TYPE" property="priceType"/>
+        <result column="PRODUCT_ID" property="productId"/>
+        <result column="BOND_ACCRU_INT" property="bondAccruInt"/>
+        <result column="COMP_BUY_NET_PRICE" property="compBuyNetPrice"/>
+        <result column="COMP_SELL_NET_PRICE" property="compSellNetPrice"/>
+        <result column="COMP_BUY_FULL_PRICE" property="compBuyFullPrice"/>
+        <result column="COMP_SELL_FULL_PRICE" property="compSellFullPrice"/>
+        <result column="BUY_INCOME_RATE" property="buyIncomeRate"/>
+        <result column="SELL_INCOME_RATE" property="sellIncomeRate"/>
+        <result column="QUOTA_TIME" property="quotaTime"/>
+        <result column="EXP_TIME" property="expTime"/>
+    </resultMap>
+
     <insert id="insert" parameterType="com.example.demo.business.product.app.dto.response.BondQuotationDTO">
         INSERT INTO BOND_QUOTATION (
             QUOTA_TRANS_NO,
