@@ -1,12 +1,10 @@
 package com.example.demo.business.product.app.dto.response;
 
 import com.example.demo.business.product.domain.entity.BondQuotation;
-import com.example.demo.common.exception.data.BaseData;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BondQuotationDTO extends BaseData {
+public class BondQuotationDTO {
     private String quotaTransNo;         // 价格来源流水号
     private String priceType;            // 报价业务类型
     private String productId;            // 托管产品编码

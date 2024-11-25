@@ -1,10 +1,9 @@
 package com.example.demo.business.product.app.dto.response;
 
-import com.example.demo.common.exception.data.BaseData;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class QuotationLogDTO extends BaseData {
+public class QuotationLogDTO {
     private String transNo;
     private String traceNum;
     private String calcMode;

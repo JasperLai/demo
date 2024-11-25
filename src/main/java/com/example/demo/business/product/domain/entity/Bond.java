@@ -1,6 +1,7 @@
 package com.example.demo.business.product.domain.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
@@ -673,7 +674,7 @@ public class Bond {
         return new BigDecimal(parValue)
                 .multiply(coupon)
                 .multiply(BigDecimal.valueOf(actualDays))
-                .divide(BigDecimal.valueOf(daysInYear * 100), 8, BigDecimal.ROUND_HALF_UP);
+                .divide(BigDecimal.valueOf(daysInYear * 100), 8, RoundingMode.HALF_UP);
     }
 
     /**

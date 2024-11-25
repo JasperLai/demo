@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.common.exception.data.BaseData;
+import com.example.demo.common.response.Response;
 
 /**
  * ResponseHandler
@@ -14,31 +14,15 @@ import com.example.demo.common.exception.data.BaseData;
  */
 @SuppressWarnings("rawtypes")
 @Component
-public class DefaultResponseHandler{
+public class DefaultResponseHandler {
     private static final Logger log = LogManager.getLogger(DefaultResponseHandler.class);
-
     
-    public  Object handle(Class returnType, String errCode, String errMsg){
-       
-        return handleColaResponse(returnType, errCode, errMsg);
-    }
-
-    private static Object handleColaResponse(Class returnType, String errCode, String errMsg) {
-        try {
-            BaseData response = (BaseData)returnType.newInstance();
-            log.info(errCode);
-            response.setSuccess(false);
-            response.setErrCode(errCode);
-            response.setReturnMsg(errMsg);
-            return response;
+    public Object handle(Class returnType, String errCode, String errMsg) {
+        // 如果返回类型已经是Response，直接返回错误响应
+        if (Response.class.isAssignableFrom(returnType)) {
+            return Response.error(errCode, errMsg);
         }
-        catch (Exception ex){
-            log.error(ex.getMessage(), ex);
-            return  null;
-        }
+        // 如果是其他类型，包装成Response
+        return Response.error(errCode, errMsg);
     }
-
-    // private static boolean isColaResponse(Class returnType) {
-    //     return  returnType == Response.class || returnType.getGenericSuperclass() == Response.class;
-    // }
 }
