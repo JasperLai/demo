@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.product.infrastructure.mapper.QuotationLogMapper">
+    
+    <resultMap id="quotationLogMap" type="com.example.demo.business.product.app.dto.QuotationLogDTO">
+        <result column="TRANS_NO" property="transNo"/>
+        <result column="TRACE_NUM" property="traceNum"/>
+        <result column="CALC_MODE" property="calcMode"/>
+        <result column="PRICE_DECIMAL" property="priceDecimal"/>
+        <result column="PRICE_SOURCE" property="priceSource"/>
+        <result column="BOND_CODE" property="bondCode"/>
+        <result column="BOND_ACCRU_INT" property="bondAccruInt"/>
+        <result column="COMP_BUY_NET_PRICE" property="compBuyNetPrice"/>
+        <result column="COMP_SELL_NET_PRICE" property="compSellNetPrice"/>
+        <result column="QUOTA_TIME" property="quotaTime"/>
+        <result column="EXP_TIME" property="expTime"/>
+        <result column="TELLER_NUM" property="tellerNum"/>
+        <result column="PRODUCT_ID" property="productId"/>
+        <result column="COMP_BUY_FULL_PRICE" property="compBuyFullPrice"/>
+        <result column="COMP_SELL_FULL_PRICE" property="compSellFullPrice"/>
+        <result column="BUY_INCOME_RATE" property="buyIncomeRate"/>
+        <result column="SELL_INCOME_RATE" property="sellIncomeRate"/>
+        <result column="BID_SPREAD" property="bidSpread"/>
+        <result column="ASK_SPREAD" property="askSpread"/>
+        <result column="EVALUATE_RATE" property="evaluateRate"/>
+    </resultMap>
+    
+    <insert id="insert" parameterType="com.example.demo.business.product.app.dto.QuotationLogDTO">
+        INSERT INTO QUOTATION_LOG (
+            TRANS_NO,
+            TRACE_NUM,
+            CALC_MODE,
+            PRICE_DECIMAL,
+            PRICE_SOURCE,
+            BOND_CODE,
+            BOND_ACCRU_INT,
+            COMP_BUY_NET_PRICE,
+            COMP_SELL_NET_PRICE,
+            QUOTA_TIME,
+            EXP_TIME,
+            TELLER_NUM,
+            PRODUCT_ID,
+            COMP_BUY_FULL_PRICE,
+            COMP_SELL_FULL_PRICE,
+            BUY_INCOME_RATE,
+            SELL_INCOME_RATE,
+            BID_SPREAD,
+            ASK_SPREAD,
+            EVALUATE_RATE
+        ) VALUES (
+            #{transNo},
+            #{traceNum},
+            #{calcMode},
+            #{priceDecimal},
+            #{priceSource},
+            #{bondCode},
+            #{bondAccruInt},
+            #{compBuyNetPrice},
+            #{compSellNetPrice},
+            #{quotaTime},
+            #{expTime},
+            #{tellerNum},
+            #{productId},
+            #{compBuyFullPrice},
+            #{compSellFullPrice},
+            #{buyIncomeRate},
+            #{sellIncomeRate},
+            #{bidSpread},
+            #{askSpread},
+            #{evaluateRate}
+        )
+    </insert>
+
+    <select id="selectByBondCode" resultMap="quotationLogMap">
+        SELECT * FROM QUOTATION_LOG
+        WHERE BOND_CODE = #{bondCode}
+        ORDER BY QUOTA_TIME DESC
+    </select>
+
+    <select id="selectByProductId" resultMap="quotationLogMap">
+        SELECT * FROM QUOTATION_LOG
+        WHERE PRODUCT_ID = #{productId}
+        ORDER BY QUOTA_TIME DESC
+    </select>
+
+    <select id="selectByDateRange" resultMap="quotationLogMap">
+        SELECT * FROM QUOTATION_LOG
+        WHERE QUOTA_TIME BETWEEN #{startDate} AND #{endDate}
+        ORDER BY QUOTA_TIME DESC
+    </select>
+
+    <select id="selectByTransNo" resultMap="quotationLogMap">
+        SELECT * FROM QUOTATION_LOG
+        WHERE TRANS_NO = #{transNo}
+    </select>
+</mapper> 

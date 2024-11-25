@@ -169,7 +169,7 @@ public class BondProductDTO extends BaseData {
         }
 
         BondProductDTO dto = new BondProductDTO();
-        dto.setProductId(entity.getProductCode());
+        dto.setProductId(entity.getProductId());
         dto.setFdmProductCode(entity.getFDMCode());
         if (entity.getAuthority() != null) {
             dto.setBondAuth(entity.getAuthority().getPermissions());
@@ -207,7 +207,7 @@ public class BondProductDTO extends BaseData {
 
         // 设置其他基本属性
         product.setFDMCode(FDMProductCode.of(this.fdmProductCode));
-        product.setProductCode(ProductId.of(this.productId));
+        product.setProductId(ProductId.of(this.productId));
         product.setAuthority(new BondBusinessAuth(this.bondAuth));
         product.setSellableCustomerRiskLevel(this.sellableCustomerRiskLevel);
         product.setPledgeableSign(this.pledgeableSign);

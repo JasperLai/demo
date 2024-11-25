@@ -36,9 +36,6 @@ public class ChannelManageServiceImpl implements ChannelManageService {
     @Autowired
     private TMSInterface transactionManageService;
 
-    @Autowired
-    private ExceptionHandlerInterface exceptionHandler;
-
     // Public methods for bond quota services
     @Override
     public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<QuotaTransferDTO> transferList,

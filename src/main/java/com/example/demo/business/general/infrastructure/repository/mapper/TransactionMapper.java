@@ -1,6 +1,5 @@
 package com.example.demo.business.general.infrastructure.repository.mapper;
 
-import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 

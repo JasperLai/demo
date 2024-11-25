@@ -7,7 +7,7 @@ import com.example.demo.business.product.domain.valueObject.ProductId;
 import java.math.BigDecimal;
 
 public class BondProduct {
-    private ProductId productCode; // 产品编码152029+序号
+    private ProductId productId; // 产品编码152029+序号
     private FDMProductCode FDMCode; // 账务核算产品代码
     private Bond bond; // 债券
     private BondBusinessAuth authority; // 业务权限
@@ -40,7 +40,7 @@ public class BondProduct {
         }
 
         public Builder withProductCode(String bondCode) {
-            product.setProductCode(ProductId.create(bondCode));
+            product.setProductId(ProductId.create(bondCode));
             return this;
         }
 
@@ -74,8 +74,8 @@ public class BondProduct {
         }
     }
 
-    public void setProductCode(ProductId productCode) {
-        this.productCode = productCode;
+    public void setProductId(ProductId productCode) {
+        this.productId = productCode;
     }
 
     public void setFDMCode(FDMProductCode fDMCode) {
@@ -182,8 +182,8 @@ public class BondProduct {
         this.lowerLimitHolding = lowerLimitHolding;
     }
 
-    public String getProductCode() {
-        return this.productCode.getCode();
+    public String getProductId() {
+        return this.productId.getCode();
     }
 
     public String getFDMCode() {

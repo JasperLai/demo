@@ -10,6 +10,7 @@ import com.example.demo.business.product.domain.valueObject.BondVariety;
 import com.example.demo.business.product.domain.valueObject.CustodyOrg;
 import com.example.demo.business.product.domain.valueObject.AccrualBase;
 import com.example.demo.business.product.domain.valueObject.AccrualMethod;
+import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 
 public class Bond {
 
@@ -636,8 +637,14 @@ public class Bond {
     }
 
     private BigDecimal calculateAccruedInterest(LocalDate today, LocalDate startDate) {
-        // 获取计息天数
-        long actualDays = ChronoUnit.DAYS.between(startDate, today);
+        // 获取上一个付息日
+        LocalDate lastPaymentDate = getLastPaymentDate();
+        
+        // 如果没有上一个付息日，使用起息日作为计算起点
+        LocalDate calculationStartDate = lastPaymentDate != null ? lastPaymentDate : startDate;
+        
+        // 获取计息天数 - 从上一付息日（或起息日）到今天的天数
+        long actualDays = ChronoUnit.DAYS.between(calculationStartDate, today);
         
         // 获取计息基础的年天数
         int daysInYear;
@@ -652,11 +659,10 @@ public class Bond {
                 daysInYear = 365;
                 break;
             case ACTACT:
-                daysInYear = startDate.isLeapYear() ? 366 : 365;
+                daysInYear = calculationStartDate.isLeapYear() ? 366 : 365;
                 break;
             case T30360:
-                // 对于30/360的情况，需要特殊处理天数计算
-                actualDays = calculate30360Days(startDate, today);
+                actualDays = calculate30360Days(calculationStartDate, today);
                 daysInYear = 360;
                 break;
             default:
@@ -670,6 +676,40 @@ public class Bond {
                 .divide(BigDecimal.valueOf(daysInYear * 100), 8, BigDecimal.ROUND_HALF_UP);
     }
 
+    /**
+     * 获取上一个付息日
+     */
+    private LocalDate getLastPaymentDate() {
+        LocalDate today = LocalDate.now();
+        
+        // 如果有本期付息日且已经过去，则本期付息日就是上一付息日
+        if (interestPaymentDate != null) {
+            LocalDate currentPaymentDate = interestPaymentDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            if (today.isAfter(currentPaymentDate)) {
+                return currentPaymentDate;
+            }
+        }
+        
+        // 如果有第一次付息日且已经过去，需要根据付息周期计算上一付息日
+        if (firstInterestPaymentDate != null && interestPaymentCycle != null 
+                && interestPaymentCycle.matches("\\d+")) {
+            LocalDate firstPayment = firstInterestPaymentDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            
+            if (today.isAfter(firstPayment)) {
+                int cycleMonths = Integer.parseInt(interestPaymentCycle);
+                long monthsSinceFirst = ChronoUnit.MONTHS.between(firstPayment, today);
+                int completedCycles = (int) (monthsSinceFirst / cycleMonths);
+                return firstPayment.plusMonths((long) completedCycles * cycleMonths);
+            }
+        }
+        
+        return null;
+    }
+
     private long calculate30360Days(LocalDate startDate, LocalDate endDate) {
         int y1 = startDate.getYear();
         int m1 = startDate.getMonthValue();
@@ -681,6 +721,41 @@ public class Bond {
         
         // 30/360 计算公式：(Y2-Y1)*360 + (M2-M1)*30 + (D2-D1)
         return (y2 - y1) * 360L + (m2 - m1) * 30L + (d2 - d1);
+    }
+
+    public BondLifeCycle getLifeCycle() {
+        LocalDate today = LocalDate.now();
+        
+        // 如果债券状态为"01"(到期兑付)，则返回结束状态
+        if ("01".equals(bondStatus)) {
+            return BondLifeCycle.BOND_END;
+        }
+        
+        // 转换相关日期为 LocalDate
+        LocalDate issueStartLocalDate = issueDate != null ? 
+            issueDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+        LocalDate issueEndLocalDate = issueEndDate != null ? 
+            issueEndDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+        LocalDate listingLocalDate = listingDate != null ? 
+            listingDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+        LocalDate matureLocalDate = matureDate != null ? 
+            matureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+        
+        // 判断生命周期
+        if (issueStartLocalDate != null && today.isBefore(issueStartLocalDate)) {
+            return BondLifeCycle.ISSUE_BEFORE;
+        } else if (issueStartLocalDate != null && issueEndLocalDate != null && 
+                   !today.isBefore(issueStartLocalDate) && !today.isAfter(issueEndLocalDate)) {
+            return BondLifeCycle.ISSUEING_PERIOD;
+        } else if (listingLocalDate != null && matureLocalDate != null && 
+                   !today.isBefore(listingLocalDate) && !today.isAfter(matureLocalDate)) {
+            return BondLifeCycle.LISTING_PERIOD;
+        } else if (matureLocalDate != null && today.isAfter(matureLocalDate)) {
+            return BondLifeCycle.BOND_END;
+        }
+        
+        // 如果无法判断，默认返回发行前状态
+        return BondLifeCycle.ISSUE_BEFORE;
     }
 
 }
