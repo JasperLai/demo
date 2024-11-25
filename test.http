@@ -65,12 +65,11 @@ POST http://localhost:8080/api/quotation/push
 Content-Type: application/json
 
 {
-  "transNo": "T2024012001",
-  "productId": "15202900001",
+  "transNo": "T2024012002",
   "bondCode": "BOND001",
   "priceSource": "1",
-  "priceDecimal": 100.5,
-  "quotaTime": "2024-01-20T10:00:00"
+  "priceDecimal": 100.6,
+  "quotaTime": "2024-01-20T15:00:00"
 }
 
 
