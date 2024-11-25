@@ -6,7 +6,7 @@ import com.example.demo.business.product.domain.entity.BondQuotation;
 import com.example.demo.business.product.domain.service.BondPricingService;
 import com.example.demo.business.product.domain.repository.BondQuotationRepository;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
-import com.example.demo.business.product.client.BondQuotationService;
+import com.example.demo.business.product.client.QuotationManageService;
 import com.example.demo.business.product.app.dto.response.QuotationLogDTO;
 import com.example.demo.business.product.infrastructure.repository.QuotationLogRepository;
 
@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Calendar;
 
 @Service
-public class BondQuotationServiceImpl implements BondQuotationService {
-    private static final Logger logger = LogManager.getLogger(BondQuotationServiceImpl.class);
+public class QuotationManageServiceImpl implements QuotationManageService {
+    private static final Logger logger = LogManager.getLogger(QuotationManageServiceImpl.class);
 
     @Autowired
     private BondPricingService bondPricingService;

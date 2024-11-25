@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public interface BondQuotationService {
+public interface QuotationManageService {
     /**
      * 报价查询
      * @param date 非必输默认当天
