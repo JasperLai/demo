@@ -83,12 +83,7 @@ public class QuotationManageServiceImpl implements QuotationManageService {
             throw new BizException("PRODUCT_NOT_FOUND", "产品不存在: " + productId);
         }
         
-        Bond bond = product.getBond();
-        if (bond == null) {
-            throw new BizException("BOND_NOT_FOUND", "产品未关联债券信息: " + productId);
-        }
-        
-        BondQuotation quotation = bondPricingService.calculateQuotation(bond, product, baseYield);
+        BondQuotation quotation = bondPricingService.calculateQuotation(product, baseYield);
         bondQuotationRepository.save(quotation);
         
         logger.info("产品{}报价生成完成", productId);
