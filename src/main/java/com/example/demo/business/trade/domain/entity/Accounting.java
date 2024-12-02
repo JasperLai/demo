@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Accounting {
-    private Long id;                     // 自增主键
     private String txTraceNum;           // 交易流水号
     private String initTxTraceNum;       // 发起端交易流水号
     private String fdmProductCode;       // FDM产品编码
@@ -21,15 +20,6 @@ public class Accounting {
     private String strkBalTraceNum;      // 被冲抹账流水号
     private String wrtoffInd;            // 冲抹标志
     private Date revDt;                  // 冲抹日期
-
-    // getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTxTraceNum() {
         return txTraceNum;

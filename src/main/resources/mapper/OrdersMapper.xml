@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.business.product.mapper.OrdersMapper">
+<mapper namespace="com.example.demo.business.trade.infrastructure.mapper.OrdersMapper">
     
-    <resultMap id="BaseResultMap" type="com.example.demo.business.product.domain.entity.OrdersEntity">
-        <id column="id" property="id" />
+    <resultMap id="BaseResultMap" type="com.example.demo.business.trade.domain.entity.Order">
         <result column="TX_TRACE_NUM" property="txTraceNum" />
         <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
         <result column="TX_CODE" property="txCode" />
@@ -23,12 +22,12 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
+        TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
         CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY, DEAL_PRICE, TX_DT, TX_IN,
         TX_INT_ORG_NUM, ORDER_STATUS, SUMMARY
     </sql>
 
-    <insert id="insert" parameterType="com.example.demo.business.product.domain.entity.OrdersEntity">
+    <insert id="insert" parameterType="com.example.demo.business.trade.domain.entity.Order">
         INSERT INTO ORDERS (
             TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
             CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY, DEAL_PRICE, TX_DT, TX_IN,
@@ -58,10 +57,9 @@
         WHERE BOND_CODE = #{bondCode}
     </select>
 
-    <update id="update" parameterType="com.example.demo.business.product.domain.entity.OrdersEntity">
+    <update id="update" parameterType="com.example.demo.business.trade.domain.entity.Order">
         UPDATE ORDERS
         <set>
-            <if test="txTraceNum != null">TX_TRACE_NUM = #{txTraceNum},</if>
             <if test="initTxTraceNum != null">INIT_TX_TRACE_NUM = #{initTxTraceNum},</if>
             <if test="txCode != null">TX_CODE = #{txCode},</if>
             <if test="bondSn != null">BOND_SN = #{bondSn},</if>
@@ -78,6 +76,6 @@
             <if test="orderStatus != null">ORDER_STATUS = #{orderStatus},</if>
             <if test="summary != null">SUMMARY = #{summary}</if>
         </set>
-        WHERE id = #{id}
+        WHERE TX_TRACE_NUM = #{txTraceNum}
     </update>
 </mapper> 

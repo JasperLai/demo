@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PeOrder {
-    private Long id;                     // 自增主键
     private String txTraceNum;           // 交易流水号
     private String coreIntTraceNum;      // 核心内部流水号
     private BigDecimal txAnt;            // 交易金额
@@ -15,14 +14,6 @@ public class PeOrder {
     private Date txDt;                   // 交易日期
     private Date wrtoffDt;               // 核销日期
 
-    // getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTxTraceNum() {
         return txTraceNum;

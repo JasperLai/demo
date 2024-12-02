@@ -3,7 +3,6 @@
 <mapper namespace="com.example.demo.business.product.mapper.PeOrderMapper">
     
     <resultMap id="BaseResultMap" type="com.example.demo.business.product.domain.entity.PeOrderEntity">
-        <id column="id" property="id" />
         <result column="TX_TRACE_NUM" property="txTraceNum" />
         <result column="CORE_INT_TRACE_NUM" property="coreIntTraceNum" />
         <result column="TX_ANT" property="txAnt" />
@@ -16,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, TX_TRACE_NUM, CORE_INT_TRACE_NUM, TX_ANT, PE_SERVICE_NAME, PE_ORDER_NUM,
+        TX_TRACE_NUM, CORE_INT_TRACE_NUM, TX_ANT, PE_SERVICE_NAME, PE_ORDER_NUM,
         WRTOFF_STATUS, WRTOFF_COND, TX_DT, WRTOFF_DT
     </sql>
 
@@ -45,7 +44,6 @@
     <update id="update" parameterType="com.example.demo.business.product.domain.entity.PeOrderEntity">
         UPDATE PE_ORDER
         <set>
-            <if test="txTraceNum != null">TX_TRACE_NUM = #{txTraceNum},</if>
             <if test="coreIntTraceNum != null">CORE_INT_TRACE_NUM = #{coreIntTraceNum},</if>
             <if test="txAnt != null">TX_ANT = #{txAnt},</if>
             <if test="peServiceName != null">PE_SERVICE_NAME = #{peServiceName},</if>
@@ -55,6 +53,6 @@
             <if test="txDt != null">TX_DT = #{txDt},</if>
             <if test="wrtoffDt != null">WRTOFF_DT = #{wrtoffDt}</if>
         </set>
-        WHERE id = #{id}
+        WHERE TX_TRACE_NUM = #{txTraceNum}
     </update>
 </mapper> 

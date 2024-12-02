@@ -3,7 +3,6 @@
 <mapper namespace="com.example.demo.business.product.mapper.AccountingMapper">
     
     <resultMap id="BaseResultMap" type="com.example.demo.business.product.domain.entity.AccountingEntity">
-        <id column="id" property="id" />
         <result column="TX_TRACE_NUM" property="txTraceNum" />
         <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
         <result column="FDM_PRODUCT_CODE" property="fdmProductCode" />
@@ -23,7 +22,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, TX_TRACE_NUM, INIT_TX_TRACE_NUM, FDM_PRODUCT_CODE, TX_BEHAV, TX_INT_ORG_NUM,
+        TX_TRACE_NUM, INIT_TX_TRACE_NUM, FDM_PRODUCT_CODE, TX_BEHAV, TX_INT_ORG_NUM,
         ACC_ORG, TX_DT, TX_TRAN_ENTRY_DT, TX_TM, TX_CURR_CD, TX_TRADE_CODE, TX_AMT,
         TX_ACC_MODULE, STRK_BAL_TRACE_NUM, WRTOFF_IND, REV_DT
     </sql>
@@ -55,7 +54,6 @@
     <update id="update" parameterType="com.example.demo.business.product.domain.entity.AccountingEntity">
         UPDATE ACCOUNTING
         <set>
-            <if test="txTraceNum != null">TX_TRACE_NUM = #{txTraceNum},</if>
             <if test="initTxTraceNum != null">INIT_TX_TRACE_NUM = #{initTxTraceNum},</if>
             <if test="fdmProductCode != null">FDM_PRODUCT_CODE = #{fdmProductCode},</if>
             <if test="txBehav != null">TX_BEHAV = #{txBehav},</if>
@@ -72,6 +70,6 @@
             <if test="wrtoffInd != null">WRTOFF_IND = #{wrtoffInd},</if>
             <if test="revDt != null">REV_DT = #{revDt}</if>
         </set>
-        WHERE id = #{id}
+        WHERE TX_TRACE_NUM = #{txTraceNum}
     </update>
 </mapper> 

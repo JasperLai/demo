@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Order {
-    private Long id;                     // 自增主键
     private String txTraceNum;           // 交易流水号
     private String initTxTraceNum;       // 发起端交易流水号
     private String txCode;               // 交易编码
@@ -22,14 +21,6 @@ public class Order {
     private String orderStatus;          // 订单状态
     private String summary;              // 摘要
 
-    // getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTxTraceNum() {
         return txTraceNum;
