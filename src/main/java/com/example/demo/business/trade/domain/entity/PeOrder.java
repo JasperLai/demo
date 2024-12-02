@@ -3,7 +3,7 @@ package com.example.demo.business.trade.domain.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PeOrderEntity {
+public class PeOrder {
     private Long id;                     // 自增主键
     private String txTraceNum;           // 交易流水号
     private String coreIntTraceNum;      // 核心内部流水号

@@ -3,7 +3,7 @@ package com.example.demo.business.trade.domain.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class AccountingEntity {
+public class Accounting {
     private Long id;                     // 自增主键
     private String txTraceNum;           // 交易流水号
     private String initTxTraceNum;       // 发起端交易流水号

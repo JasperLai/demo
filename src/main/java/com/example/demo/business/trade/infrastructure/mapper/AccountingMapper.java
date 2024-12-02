@@ -3,19 +3,19 @@ package com.example.demo.business.trade.infrastructure.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.demo.business.trade.domain.entity.AccountingEntity;
+import com.example.demo.business.trade.domain.entity.Accounting;
 
 @Mapper
 public interface AccountingMapper {
     // 插入账务记录
-    int insert(AccountingEntity entity);
+    int insert(Accounting entity);
     
     // 根据交易流水号查询
-    AccountingEntity selectByTxTraceNum(@Param("txTraceNum") String txTraceNum);
+    Accounting selectByTxTraceNum(@Param("txTraceNum") String txTraceNum);
     
     // 根据发起端交易流水号查询
-    AccountingEntity selectByInitTxTraceNum(@Param("initTxTraceNum") String initTxTraceNum);
+    Accounting selectByInitTxTraceNum(@Param("initTxTraceNum") String initTxTraceNum);
     
     // 更新账务记录
-    int update(AccountingEntity entity);
+    int update(Accounting entity);
 } 
