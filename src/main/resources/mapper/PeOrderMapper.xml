@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.business.product.mapper.PeOrderMapper">
+<mapper namespace="com.example.demo.business.trade.mapper.PeOrderMapper">
     
-    <resultMap id="BaseResultMap" type="com.example.demo.business.product.domain.entity.PeOrderEntity">
+    <resultMap id="BaseResultMap" type="com.example.demo.business.trade.domain.entity.PeOrder">
         <result column="TX_TRACE_NUM" property="txTraceNum" />
         <result column="CORE_INT_TRACE_NUM" property="coreIntTraceNum" />
         <result column="TX_ANT" property="txAnt" />
@@ -19,7 +19,7 @@
         WRTOFF_STATUS, WRTOFF_COND, TX_DT, WRTOFF_DT
     </sql>
 
-    <insert id="insert" parameterType="com.example.demo.business.product.domain.entity.PeOrderEntity">
+    <insert id="insert" parameterType="com.example.demo.business.trade.domain.entity.PeOrder">
         INSERT INTO PE_ORDER (
             TX_TRACE_NUM, CORE_INT_TRACE_NUM, TX_ANT, PE_SERVICE_NAME, PE_ORDER_NUM,
             WRTOFF_STATUS, WRTOFF_COND, TX_DT, WRTOFF_DT
@@ -41,7 +41,7 @@
         WHERE PE_ORDER_NUM = #{peOrderNum}
     </select>
 
-    <update id="update" parameterType="com.example.demo.business.product.domain.entity.PeOrderEntity">
+    <update id="update" parameterType="com.example.demo.business.trade.domain.entity.PeOrder">
         UPDATE PE_ORDER
         <set>
             <if test="coreIntTraceNum != null">CORE_INT_TRACE_NUM = #{coreIntTraceNum},</if>
