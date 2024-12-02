@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class BondPricingService {
@@ -37,7 +40,19 @@ public class BondPricingService {
         // 3. 计算应计利息
         BigDecimal accruedInterest = product.getBond().getAccruedInterestTillNow();
         
-        // 4. 创建报价对象
+        // 4. 设置生成时间和过期时间
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expiryTime = LocalDateTime.of(
+            now.toLocalDate(),
+            LocalTime.of(17, 0) // 当天下午5点
+        );
+        
+        // 如果当前时间已经超过下午5点，过期时间设置为第二天下午5点
+        if (now.isAfter(expiryTime)) {
+            expiryTime = expiryTime.plusDays(1);
+        }
+        
+        // 5. 创建报价对象
         BondQuotation quotation = BondQuotation.builder()
                 .withQuotaTransNo(generateQuotaTransNo())
                 .withProductId(product.getProductId())
@@ -47,6 +62,8 @@ public class BondPricingService {
                 .withCompSellNetPrice(sellNetPrice)
                 .withBuyIncomeRate(buyYield)
                 .withSellIncomeRate(sellYield)
+                .withQuotaTime(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()))
+                .withExpTime(Date.from(expiryTime.atZone(ZoneId.systemDefault()).toInstant()))
                 .build();
                 
         // 计算全价
@@ -186,7 +203,7 @@ public class BondPricingService {
     
     /**
      * 计算时间因子
-     * @param fromDate 起始日期
+     * @param fromDate ���始日期
      * @param toDate 结束日期
      * @return 时间因子
      */
