@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.product.mapper.AccountingMapper">
+    
+    <resultMap id="BaseResultMap" type="com.example.demo.business.product.domain.entity.AccountingEntity">
+        <id column="id" property="id" />
+        <result column="TX_TRACE_NUM" property="txTraceNum" />
+        <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
+        <result column="FDM_PRODUCT_CODE" property="fdmProductCode" />
+        <result column="TX_BEHAV" property="txBehav" />
+        <result column="TX_INT_ORG_NUM" property="txIntOrgNum" />
+        <result column="ACC_ORG" property="accOrg" />
+        <result column="TX_DT" property="txDt" />
+        <result column="TX_TRAN_ENTRY_DT" property="txTranEntryDt" />
+        <result column="TX_TM" property="txTm" />
+        <result column="TX_CURR_CD" property="txCurrCd" />
+        <result column="TX_TRADE_CODE" property="txTradeCode" />
+        <result column="TX_AMT" property="txAmt" />
+        <result column="TX_ACC_MODULE" property="txAccModule" />
+        <result column="STRK_BAL_TRACE_NUM" property="strkBalTraceNum" />
+        <result column="WRTOFF_IND" property="wrtoffInd" />
+        <result column="REV_DT" property="revDt" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, TX_TRACE_NUM, INIT_TX_TRACE_NUM, FDM_PRODUCT_CODE, TX_BEHAV, TX_INT_ORG_NUM,
+        ACC_ORG, TX_DT, TX_TRAN_ENTRY_DT, TX_TM, TX_CURR_CD, TX_TRADE_CODE, TX_AMT,
+        TX_ACC_MODULE, STRK_BAL_TRACE_NUM, WRTOFF_IND, REV_DT
+    </sql>
+
+    <insert id="insert" parameterType="com.example.demo.business.product.domain.entity.AccountingEntity">
+        INSERT INTO ACCOUNTING (
+            TX_TRACE_NUM, INIT_TX_TRACE_NUM, FDM_PRODUCT_CODE, TX_BEHAV, TX_INT_ORG_NUM,
+            ACC_ORG, TX_DT, TX_TRAN_ENTRY_DT, TX_TM, TX_CURR_CD, TX_TRADE_CODE, TX_AMT,
+            TX_ACC_MODULE, STRK_BAL_TRACE_NUM, WRTOFF_IND, REV_DT
+        ) VALUES (
+            #{txTraceNum}, #{initTxTraceNum}, #{fdmProductCode}, #{txBehav}, #{txIntOrgNum},
+            #{accOrg}, #{txDt}, #{txTranEntryDt}, #{txTm}, #{txCurrCd}, #{txTradeCode}, #{txAmt},
+            #{txAccModule}, #{strkBalTraceNum}, #{wrtoffInd}, #{revDt}
+        )
+    </insert>
+
+    <select id="selectByTxTraceNum" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM ACCOUNTING
+        WHERE TX_TRACE_NUM = #{txTraceNum}
+    </select>
+
+    <select id="selectByInitTxTraceNum" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM ACCOUNTING
+        WHERE INIT_TX_TRACE_NUM = #{initTxTraceNum}
+    </select>
+
+    <update id="update" parameterType="com.example.demo.business.product.domain.entity.AccountingEntity">
+        UPDATE ACCOUNTING
+        <set>
+            <if test="txTraceNum != null">TX_TRACE_NUM = #{txTraceNum},</if>
+            <if test="initTxTraceNum != null">INIT_TX_TRACE_NUM = #{initTxTraceNum},</if>
+            <if test="fdmProductCode != null">FDM_PRODUCT_CODE = #{fdmProductCode},</if>
+            <if test="txBehav != null">TX_BEHAV = #{txBehav},</if>
+            <if test="txIntOrgNum != null">TX_INT_ORG_NUM = #{txIntOrgNum},</if>
+            <if test="accOrg != null">ACC_ORG = #{accOrg},</if>
+            <if test="txDt != null">TX_DT = #{txDt},</if>
+            <if test="txTranEntryDt != null">TX_TRAN_ENTRY_DT = #{txTranEntryDt},</if>
+            <if test="txTm != null">TX_TM = #{txTm},</if>
+            <if test="txCurrCd != null">TX_CURR_CD = #{txCurrCd},</if>
+            <if test="txTradeCode != null">TX_TRADE_CODE = #{txTradeCode},</if>
+            <if test="txAmt != null">TX_AMT = #{txAmt},</if>
+            <if test="txAccModule != null">TX_ACC_MODULE = #{txAccModule},</if>
+            <if test="strkBalTraceNum != null">STRK_BAL_TRACE_NUM = #{strkBalTraceNum},</if>
+            <if test="wrtoffInd != null">WRTOFF_IND = #{wrtoffInd},</if>
+            <if test="revDt != null">REV_DT = #{revDt}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper> 

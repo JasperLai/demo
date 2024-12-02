@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.product.mapper.OrdersMapper">
+    
+    <resultMap id="BaseResultMap" type="com.example.demo.business.product.domain.entity.OrdersEntity">
+        <id column="id" property="id" />
+        <result column="TX_TRACE_NUM" property="txTraceNum" />
+        <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
+        <result column="TX_CODE" property="txCode" />
+        <result column="BOND_SN" property="bondSn" />
+        <result column="BOND_CODE" property="bondCode" />
+        <result column="TRADE_ACC" property="tradeAcc" />
+        <result column="CAPT_NUM" property="captNum" />
+        <result column="CAPT_ACCT_TYPE" property="captAcctType" />
+        <result column="TX_MNT" property="txMnt" />
+        <result column="TX_QUANTITY" property="txQuantity" />
+        <result column="DEAL_PRICE" property="dealPrice" />
+        <result column="TX_DT" property="txDt" />
+        <result column="TX_IN" property="txIn" />
+        <result column="TX_INT_ORG_NUM" property="txIntOrgNum" />
+        <result column="ORDER_STATUS" property="orderStatus" />
+        <result column="SUMMARY" property="summary" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
+        CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY, DEAL_PRICE, TX_DT, TX_IN,
+        TX_INT_ORG_NUM, ORDER_STATUS, SUMMARY
+    </sql>
+
+    <insert id="insert" parameterType="com.example.demo.business.product.domain.entity.OrdersEntity">
+        INSERT INTO ORDERS (
+            TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
+            CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY, DEAL_PRICE, TX_DT, TX_IN,
+            TX_INT_ORG_NUM, ORDER_STATUS, SUMMARY
+        ) VALUES (
+            #{txTraceNum}, #{initTxTraceNum}, #{txCode}, #{bondSn}, #{bondCode}, #{tradeAcc},
+            #{captNum}, #{captAcctType}, #{txMnt}, #{txQuantity}, #{dealPrice}, #{txDt}, #{txIn},
+            #{txIntOrgNum}, #{orderStatus}, #{summary}
+        )
+    </insert>
+
+    <select id="selectByTxTraceNum" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM ORDERS
+        WHERE TX_TRACE_NUM = #{txTraceNum}
+    </select>
+
+    <select id="selectByTradeAcc" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM ORDERS
+        WHERE TRADE_ACC = #{tradeAcc}
+    </select>
+
+    <select id="selectByBondCode" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM ORDERS
+        WHERE BOND_CODE = #{bondCode}
+    </select>
+
+    <update id="update" parameterType="com.example.demo.business.product.domain.entity.OrdersEntity">
+        UPDATE ORDERS
+        <set>
+            <if test="txTraceNum != null">TX_TRACE_NUM = #{txTraceNum},</if>
+            <if test="initTxTraceNum != null">INIT_TX_TRACE_NUM = #{initTxTraceNum},</if>
+            <if test="txCode != null">TX_CODE = #{txCode},</if>
+            <if test="bondSn != null">BOND_SN = #{bondSn},</if>
+            <if test="bondCode != null">BOND_CODE = #{bondCode},</if>
+            <if test="tradeAcc != null">TRADE_ACC = #{tradeAcc},</if>
+            <if test="captNum != null">CAPT_NUM = #{captNum},</if>
+            <if test="captAcctType != null">CAPT_ACCT_TYPE = #{captAcctType},</if>
+            <if test="txMnt != null">TX_MNT = #{txMnt},</if>
+            <if test="txQuantity != null">TX_QUANTITY = #{txQuantity},</if>
+            <if test="dealPrice != null">DEAL_PRICE = #{dealPrice},</if>
+            <if test="txDt != null">TX_DT = #{txDt},</if>
+            <if test="txIn != null">TX_IN = #{txIn},</if>
+            <if test="txIntOrgNum != null">TX_INT_ORG_NUM = #{txIntOrgNum},</if>
+            <if test="orderStatus != null">ORDER_STATUS = #{orderStatus},</if>
+            <if test="summary != null">SUMMARY = #{summary}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper> 
