@@ -1,8 +1,10 @@
-package com.example.demo.business.product.mapper;
+package com.example.demo.business.trade.infrastructure.mapper;
 
-import com.example.demo.business.product.domain.entity.OrdersEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.example.demo.business.trade.domain.entity.OrdersEntity;
+
 import java.util.List;
 
 @Mapper

@@ -1,4 +1,4 @@
-package com.example.demo.business.product.dto;
+package com.example.demo.business.trade.app.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;

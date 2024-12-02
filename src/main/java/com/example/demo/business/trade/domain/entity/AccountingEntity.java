@@ -1,27 +1,28 @@
-package com.example.demo.business.product.dto;
+package com.example.demo.business.trade.domain.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class AccountingDTO {
-    private Long id;                     
-    private String txTraceNum;           
-    private String initTxTraceNum;       
-    private String fdmProductCode;       
-    private String txBehav;              
-    private String txIntOrgNum;          
-    private String accOrg;               
-    private Date txDt;                   
-    private Date txTranEntryDt;          
-    private Date txTm;                   
-    private String txCurrCd;             
-    private String txTradeCode;          
-    private BigDecimal txAmt;            
-    private String txAccModule;          
-    private String strkBalTraceNum;      
-    private String wrtoffInd;            
-    private Date revDt;                  
+public class AccountingEntity {
+    private Long id;                     // 自增主键
+    private String txTraceNum;           // 交易流水号
+    private String initTxTraceNum;       // 发起端交易流水号
+    private String fdmProductCode;       // FDM产品编码
+    private String txBehav;              // 交易行为
+    private String txIntOrgNum;          // 交易机构号
+    private String accOrg;               // 账务机构号
+    private Date txDt;                   // 交易日期
+    private Date txTranEntryDt;          // 交易过账日期
+    private Date txTm;                   // 交易时间
+    private String txCurrCd;             // 交易币种
+    private String txTradeCode;          // 交易编码
+    private BigDecimal txAmt;            // 交易金额
+    private String txAccModule;          // 过账模块
+    private String strkBalTraceNum;      // 被冲抹账流水号
+    private String wrtoffInd;            // 冲抹标志
+    private Date revDt;                  // 冲抹日期
 
+    // getters and setters
     public Long getId() {
         return id;
     }

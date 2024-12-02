@@ -1,28 +1,27 @@
-package com.example.demo.business.product.domain.entity;
+package com.example.demo.business.trade.app.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OrdersEntity {
-    private Long id;                     // 自增主键
-    private String txTraceNum;           // 交易流水号
-    private String initTxTraceNum;       // 发起端交易流水号
-    private String txCode;               // 交易编码
-    private String bondSn;               // 国债编号
-    private String bondCode;             // 债券代码
-    private String tradeAcc;             // 交易账号
-    private String captNum;              // 资金账号
-    private String captAcctType;         // 支付账号类型
-    private BigDecimal txMnt;            // 交易金额
-    private String txQuantity;           // 交易份额
-    private String dealPrice;            // 成交价格
-    private Date txDt;                   // 交易日期
-    private Date txIn;                   // 交易时间
-    private String txIntOrgNum;          // 交易机构号
-    private String orderStatus;          // 订单状态
-    private String summary;              // 摘要
+public class OrdersDTO {
+    private Long id;                     
+    private String txTraceNum;           
+    private String initTxTraceNum;       
+    private String txCode;               
+    private String bondSn;               
+    private String bondCode;             
+    private String tradeAcc;             
+    private String captNum;              
+    private String captAcctType;         
+    private BigDecimal txMnt;            
+    private String txQuantity;           
+    private String dealPrice;            
+    private Date txDt;                   
+    private Date txIn;                   
+    private String txIntOrgNum;          
+    private String orderStatus;          
+    private String summary;              
 
-    // getters and setters
     public Long getId() {
         return id;
     }
