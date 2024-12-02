@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PeOrderDTO {
-    private Long id;                     
     private String txTraceNum;           
     private String coreIntTraceNum;      
     private BigDecimal txAnt;            
@@ -15,13 +14,6 @@ public class PeOrderDTO {
     private Date txDt;                   
     private Date wrtoffDt;               
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTxTraceNum() {
         return txTraceNum;

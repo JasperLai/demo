@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class AccountingDTO {
-    private Long id;                     
     private String txTraceNum;           
     private String initTxTraceNum;       
     private String fdmProductCode;       
@@ -21,14 +20,6 @@ public class AccountingDTO {
     private String strkBalTraceNum;      
     private String wrtoffInd;            
     private Date revDt;                  
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTxTraceNum() {
         return txTraceNum;
