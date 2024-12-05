@@ -10,6 +10,7 @@ import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
+import com.example.demo.business.product.app.dto.request.ProductValidateDTO;
 
 public interface ProductManageService {
 
@@ -44,12 +45,11 @@ public interface ProductManageService {
 
     public void setRecommendBond(String productID, boolean isRecmd);
 
-    public QuotaDTO getCurrentQuotation(String productID);
 
-    public void isUnderDistribution(String productId);
-
-    public void checkInventory(BigDecimal faceAmount, String productId);
-
-    public void validateSaleArea(String productId);
+    /**
+     * 校验交易请求
+     * @param validateDTO 校验请求数据
+     */
+    void validateOrder(ProductValidateDTO validateDTO);
 
 }

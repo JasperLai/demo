@@ -1,7 +1,5 @@
 package com.example.demo.business.product.app;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.business.general.app.dto.TransactionDTO;
@@ -10,16 +8,18 @@ import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryVO;
+import com.example.demo.business.product.app.dto.request.ProductValidateDTO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
 import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
-import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.business.product.domain.entity.Bond;
 import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.repository.BondProductRepository;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
+import com.example.demo.business.product.domain.service.InventoryService;
+import com.example.demo.business.product.domain.service.ProductValidateRule;
 
 public class ProductManageServiceImpl implements ProductManageService {
 
@@ -28,6 +28,9 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     @Autowired
     private TMSInterface transactionService;
+
+    @Autowired
+    private InventoryService inventoryService;
 
     // 录入原始债券数据全量
     @Override
@@ -90,7 +93,7 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     @Override
     public void updateBondProduct(BondProductDTO dto) {
-        // 1. 检查并获取现有产品
+        // 1. 检查并获取现有产��
         BondProduct existingProduct = bondProductRepository.findByProductId(dto.getProductId());
         if (existingProduct == null) {
             throw new RuntimeException("产品不存在: " + dto.getProductId());
@@ -152,27 +155,40 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public QuotaDTO getCurrentQuotation(String productID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentQuotation'");
-    }
-
-    @Override
-    public void isUnderDistribution(String productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUnderDistribution'");
-    }
-
-    @Override
-    public void checkInventory(BigDecimal faceAmount, String productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkInventory'");
-    }
-
-    @Override
-    public void validateSaleArea(String productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateSaleArea'");
+    public void validateOrder(ProductValidateDTO validateDTO) {
+        // 1. 校验交易面额
+        ProductValidateRule.validateFaceAmount(validateDTO.getFaceAmount());
+        
+        // 2. 获取并校验产品信息
+        BondProduct product = bondProductRepository.findByProductId(validateDTO.getProductId());
+        if (product == null) {
+            throw new IllegalArgumentException("产品不存在");
+        }
+        
+        // 3. 校验生命周期
+        ProductValidateRule.validateLifeCycle(product, validateDTO.getTradeType());
+        
+        // 4. 校验分销权限（如果是分销交易）
+        if ("003".equals(validateDTO.getTradeType())) {
+            ProductValidateRule.validateDistributionAuth(product);
+        }
+        
+        // 5. 获取并校验最新报价
+        // QuotaDTO latestQuota = getCurrentQuotation(validateDTO.getProductId());
+        // ProductValidateRule.validatePrice(validateDTO.getPrice(), latestQuota);
+        
+        // 6. 校验库存
+        // Inventory inventory = inventoryService.queryInventory(
+        //     validateDTO.getProductId(), 
+        //     getCurrentOrgId()
+        // );
+        // if (inventory == null) {
+        //     throw new IllegalArgumentException("未找到产品库存信息");
+        // }
+        // ProductValidateRule.validateInventory(
+        //     validateDTO.getFaceAmount(), 
+        //     inventory.getAvailableQuota()
+        // );
     }
 
 }

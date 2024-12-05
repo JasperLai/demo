@@ -50,7 +50,7 @@ public class BondBusinessAuth {
      * @param type 要检查的交易类型
      * @return 如果允许执行返回true，否则返回false
      */
-    public boolean canExectute(TransactionType type){
+    public boolean canExecute(TransactionType type){
         // 首先检查总开关是否开启
         boolean isAllTransactionsEnabled = (permissions & TRANSACTION_TYPE_MASK_MAP.get(TransactionType.ALL_TRANSACTIONS)) != 0;
         if (!isAllTransactionsEnabled) {
@@ -91,7 +91,7 @@ public class BondBusinessAuth {
     public Map<TransactionType, Boolean> getAllPermissionStatus() {
         Map<TransactionType, Boolean> status = new EnumMap<>(TransactionType.class);
         for (TransactionType type : TransactionType.values()) {
-            status.put(type, canExectute(type));
+            status.put(type, canExecute(type));
         }
         return status;
     }
@@ -153,7 +153,7 @@ public class BondBusinessAuth {
         System.out.println("Current Permissions: " + auth.getPermissionsAsBinaryString());
 
         // 检查是否允许特定操作
-        if (auth.canExectute(TransactionType.BUY_SELL)) {
+        if (auth.canExecute(TransactionType.BUY_SELL)) {
             System.out.println("可以进行买入卖出操作。");
         } else {
             System.out.println("禁止买入卖出操作。");
