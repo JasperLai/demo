@@ -1,6 +1,6 @@
 package com.example.demo.business.trade.infrastructure.repository;
 
-import com.example.demo.business.trade.domain.entity.Accounting;
+import com.example.demo.business.trade.domain.entity.AccountingEntry;
 import com.example.demo.business.trade.infrastructure.mapper.AccountingMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class AccountingRepositoryImplTest {
     @Test
     void save_ShouldCallMapperInsert() {
         // given
-        Accounting accounting = createTestAccounting();
+        AccountingEntry accounting = createTestAccounting();
 
         // when
         accountingRepository.save(accounting);
@@ -45,11 +45,11 @@ class AccountingRepositoryImplTest {
     void findByTxTraceNum_ShouldReturnAccounting() {
         // given
         String txTraceNum = "TX123456";
-        Accounting expected = createTestAccounting();
+        AccountingEntry expected = createTestAccounting();
         when(accountingMapper.selectByTxTraceNum(txTraceNum)).thenReturn(expected);
 
         // when
-        Accounting actual = accountingRepository.findByTxTraceNum(txTraceNum);
+        AccountingEntry actual = accountingRepository.findByTxTraceNum(txTraceNum);
 
         // then
         assertNotNull(actual);
@@ -61,11 +61,11 @@ class AccountingRepositoryImplTest {
     void findByInitTxTraceNum_ShouldReturnAccounting() {
         // given
         String initTxTraceNum = "INIT123456";
-        Accounting expected = createTestAccounting();
+        AccountingEntry expected = createTestAccounting();
         when(accountingMapper.selectByInitTxTraceNum(initTxTraceNum)).thenReturn(expected);
 
         // when
-        Accounting actual = accountingRepository.findByInitTxTraceNum(initTxTraceNum);
+        AccountingEntry actual = accountingRepository.findByInitTxTraceNum(initTxTraceNum);
 
         // then
         assertNotNull(actual);
@@ -75,7 +75,7 @@ class AccountingRepositoryImplTest {
     @Test
     void update_ShouldCallMapperUpdate() {
         // given
-        Accounting accounting = createTestAccounting();
+        AccountingEntry accounting = createTestAccounting();
 
         // when
         accountingRepository.update(accounting);
@@ -84,8 +84,8 @@ class AccountingRepositoryImplTest {
         verify(accountingMapper).update(accounting);
     }
 
-    private Accounting createTestAccounting() {
-        Accounting accounting = new Accounting();
+    private AccountingEntry createTestAccounting() {
+        AccountingEntry accounting = new AccountingEntry();
         accounting.setTxTraceNum("TX123456");
         accounting.setInitTxTraceNum("INIT123456");
         accounting.setTxAmt(new BigDecimal("100.00"));

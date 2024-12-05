@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.business.trade.mapper.AccountingMapper">
     
-    <resultMap id="BaseResultMap" type="com.example.demo.business.trade.domain.entity.Accounting">
+    <resultMap id="BaseResultMap" type="com.example.demo.business.trade.domain.entity.AccountingEntry">
         <result column="TX_TRACE_NUM" property="txTraceNum" />
         <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
         <result column="FDM_PRODUCT_CODE" property="fdmProductCode" />
@@ -27,7 +27,7 @@
         TX_ACC_MODULE, STRK_BAL_TRACE_NUM, WRTOFF_IND, REV_DT
     </sql>
 
-    <insert id="insert" parameterType="com.example.demo.business.trade.domain.entity.Accounting">
+    <insert id="insert" parameterType="com.example.demo.business.trade.domain.entity.AccountingEntry">
         INSERT INTO ACCOUNTING (
             TX_TRACE_NUM, INIT_TX_TRACE_NUM, FDM_PRODUCT_CODE, TX_BEHAV, TX_INT_ORG_NUM,
             ACC_ORG, TX_DT, TX_TRAN_ENTRY_DT, TX_TM, TX_CURR_CD, TX_TRADE_CODE, TX_AMT,
@@ -51,7 +51,7 @@
         WHERE INIT_TX_TRACE_NUM = #{initTxTraceNum}
     </select>
 
-    <update id="update" parameterType="com.example.demo.business.trade.domain.entity.Accounting">
+    <update id="update" parameterType="com.example.demo.business.trade.domain.entity.AccountingEntry">
         UPDATE ACCOUNTING
         <set>
             <if test="initTxTraceNum != null">INIT_TX_TRACE_NUM = #{initTxTraceNum},</if>

@@ -2,7 +2,7 @@ package com.example.demo.business.trade.infrastructure.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.example.demo.business.trade.domain.entity.Accounting;
+import com.example.demo.business.trade.domain.entity.AccountingEntry;
 import com.example.demo.business.trade.domain.repository.AccountingRepository;
 import com.example.demo.business.trade.infrastructure.mapper.AccountingMapper;
 
@@ -13,22 +13,22 @@ public class AccountingRepositoryImpl implements AccountingRepository {
     private AccountingMapper accountingMapper;
     
     @Override
-    public void save(Accounting accounting) {
+    public void save(AccountingEntry accounting) {
         accountingMapper.insert(accounting);
     }
     
     @Override
-    public Accounting findByTxTraceNum(String txTraceNum) {
+    public AccountingEntry findByTxTraceNum(String txTraceNum) {
         return accountingMapper.selectByTxTraceNum(txTraceNum);
     }
     
     @Override
-    public Accounting findByInitTxTraceNum(String initTxTraceNum) {
+    public AccountingEntry findByInitTxTraceNum(String initTxTraceNum) {
         return accountingMapper.selectByInitTxTraceNum(initTxTraceNum);
     }
     
     @Override
-    public void update(Accounting accounting) {
+    public void update(AccountingEntry accounting) {
         accountingMapper.update(accounting);
     }
 } 
