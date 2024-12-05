@@ -1,22 +1,65 @@
 package com.example.demo.business.general.app.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.example.demo.business.general.domain.entity.Transaction;
-import com.example.demo.business.general.client.TradeType;
-import com.example.demo.business.general.client.TransStatus;
 
 public class TransactionDTO {
+    
+    /**
+     * 交易流水号
+     */
     private String txTraceNum;
+    
+    /**
+     * 发起端交易流水号
+     */
     private String initTxTraceNum;
+    
+    /**
+     * 渠道编号
+     */
     private String channelNo;
+    
+    /**
+     * 交易机构号
+     */
     private String txIntOrgNum;
+    
+    /**
+     * 柜员编号
+     */
     private String tellerNo;
+    
+    /**
+     * 交易类型编码
+     */
     private String tradeType;
+    
+    /**
+     * 交易账号
+     */
     private String tradeAcc;
-    private String businessDate;
-    private Date tradeTime;
-    private Date updateTime;
+    
+    /**
+     * 业务日期
+     */
+    private LocalDate businessDate;
+    
+    /**
+     * 交易发生时间
+     */
+    private LocalDateTime tradeTime;
+    
+    /**
+     * 状态
+     */
     private String status;
+    
+    /**
+     * 备注
+     */
     private String remark;
 
     // Getters and Setters
@@ -76,28 +119,20 @@ public class TransactionDTO {
         this.tradeAcc = tradeAcc;
     }
 
-    public String getBusinessDate() {
+    public LocalDate getBusinessDate() {
         return businessDate;
     }
 
-    public void setBusinessDate(String businessDate) {
+    public void setBusinessDate(LocalDate businessDate) {
         this.businessDate = businessDate;
     }
 
-    public Date getTradeTime() {
+    public LocalDateTime getTradeTime() {
         return tradeTime;
     }
 
-    public void setTradeTime(Date tradeTime) {
+    public void setTradeTime(LocalDateTime tradeTime) {
         this.tradeTime = tradeTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public String getStatus() {
@@ -116,29 +151,32 @@ public class TransactionDTO {
         this.remark = remark;
     }
 
-    // Static factory method to create DTO from entity
-    public static TransactionDTO fromEntity(Transaction entity) {
-        if (entity == null) {
+    /**
+     * 将 Transaction 实体转换为 DTO
+     */
+    public static TransactionDTO fromEntity(Transaction transaction) {
+        if (transaction == null) {
             return null;
         }
         
         TransactionDTO dto = new TransactionDTO();
-        dto.setTxTraceNum(entity.getTxTraceNum());
-        dto.setInitTxTraceNum(entity.getInitTxTraceNum());
-        dto.setChannelNo(entity.getChannelNo());
-        dto.setTxIntOrgNum(entity.getTxIntOrgNum());
-        dto.setTellerNo(entity.getTellerNo());
-        dto.setTradeType(entity.getTradeType() != null ? entity.getTradeType().name() : null);
-        dto.setTradeAcc(entity.getTradeAcc());
-        dto.setBusinessDate(entity.getBusinessDate());
-        dto.setTradeTime(entity.getTradeTime());
-        dto.setUpdateTime(entity.getUpdateTime());
-        dto.setStatus(entity.getStatus() != null ? entity.getStatus().name() : null);
-        dto.setRemark(entity.getRemark());
+        dto.setTxTraceNum(transaction.getTxTraceNum());
+        dto.setInitTxTraceNum(transaction.getInitTxTraceNum());
+        dto.setChannelNo(transaction.getChannelNo());
+        dto.setTxIntOrgNum(transaction.getTxIntOrgNum());
+        dto.setTellerNo(transaction.getTellerNo());
+        dto.setTradeType(transaction.getTradeType());
+        dto.setTradeAcc(transaction.getTradeAcc());
+        dto.setBusinessDate(transaction.getBusinessDate());
+        dto.setTradeTime(transaction.getTradeTime());
+        dto.setStatus(transaction.getStatus());
+        dto.setRemark(transaction.getRemark());
         return dto;
     }
 
-    // Convert DTO to entity
+    /**
+     * 将 DTO 转换为 Transaction 实体
+     */
     public Transaction toEntity() {
         Transaction entity = new Transaction();
         entity.setTxTraceNum(this.txTraceNum);
@@ -146,12 +184,11 @@ public class TransactionDTO {
         entity.setChannelNo(this.channelNo);
         entity.setTxIntOrgNum(this.txIntOrgNum);
         entity.setTellerNo(this.tellerNo);
-        entity.setTradeType(this.tradeType != null ? TradeType.valueOf(this.tradeType) : null);
+        entity.setTradeType(this.tradeType);
         entity.setTradeAcc(this.tradeAcc);
         entity.setBusinessDate(this.businessDate);
         entity.setTradeTime(this.tradeTime);
-        entity.setUpdateTime(this.updateTime);
-        entity.setStatus(this.status != null ? TransStatus.valueOf(this.status) : null);
+        entity.setStatus(this.status);
         entity.setRemark(this.remark);
         return entity;
     }

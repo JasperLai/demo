@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.general.client.TMSInterface;
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
-import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryVO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
@@ -50,7 +50,7 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionVO trans) {
+    public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionDTO trans) {
         BaseData result = new BaseData();
         String transID = transactionService.createTransaction(trans, TradeType.PRODUCT_ENTER);
 
@@ -83,7 +83,7 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData updateBondProduct(BondProductDTO dto, TransactionVO trans) {
+    public BaseData updateBondProduct(BondProductDTO dto, TransactionDTO trans) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateBondProduct'");
     }
@@ -104,19 +104,19 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData setProductSwitch(TradeSwitchDTO vo, TransactionVO trans) {
+    public BaseData setProductSwitch(TradeSwitchDTO vo, TransactionDTO trans) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setProductSwitch'");
     }
 
     @Override
-    public BaseData setTradeSwitch(TradeSwitchDTO vo, TransactionVO trans) {
+    public BaseData setTradeSwitch(TradeSwitchDTO vo, TransactionDTO trans) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setTradeSwitch'");
     }
 
     @Override
-    public BaseData setRenewDefaultSwitch(String productID, TransactionVO trans) {
+    public BaseData setRenewDefaultSwitch(String productID, TransactionDTO trans) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setRenewDefaultSwitch'");
     }

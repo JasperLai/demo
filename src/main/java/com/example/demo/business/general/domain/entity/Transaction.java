@@ -1,22 +1,68 @@
 package com.example.demo.business.general.domain.entity;
 
-import java.util.Date;
-
-import com.example.demo.business.general.client.TradeType;
-import com.example.demo.business.general.client.TransStatus;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Transaction {
+        
+    /**
+     * 交易流水号
+     */
     private String txTraceNum;
+    
+    /**
+     * 发起端交易流水号
+     */
     private String initTxTraceNum;
+    
+    /**
+     * 渠道编号
+     */
     private String channelNo;
+    
+    /**
+     * 交易机构号
+     */
     private String txIntOrgNum;
+    
+    /**
+     * 柜员编号
+     */
     private String tellerNo;
-    private TradeType tradeType;
+    
+    /**
+     * 交易类型编码
+     */
+    private String tradeType;
+    
+    /**
+     * 交易账号
+     */
     private String tradeAcc;
-    private String businessDate;
-    private Date tradeTime;
-    private Date updateTime;
-    private TransStatus status;
+    
+    /**
+     * 业务日期
+     */
+    private LocalDate businessDate;
+    
+    /**
+     * 交易发生时间
+     */
+    private LocalDateTime tradeTime;
+    
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+    
+    /**
+     * 状态
+     */
+    private String status;
+    
+    /**
+     * 备注
+     */
     private String remark;
 
     public String getTxTraceNum() {
@@ -59,11 +105,11 @@ public class Transaction {
         this.tellerNo = tellerNo;
     }
 
-    public TradeType getTradeType() {
+    public String getTradeType() {
         return tradeType;
     }
 
-    public void setTradeType(TradeType tradeType) {
+    public void setTradeType(String tradeType) {
         this.tradeType = tradeType;
     }
 
@@ -75,35 +121,35 @@ public class Transaction {
         this.tradeAcc = tradeAcc;
     }
 
-    public String getBusinessDate() {
+    public LocalDate getBusinessDate() {
         return businessDate;
     }
 
-    public void setBusinessDate(String businessDate) {
+    public void setBusinessDate(LocalDate businessDate) {
         this.businessDate = businessDate;
     }
 
-    public Date getTradeTime() {
+    public LocalDateTime getTradeTime() {
         return tradeTime;
     }
 
-    public void setTradeTime(Date tradeTime) {
+    public void setTradeTime(LocalDateTime tradeTime) {
         this.tradeTime = tradeTime;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 
-    public TransStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(TransStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -114,4 +160,8 @@ public class Transaction {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    // Getters and Setters
+    // ... (省略getter/setter代码)
+    
 } 

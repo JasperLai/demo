@@ -2,6 +2,7 @@ package com.example.demo.business.product.client;
 
 import java.util.List;
 
+import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.TraderDTO;
 import com.example.demo.business.product.app.dto.request.QuotaTransferDTO;
@@ -11,7 +12,7 @@ import com.example.demo.common.exception.data.ListData;
 public interface ChannelManageService {
 
     // Public methods for bond quota services
-    public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<QuotaTransferDTO> inQuota, TransactionVO vo); // 债券额度批量调拨
+    public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<QuotaTransferDTO> inQuota, TransactionDTO vo); // 债券额度批量调拨
 
     public void bondQuotaTransfer(String outOrg, String inOrg, long amount, String bondCode); // 债券额度调拨
 

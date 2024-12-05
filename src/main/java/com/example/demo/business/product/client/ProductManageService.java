@@ -2,7 +2,7 @@ package com.example.demo.business.product.client;
 
 import java.math.BigDecimal;
 
-import com.example.demo.business.general.client.TransactionVO;
+import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryVO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
@@ -16,20 +16,20 @@ public interface ProductManageService {
     /* bond product regist */
     public boolean enterOriginBond(BondRegistRequest vo);
 
-    public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionVO trans);
+    public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionDTO trans);
 
     public void registBondProduct(String bondCode, BondProductDTO productDTO);
 
-    public BaseData updateBondProduct(BondProductDTO productDTO, TransactionVO trans);
+    public BaseData updateBondProduct(BondProductDTO productDTO, TransactionDTO trans);
 
     public void updateBondProduct(BondProductDTO productDTO);
 
     /* switch manage */
-    public BaseData setProductSwitch(TradeSwitchDTO vo, TransactionVO trans);
+    public BaseData setProductSwitch(TradeSwitchDTO vo, TransactionDTO trans);
 
-    public BaseData setTradeSwitch(TradeSwitchDTO vo, TransactionVO trans);
+    public BaseData setTradeSwitch(TradeSwitchDTO vo, TransactionDTO trans);
 
-    public BaseData setRenewDefaultSwitch(String productID, TransactionVO trans);
+    public BaseData setRenewDefaultSwitch(String productID, TransactionDTO trans);
 
     public ListData<TradeSwitchDTO> queryTradeSwitch(TradeSwitchDTO vo);
 

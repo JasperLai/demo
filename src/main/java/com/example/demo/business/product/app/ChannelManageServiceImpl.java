@@ -3,6 +3,7 @@ package com.example.demo.business.product.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.general.client.TMSInterface;
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
@@ -38,7 +39,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
     // Public methods for bond quota services
     @Override
     public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<QuotaTransferDTO> transferList,
-            TransactionVO transactionVO) {
+            TransactionDTO transactionVO) {
 
         String transID = transactionManageService.createTransaction(transactionVO, TradeType.BOND_QUOTA_TRANSFER);
         //Retrieve inventory for the bond from outOrg
