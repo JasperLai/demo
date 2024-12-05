@@ -1,26 +1,18 @@
 package com.example.demo.business.product.domain.repository;
 
+import com.example.demo.business.product.domain.entity.Inventory;
+import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
-import com.github.pagehelper.PageInfo;
-@Component
 public interface InventoryRepository {
-
-
-    public void saveInventory(InventoryDTO inventory);
-
-    public InventoryDTO findByOrgId(String orgId);
-
-    public InventoryDTO findByBondCode(String bondCode);
-
-    public PageInfo<InventoryDTO> findInventoryList(int pageIndex, int pageSize);
-
-    //  public static Inventory findByOrgId(String orgId) {
-    //     // This method would interact with the database to retrieve an Inventory instance
-    //     // Placeholder implementation
-    //     return new Inventory(orgId, "bondCode", SaleStrategy.SPECIFIC); // Example return value
-    // }
-
+    void save(Inventory inventory);
+    
+    void update(Inventory inventory);
+    
+    Inventory findByProductIdAndOrgNum(String productId, String orgNum);
+    
+    List<Inventory> findByProductId(String productId);
+    
+    List<Inventory> findByOrgNum(String orgNum);
+    
+    List<Inventory> findAll();
 }

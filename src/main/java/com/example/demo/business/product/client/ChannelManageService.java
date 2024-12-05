@@ -3,7 +3,6 @@ package com.example.demo.business.product.client;
 import java.util.List;
 
 import com.example.demo.business.general.app.dto.TransactionDTO;
-import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.TraderDTO;
 import com.example.demo.business.product.app.dto.request.QuotaTransferDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;

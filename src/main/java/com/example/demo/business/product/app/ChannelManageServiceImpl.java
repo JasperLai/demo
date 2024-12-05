@@ -7,7 +7,6 @@ import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.general.client.TMSInterface;
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransStatus;
-import com.example.demo.business.general.client.TransactionVO;
 import com.example.demo.business.product.app.dto.request.TraderDTO;
 import com.example.demo.business.product.app.dto.request.QuotaTransferDTO;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
@@ -47,9 +46,9 @@ public class ChannelManageServiceImpl implements ChannelManageService {
 
         //Validate if outOrg has sufficient quota for all transfers
         long totalTransferAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
-        if (outInventory.getAvailableQuota() < totalTransferAmount) {
-            throw new IllegalArgumentException("Insufficient quota in " + outOrg);
-        }
+        // if (outInventory.getAvailableQuota() < totalTransferAmount) {
+        //     throw new IllegalArgumentException("Insufficient quota in " + outOrg);
+        // }
 
         //Process each transfer
         for (QuotaTransferDTO transfer : transferList) {

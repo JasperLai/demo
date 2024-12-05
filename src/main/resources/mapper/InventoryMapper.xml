@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.product.infrastructure.mapper.InventoryMapper">
+    
+    <insert id="insert" parameterType="com.example.demo.business.product.app.dto.response.InventoryDTO">
+        INSERT INTO INVENTORY (
+            INT_ORG_NUM,
+            PRODUCT_ID,
+            BOND_CODE,
+            LIMITS,
+            SALE_STRAGETY
+        ) VALUES (
+            #{orgNum},
+            #{productId},
+            #{bondCode},
+            #{limits},
+            #{saleStrategy}
+        )
+    </insert>
+    
+    <update id="update" parameterType="com.example.demo.business.product.app.dto.response.InventoryDTO">
+        UPDATE INVENTORY
+        SET 
+            LIMITS = #{limits},
+            SALE_STRAGETY = #{saleStrategy}
+        WHERE PRODUCT_ID = #{productId} AND INT_ORG_NUM = #{orgNum}
+    </update>
+    
+    <select id="selectByProductIdAndOrgNum" resultType="com.example.demo.business.product.app.dto.response.InventoryDTO">
+        SELECT 
+            INT_ORG_NUM as orgNum,
+            PRODUCT_ID as productId,
+            BOND_CODE as bondCode,
+            LIMITS as limits,
+            SALE_STRAGETY as saleStrategy
+        FROM INVENTORY
+        WHERE PRODUCT_ID = #{productId} AND INT_ORG_NUM = #{orgNum}
+    </select>
+    
+    <select id="selectByProductId" resultType="com.example.demo.business.product.app.dto.response.InventoryDTO">
+        SELECT 
+            INT_ORG_NUM as orgNum,
+            PRODUCT_ID as productId,
+            BOND_CODE as bondCode,
+            LIMITS as limits,
+            SALE_STRAGETY as saleStrategy
+        FROM INVENTORY
+        WHERE PRODUCT_ID = #{productId}
+    </select>
+    
+    <select id="selectByOrgNum" resultType="com.example.demo.business.product.app.dto.response.InventoryDTO">
+        SELECT 
+            INT_ORG_NUM as orgNum,
+            PRODUCT_ID as productId,
+            BOND_CODE as bondCode,
+            LIMITS as limits,
+            SALE_STRAGETY as saleStrategy
+        FROM INVENTORY
+        WHERE INT_ORG_NUM = #{orgNum}
+    </select>
+    
+    <select id="selectAll" resultType="com.example.demo.business.product.app.dto.response.InventoryDTO">
+        SELECT 
+            INT_ORG_NUM as orgNum,
+            PRODUCT_ID as productId,
+            BOND_CODE as bondCode,
+            LIMITS as limits,
+            SALE_STRAGETY as saleStrategy
+        FROM INVENTORY
+    </select>
+    
+</mapper> 

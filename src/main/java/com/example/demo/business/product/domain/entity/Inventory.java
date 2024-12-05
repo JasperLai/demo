@@ -1,30 +1,77 @@
 package com.example.demo.business.product.domain.entity;
 
-import java.util.Map;
-
-import com.example.demo.business.product.domain.service.OrgService;
-
 public class Inventory {
-    private String orgId;
+    private String orgNum;
+    private String productId;
     private String bondCode;
-    private long availableQuota;
-    private SaleStrategy strategy;
+    private Long limits;
+    private SaleStrategy saleStrategy;
 
-    // Constructor
-    public Inventory(String orgId, String bondCode, SaleStrategy strategy) {
-        this.orgId = orgId;
-        this.bondCode = bondCode;
-        this.strategy = strategy;
-        this.availableQuota = (strategy == SaleStrategy.GLOBAL) ? 0 : -1; // -1 can denote "unset" for SPECIFIC strategy
+    public enum SaleStrategy {
+        global,
+        specific
     }
 
-    // Getters and setters
-    public String getOrgId() {
-        return orgId;
+    // 私有构造函数,使用Builder模式
+    private Inventory() {}
+
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    // Builder类
+    public static class Builder {
+        private Inventory inventory;
+
+        public Builder() {
+            inventory = new Inventory();
+        }
+
+        public Builder withOrgNum(String orgNum) {
+            inventory.setOrgNum(orgNum);
+            return this;
+        }
+
+        public Builder withProductId(String productId) {
+            inventory.setProductId(productId);
+            return this;
+        }
+
+        public Builder withBondCode(String bondCode) {
+            inventory.setBondCode(bondCode);
+            return this;
+        }
+
+        public Builder withLimits(Long limits) {
+            inventory.setLimits(limits);
+            return this;
+        }
+
+        public Builder withSaleStrategy(SaleStrategy saleStrategy) {
+            inventory.setSaleStrategy(saleStrategy);
+            return this;
+        }
+
+        public Inventory build() {
+            return inventory;
+        }
+    }
+
+    // Getters and Setters
+    public String getOrgNum() {
+        return orgNum;
+    }
+
+    public void setOrgNum(String orgNum) {
+        this.orgNum = orgNum;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getBondCode() {
@@ -35,69 +82,20 @@ public class Inventory {
         this.bondCode = bondCode;
     }
 
-    public long getAvailableQuota() {
-        // For global strategy, it could potentially fetch the limit from a global setting
-        if(this.strategy == SaleStrategy.GLOBAL) {
-            // Simulate fetching global limit
-            return fetchGlobalLimit();
-        } else {
-            return availableQuota;
-        }
+    public Long getLimits() {
+        return limits;
     }
 
-
-    public void setAvailableQuota(long limit) {
-        if (this.strategy == SaleStrategy.SPECIFIC) {
-            this.availableQuota = limit;
-        }
-        // If the strategy is GLOBAL, setting limit might be ignored or throw an error
+    public void setLimits(Long limits) {
+        this.limits = limits;
     }
 
-    public SaleStrategy getStrategy() {
-        return strategy;
+    public SaleStrategy getSaleStrategy() {
+        return saleStrategy;
     }
 
-    public void setStrategy(SaleStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    // Assume there is a method to fetch the global limit. Placeholder implementation:
-    private long fetchGlobalLimit() {
-        long globalLimit = 0;
-
-        Map<String, OrgNode> hierarchy = OrgService.getHierarchy();
-
-        // Find the root node for the current organization
-        OrgNode currentOrgNode = hierarchy.get(this.orgId);
-        if (currentOrgNode == null) {
-            throw new IllegalStateException("No organization found for ID: " + this.orgId);
-        }
-
-        // Traverse up the tree to find the nearest specific strategy limit
-        globalLimit = traverseToFindLimit(currentOrgNode, hierarchy);
-
-        return globalLimit;
-    
-    }
-
-    // Recursive method to traverse the tree and find the nearest specific strategy limit
-    private long traverseToFindLimit(OrgNode node, Map<String, OrgNode> hierarchy) {
-        if (node.getStrategy() == SaleStrategy.SPECIFIC) {
-            // Found the nearest specific strategy limit
-            return node.getLimit();
-        } else if (node.getParentId() == null) {
-            // If we've reached the root node without finding a specific strategy, return the root limit
-            return node.getLimit();
-        } else {
-            // Recursively call this method with the parent node
-            return traverseToFindLimit(hierarchy.get(node.getParentId()), hierarchy);
-        }
-    }
-
-    // Enum for SaleStrategy
-    public enum SaleStrategy {
-        GLOBAL,
-        SPECIFIC
+    public void setSaleStrategy(SaleStrategy saleStrategy) {
+        this.saleStrategy = saleStrategy;
     }
 }
 

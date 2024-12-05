@@ -1,6 +1,6 @@
 package com.example.demo.business.customer.client;
 
-import com.example.demo.business.general.client.TransactionVO;
+import com.example.demo.business.general.app.dto.TransactionDTO;
 
 public interface CustomerServiceInterface {
 
@@ -11,9 +11,9 @@ public interface CustomerServiceInterface {
     void verifyAccount(String cashAccountId);
 
     //开户
-    void openAccount(OpenAccountDTO openAccountDTO, TransactionVO trans);
+    void openAccount(OpenAccountDTO openAccountDTO, TransactionDTO trans);
 
     //销户
-    void cancelAccount(CancelAccountDTO cancelAccountDTO, TransactionVO trans);
+    void cancelAccount(CancelAccountDTO cancelAccountDTO, TransactionDTO trans);
 
 }  
