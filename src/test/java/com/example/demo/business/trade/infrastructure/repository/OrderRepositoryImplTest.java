@@ -75,14 +75,14 @@ class OrderRepositoryImplTest {
     }
 
     @Test
-    void findByBondCode_ShouldReturnOrderList() {
+    void findByProductId_ShouldReturnOrderList() {
         // given
-        String bondCode = "BOND123";
+        String productId = "PROD123";
         List<Order> expected = Arrays.asList(createTestOrder(), createTestOrder());
-        when(ordersMapper.selectByBondCode(bondCode)).thenReturn(expected);
+        when(ordersMapper.selectByProductId(productId)).thenReturn(expected);
 
         // when
-        List<Order> actual = orderRepository.findByBondCode(bondCode);
+        List<Order> actual = orderRepository.findByProductId(productId);
 
         // then
         assertNotNull(actual);
@@ -92,10 +92,11 @@ class OrderRepositoryImplTest {
     private Order createTestOrder() {
         Order order = new Order();
         order.setTxTraceNum("TX123456");
-        order.setBondCode("BOND123");
+        order.setProductId("PROD123");
         order.setTradeAcc("ACC123");
         order.setTxMnt(new BigDecimal("1000.00"));
         order.setTxDt(new Date());
+        order.setBuySellInd("1");
         return order;
     }
 } 

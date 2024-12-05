@@ -7,8 +7,7 @@ public class Order {
     private String txTraceNum;           // 交易流水号
     private String initTxTraceNum;       // 发起端交易流水号
     private String txCode;               // 交易编码
-    private String bondSn;               // 国债编号
-    private String bondCode;             // 债券代码
+    private String productId;            // 产品代码
     private String tradeAcc;             // 交易账号
     private String captNum;              // 资金账号
     private String captAcctType;         // 支付账号类型
@@ -20,6 +19,7 @@ public class Order {
     private String txIntOrgNum;          // 交易机构号
     private String orderStatus;          // 订单状态
     private String summary;              // 摘要
+    private String buySellInd;           // 交易方向：1-银行买入 2-银行卖出
 
 
     public String getTxTraceNum() {
@@ -46,20 +46,12 @@ public class Order {
         this.txCode = txCode;
     }
 
-    public String getBondSn() {
-        return bondSn;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setBondSn(String bondSn) {
-        this.bondSn = bondSn;
-    }
-
-    public String getBondCode() {
-        return bondCode;
-    }
-
-    public void setBondCode(String bondCode) {
-        this.bondCode = bondCode;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getTradeAcc() {
@@ -148,5 +140,13 @@ public class Order {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getBuySellInd() {
+        return buySellInd;
+    }
+
+    public void setBuySellInd(String buySellInd) {
+        this.buySellInd = buySellInd;
     }
 } 

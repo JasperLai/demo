@@ -6,8 +6,7 @@
         <result column="TX_TRACE_NUM" property="txTraceNum" />
         <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
         <result column="TX_CODE" property="txCode" />
-        <result column="BOND_SN" property="bondSn" />
-        <result column="BOND_CODE" property="bondCode" />
+        <result column="PRODUCT_ID" property="productId" />
         <result column="TRADE_ACC" property="tradeAcc" />
         <result column="CAPT_NUM" property="captNum" />
         <result column="CAPT_ACCT_TYPE" property="captAcctType" />
@@ -19,23 +18,27 @@
         <result column="TX_INT_ORG_NUM" property="txIntOrgNum" />
         <result column="ORDER_STATUS" property="orderStatus" />
         <result column="SUMMARY" property="summary" />
+        <result column="BUY_SELL_IND" property="buySellInd" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
-        CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY, DEAL_PRICE, TX_DT, TX_IN,
-        TX_INT_ORG_NUM, ORDER_STATUS, SUMMARY
+        TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, PRODUCT_ID,
+        TRADE_ACC, CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY,
+        DEAL_PRICE, TX_DT, TX_IN, TX_INT_ORG_NUM, ORDER_STATUS,
+        SUMMARY, BUY_SELL_IND
     </sql>
 
     <insert id="insert" parameterType="com.example.demo.business.trade.domain.entity.Order">
         INSERT INTO ORDERS (
-            TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, BOND_SN, BOND_CODE, TRADE_ACC,
-            CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY, DEAL_PRICE, TX_DT, TX_IN,
-            TX_INT_ORG_NUM, ORDER_STATUS, SUMMARY
+            TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, PRODUCT_ID,
+            TRADE_ACC, CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY,
+            DEAL_PRICE, TX_DT, TX_IN, TX_INT_ORG_NUM, ORDER_STATUS,
+            SUMMARY, BUY_SELL_IND
         ) VALUES (
-            #{txTraceNum}, #{initTxTraceNum}, #{txCode}, #{bondSn}, #{bondCode}, #{tradeAcc},
-            #{captNum}, #{captAcctType}, #{txMnt}, #{txQuantity}, #{dealPrice}, #{txDt}, #{txIn},
-            #{txIntOrgNum}, #{orderStatus}, #{summary}
+            #{txTraceNum}, #{initTxTraceNum}, #{txCode}, #{productId},
+            #{tradeAcc}, #{captNum}, #{captAcctType}, #{txMnt}, #{txQuantity},
+            #{dealPrice}, #{txDt}, #{txIn}, #{txIntOrgNum}, #{orderStatus},
+            #{summary}, #{buySellInd}
         )
     </insert>
 
@@ -51,10 +54,10 @@
         WHERE TRADE_ACC = #{tradeAcc}
     </select>
 
-    <select id="selectByBondCode" resultMap="BaseResultMap">
+    <select id="selectByProductId" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" />
         FROM ORDERS
-        WHERE BOND_CODE = #{bondCode}
+        WHERE PRODUCT_ID = #{productId}
     </select>
 
     <update id="update" parameterType="com.example.demo.business.trade.domain.entity.Order">
@@ -62,8 +65,7 @@
         <set>
             <if test="initTxTraceNum != null">INIT_TX_TRACE_NUM = #{initTxTraceNum},</if>
             <if test="txCode != null">TX_CODE = #{txCode},</if>
-            <if test="bondSn != null">BOND_SN = #{bondSn},</if>
-            <if test="bondCode != null">BOND_CODE = #{bondCode},</if>
+            <if test="productId != null">PRODUCT_ID = #{productId},</if>
             <if test="tradeAcc != null">TRADE_ACC = #{tradeAcc},</if>
             <if test="captNum != null">CAPT_NUM = #{captNum},</if>
             <if test="captAcctType != null">CAPT_ACCT_TYPE = #{captAcctType},</if>
@@ -74,7 +76,8 @@
             <if test="txIn != null">TX_IN = #{txIn},</if>
             <if test="txIntOrgNum != null">TX_INT_ORG_NUM = #{txIntOrgNum},</if>
             <if test="orderStatus != null">ORDER_STATUS = #{orderStatus},</if>
-            <if test="summary != null">SUMMARY = #{summary}</if>
+            <if test="summary != null">SUMMARY = #{summary},</if>
+            <if test="buySellInd != null">BUY_SELL_IND = #{buySellInd}</if>
         </set>
         WHERE TX_TRACE_NUM = #{txTraceNum}
     </update>

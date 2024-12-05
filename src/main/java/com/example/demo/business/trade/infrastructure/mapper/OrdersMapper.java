@@ -21,6 +21,6 @@ public interface OrdersMapper {
     // 更新订单
     int update(Order entity);
     
-    // 根据债券代码查询订单列表
-    List<Order> selectByBondCode(@Param("bondCode") String bondCode);
+    // 根据产品代码查询订单列表
+    List<Order> selectByProductId(@Param("productId") String productId);
 } 

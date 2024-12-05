@@ -1,20 +1,12 @@
 package com.example.demo.business.trade.app;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.business.customer.app.CustomerManageService;
-import com.example.demo.business.customer.client.CustomerDTO;
 import com.example.demo.business.customer.client.CustomerServiceInterface;
 import com.example.demo.business.general.client.GeneralServiceInterface;
 import com.example.demo.business.general.client.TMSInterface;
-import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.client.TransactionVO;
-import com.example.demo.business.product.app.dto.response.BondProductDTO;
-import com.example.demo.business.product.app.dto.response.QuotaDTO;
 import com.example.demo.business.product.client.ProductManageService;
-import com.example.demo.business.product.domain.valueObject.BondVariety;
 import com.example.demo.business.trade.app.dto.SubscribeDTO;
 
 public class TradeManageService {

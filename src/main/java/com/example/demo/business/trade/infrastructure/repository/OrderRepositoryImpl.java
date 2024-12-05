@@ -29,8 +29,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
     
     @Override
-    public List<Order> findByBondCode(String bondCode) {
-        return ordersMapper.selectByBondCode(bondCode);
+    public List<Order> findByProductId(String productId) {
+        return ordersMapper.selectByProductId(productId);
     }
     
     @Override

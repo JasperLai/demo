@@ -7,6 +7,6 @@ public interface OrderRepository {
     void save(Order order);
     Order findByTxTraceNum(String txTraceNum);
     List<Order> findByTradeAcc(String tradeAcc);
-    List<Order> findByBondCode(String bondCode);
+    List<Order> findByProductId(String productId);
     void update(Order order);
 } 
