@@ -5,8 +5,9 @@ import java.util.List;
 import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.product.app.dto.request.TraderDTO;
 import com.example.demo.business.product.app.dto.request.QuotaTransferDTO;
-import com.example.demo.business.product.app.dto.response.QuotaDTO;
+import com.example.demo.business.product.app.dto.response.InventoryDTO;
 import com.example.demo.common.exception.data.ListData;
+import com.example.demo.common.response.Response;
 
 public interface ChannelManageService {
 
@@ -15,9 +16,7 @@ public interface ChannelManageService {
 
     public void bondQuotaTransfer(String outOrg, String inOrg, long amount, String bondCode); // 债券额度调拨
 
-    public QuotaDTO queryQuota(String bondCode, String productID); // 债券额度查询
-
-    public void setQuotaLimit(String bondCode, long highLimit, long lowLimit); // 库存上下限设置
+    public Response<InventoryDTO> queryQuota(String bondCode, String productID); // 债券额度查询
 
     // Public methods for trader services
     public void addTrader(TraderDTO vo); // 交易商录入

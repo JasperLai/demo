@@ -12,7 +12,6 @@ import com.example.demo.business.product.adapter.request.QueryKeAcPriceRequest;
 import com.example.demo.business.product.adapter.response.QueryKeAcFacilityResponse;
 import com.example.demo.business.product.adapter.response.QueryKeAcPriceResponse;
 import com.example.demo.business.product.domain.repository.dto.AgentDTO;
-import com.example.demo.business.product.domain.repository.dto.InventoryDTO;
 import com.example.demo.business.product.domain.service.BondProductService;
 import com.example.demo.common.exception.data.ListData;
 import com.github.pagehelper.PageInfo;
@@ -84,12 +83,8 @@ public class ChannelController {
     public ResponseEntity<QueryKeAcFacilityResponse> queryKeAcFacility(@RequestBody QueryKeAcPriceRequest request) {
 
         // InventoryDTO inv = service.getInventory(request.getBond_Code(),request.getProduct_Code());
-        InventoryDTO inv = null;
-        QueryKeAcFacilityResponse v = new QueryKeAcFacilityResponse(inv);
-        v.setBond_code(inv.getBondCd());
-        v.setProduce_code(request.getProduct_Code());
-        v.setFacility_useable(String.valueOf(inv.getBondLimit()));
-        return new ResponseEntity<>(v, HttpStatus.OK);
+        // return new ResponseEntity<>(v, HttpStatus.OK);
+        return null;
     }
 
     @PostMapping("/inventory/queryAll")
@@ -97,14 +92,9 @@ public class ChannelController {
 
         // ListData<InventoryDTO> invlist = (ListData<InventoryDTO>)service.getInventoryList(
         //     Integer.valueOf(request.getView_index()),
-        //     Integer.valueOf(request.getView_size()));
+        //     Integer.valueOf(request.getView_size()))
 
-        ListData<InventoryDTO> invlist = null;
-        QueryKeAcPriceResponse v = new QueryKeAcPriceResponse(invlist);
-        
-        return new ResponseEntity<>(v, HttpStatus.OK);
-
-    
+        return null;
     }
 
 
