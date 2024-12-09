@@ -55,7 +55,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
                 throw new IllegalArgumentException("调出机构可用额度不足");
             }
             
-            // 处���每个调拨请求
+            // 处理每个调拨请求
             for (QuotaTransferDTO transfer : transferList) {
                 transferQuota(bondCode, transfer.getAmount(), outOrg, transfer.getOrgId());
             }
@@ -110,9 +110,26 @@ public class ChannelManageServiceImpl implements ChannelManageService {
 
     @Override
     public Response<InventoryDTO> queryQuota(String bondCode, String orgNum) {
+        // 参数校验
+        if (bondCode == null || orgNum == null) {
+            return Response.error("债券代码和机构编号不能为空");
+        }
+        
+        // 获取实际有效的库存记录（考虑共享策略）
         Inventory inventory = getEffectiveInventory(bondCode, orgNum);
-        // TODO: 需要实现QuotaDTO的转换逻辑
-        return null;
+        if (inventory == null) {
+            return Response.error("未找到可用额度信息");
+        }
+        
+        // 转换为DTO
+        InventoryDTO dto = InventoryDTO.fromEntity(inventory);
+        
+        // 如果当前机构与实际持有额度的机构不同，说明是共享额度
+        if (!orgNum.equals(inventory.getOrgNum())) {
+            dto.setSaleStrategy(Inventory.SaleStrategy.global.name());
+        }
+        
+        return Response.success(dto);
     }
 
     /**

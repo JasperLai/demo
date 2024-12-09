@@ -20,6 +20,14 @@ public class Response<T> {
         response.setMessage(message);
         return response;
     }
+
+    public static <T> Response<T> error(String message) {
+        Response<T> response = new Response<>();
+        response.setSuccess(false);
+        response.setCode("ERROR");
+        response.setMessage(message);
+        return response;
+    }
     
     // Getters and Setters
     public boolean isSuccess() {
