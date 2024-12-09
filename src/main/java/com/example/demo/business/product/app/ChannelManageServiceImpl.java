@@ -54,7 +54,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
             // 计算总调拨额度
             long totalAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
             if (actualOutInventory.getLimits() < totalAmount) {
-                throw new IllegalArgumentException("调出机构可用额度不足");
+                throw new IllegalArgumentException("调出机构可额度不足");
             }
             
             // 处理每个调拨请求
@@ -114,22 +114,42 @@ public class ChannelManageServiceImpl implements ChannelManageService {
     public Response<InventoryDTO> queryQuota(String bondCode, String orgNum) {
         // 参数校验
         if (bondCode == null || orgNum == null) {
-            return Response.error("债券代码和机构编号不能为空");
+            throw new IllegalArgumentException("债券代码和机构编号不能为空");
         }
         
-        // 获取实际有效的库存记录（考虑共享策略）
-        Inventory inventory = getEffectiveInventory(bondCode, orgNum);
-        if (inventory == null) {
+        // 获取机构层级
+        int orgLevel = organizationService.getOrgLevel(orgNum);
+        
+        // 如果是总行级别，直接查询本机构额度
+        if (orgLevel == 1) {  // 1=总行
+            Inventory inventory = inventoryRepository.findByProductIdAndOrgNum(bondCode, orgNum);
+            if (inventory == null) {
+                return Response.error("未找到可用额度信息");
+            }
+            return Response.success(InventoryDTO.fromEntity(inventory));
+        }
+        
+        // 对于分行和支行，先查询本机构是否有独立额度
+        Inventory inventory = inventoryRepository.findByProductIdAndOrgNum(bondCode, orgNum);
+        if (inventory != null && inventory.getSaleStrategy() == Inventory.SaleStrategy.specific) {
+            // 有独立额度，直接返回
+            return Response.success(InventoryDTO.fromEntity(inventory));
+        }
+        
+        // 没有独立额度或是共享模式，向上查找可用额度
+        String parentOrg = organizationService.getParentOrg(orgNum);
+        if (parentOrg == null) {
             return Response.error("未找到可用额度信息");
         }
         
-        // 转换为DTO
-        InventoryDTO dto = InventoryDTO.fromEntity(inventory);
-        
-        // 如果当前机构与实际持有额度的机构不同，说明是共享额度
-        if (!orgNum.equals(inventory.getOrgNum())) {
-            dto.setSaleStrategy(Inventory.SaleStrategy.global.name());
+        Inventory parentInventory = getEffectiveInventory(bondCode, parentOrg);
+        if (parentInventory == null) {
+            return Response.error("未找到可用额度信息");
         }
+        
+        // 转换为DTO，并标记为共享模式
+        InventoryDTO dto = InventoryDTO.fromEntity(parentInventory);
+        dto.setSaleStrategy(Inventory.SaleStrategy.global.name());
         
         return Response.success(dto);
     }
@@ -142,17 +162,19 @@ public class ChannelManageServiceImpl implements ChannelManageService {
             throw new IllegalArgumentException("bondCode和orgNum不能为空");
         }
         
+        // 先查询本机构是否有独立额度
         Inventory inventory = inventoryRepository.findByProductIdAndOrgNum(bondCode, orgNum);
-        
-        if (inventory == null || inventory.getSaleStrategy() == Inventory.SaleStrategy.global) {
-            String parentOrg = organizationService.getParentOrg(orgNum);
-            if (parentOrg != null) {
-                return getEffectiveInventory(bondCode, parentOrg);
-            }
-            return null;
+        if (inventory != null && inventory.getSaleStrategy() == Inventory.SaleStrategy.specific) {
+            return inventory;
         }
         
-        return inventory;
+        // 没有独立额度或是共享模式，查找上级机构
+        String parentOrg = organizationService.getParentOrg(orgNum);
+        if (parentOrg != null) {
+            return getEffectiveInventory(bondCode, parentOrg);
+        }
+        
+        return null;
     }
     
     /**
