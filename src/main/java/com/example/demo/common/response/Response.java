@@ -1,26 +1,27 @@
 package com.example.demo.common.response;
 
 public class Response<T> {
-    private boolean success = true;
-    private String errCode;
-    private String returnMsg;
+    private boolean success;
+    private String code;
+    private String message;
     private T data;
-
+    
     public static <T> Response<T> success(T data) {
         Response<T> response = new Response<>();
+        response.setSuccess(true);
         response.setData(data);
         return response;
     }
-
-    public static <T> Response<T> error(String errCode, String errMsg) {
+    
+    public static <T> Response<T> fail(String code, String message) {
         Response<T> response = new Response<>();
         response.setSuccess(false);
-        response.setErrCode(errCode);
-        response.setReturnMsg(errMsg);
+        response.setCode(code);
+        response.setMessage(message);
         return response;
     }
-
-    // getters and setters
+    
+    // Getters and Setters
     public boolean isSuccess() {
         return success;
     }
@@ -29,20 +30,20 @@ public class Response<T> {
         this.success = success;
     }
 
-    public String getErrCode() {
-        return errCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrCode(String errCode) {
-        this.errCode = errCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getReturnMsg() {
-        return returnMsg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setReturnMsg(String returnMsg) {
-        this.returnMsg = returnMsg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {
