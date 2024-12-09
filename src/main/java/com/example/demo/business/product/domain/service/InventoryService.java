@@ -6,10 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.business.product.domain.entity.Inventory;
 import com.example.demo.business.product.domain.repository.InventoryRepository;
-import com.example.demo.common.catchall.CatchAndLog;
 
 @Component
-@CatchAndLog
 public class InventoryService {
     
     @Autowired

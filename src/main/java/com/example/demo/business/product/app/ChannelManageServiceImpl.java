@@ -16,12 +16,14 @@ import com.example.demo.business.product.client.ChannelManageService;
 import com.example.demo.business.product.domain.entity.Inventory;
 import com.example.demo.business.product.domain.repository.InventoryRepository;
 import com.example.demo.business.product.domain.service.InventoryService;
+import com.example.demo.common.catchall.CatchAndLog;
 import com.example.demo.common.exception.data.ListData;
 import com.example.demo.common.response.Response;
 
 import java.util.List;
 
 @Service
+@CatchAndLog
 public class ChannelManageServiceImpl implements ChannelManageService {
 
     @Autowired
