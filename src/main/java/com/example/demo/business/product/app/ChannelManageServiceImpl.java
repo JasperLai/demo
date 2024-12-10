@@ -54,7 +54,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
             // 计算总调拨额度
             long totalAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
             if (actualOutInventory.getLimits() < totalAmount) {
-                throw new IllegalArgumentException("调出机构可额度不足");
+                throw new IllegalArgumentException("调出机构可���度不足");
             }
             
             // 处理每个调拨请求
@@ -120,13 +120,29 @@ public class ChannelManageServiceImpl implements ChannelManageService {
         // 获取机构层级
         int orgLevel = organizationService.getOrgLevel(orgNum);
         
-        // 如果是总行级别，直接查询本机构额度
+        // 如果是总行级别，需要计算所有下属分行的可用额度总和
         if (orgLevel == 1) {  // 1=总行
-            Inventory inventory = inventoryRepository.findByProductIdAndOrgNum(bondCode, orgNum);
-            if (inventory == null) {
+            Inventory headOfficeInventory = inventoryRepository.findByProductIdAndOrgNum(bondCode, orgNum);
+            if (headOfficeInventory == null) {
                 return Response.error("未找到可用额度信息");
             }
-            return Response.success(InventoryDTO.fromEntity(inventory));
+            
+            // 获取该总行下所有独立额度的分行库存记录
+            List<Inventory> branchInventories = inventoryRepository.findByProductId(bondCode);
+            
+            // 计算已分配给分行的固定额度总和
+            long allocatedAmount = branchInventories.stream()
+                    .filter(inv -> inv.getSaleStrategy() == Inventory.SaleStrategy.specific)
+                    .mapToLong(Inventory::getLimits)
+                    .sum();
+            
+            // 总行实际可用额度 = 总行库存 - 已分配给分行的固定额度
+            long availableAmount = headOfficeInventory.getLimits() - allocatedAmount;
+            
+            // 构建返回结果
+            InventoryDTO dto = InventoryDTO.fromEntity(headOfficeInventory);
+            dto.setLimits(availableAmount);  // 更新为实际可用额度
+            return Response.success(dto);
         }
         
         // 对于分行和支行，先查询本机构是否有独立额度
