@@ -14,7 +14,7 @@ public class ProductValidateRule {
     /**
      * 校验交易面额
      */
-    public static void validateFaceAmount(BondProduct product, Long faceAmount) {
+    public static void validateFaceAmount(Long faceAmount) {
         // 1. 检查是否为null
        
     }
