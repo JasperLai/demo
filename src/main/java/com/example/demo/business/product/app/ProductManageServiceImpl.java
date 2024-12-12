@@ -53,22 +53,28 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public BaseData registBondProduct(String bondCode, BondProductDTO productDTO, TransactionDTO trans) {
+    public BaseData registBondProduct( BondProductDTO productDTO, TransactionDTO trans) {
+        // Create a new BaseData object to store the result of the operation
         BaseData result = new BaseData();
-        String transID = transactionService.createTransaction(trans, TradeType.PRODUCT_ENTER);
 
-        registBondProduct(bondCode, productDTO);
+        // Call the registBondProduct method to register the bond product
+        registBondProduct(productDTO);
 
-        transactionService.updateTransaction(transID, TransStatus.SUCCESS);
+        // Set the success flag to true, indicating that the operation was successful
         result.setSuccess(true);
+
+        // Set a success message to inform the user that the bond product was
+        // successfully registered
         result.setReturnMsg("债券产品录入成功");
+
+        // Return the result object containing the success status and message
         return result;
     }
 
     @Override
-    public void registBondProduct(String bondCode, BondProductDTO productDTO) {
+    public void registBondProduct(BondProductDTO productDTO) {
         // 1. 检查债券是否存在
-        BondDTO bondDTO = queryBondDetailWithCheck(bondCode);
+        BondDTO bondDTO = queryBondDetailWithCheck(productDTO.getBondCode());
         // 2. 将债券信息转换为债券产品实体
         BondProduct bondProduct = productDTO.toRegisterEntity();
         // 3. 设置债券产品中的债券信息
@@ -158,36 +164,36 @@ public class ProductManageServiceImpl implements ProductManageService {
     public void validateOrder(ProductValidateDTO validateDTO) {
         // 1. 校验交易面额
         ProductValidateRule.validateFaceAmount(validateDTO.getFaceAmount());
-        
+
         // 2. 获取并校验产品信息
         BondProduct product = bondProductRepository.findByProductId(validateDTO.getProductId());
         if (product == null) {
             throw new IllegalArgumentException("产品不存在");
         }
-        
+
         // 3. 校验生命周期
         ProductValidateRule.validateLifeCycle(product, validateDTO.getTradeType());
-        
+
         // 4. 校验分销权限（如果是分销交易）
         if ("003".equals(validateDTO.getTradeType())) {
             ProductValidateRule.validateDistributionAuth(product);
         }
-        
+
         // 5. 获取并校验最新报价
         // QuotaDTO latestQuota = getCurrentQuotation(validateDTO.getProductId());
         // ProductValidateRule.validatePrice(validateDTO.getPrice(), latestQuota);
-        
+
         // 6. 校验库存
         // Inventory inventory = inventoryService.queryInventory(
-        //     validateDTO.getProductId(), 
-        //     getCurrentOrgId()
+        // validateDTO.getProductId(),
+        // getCurrentOrgId()
         // );
         // if (inventory == null) {
-        //     throw new IllegalArgumentException("未找到产品库存信息");
+        // throw new IllegalArgumentException("未找到产品库存信息");
         // }
         // ProductValidateRule.validateInventory(
-        //     validateDTO.getFaceAmount(), 
-        //     inventory.getAvailableQuota()
+        // validateDTO.getFaceAmount(),
+        // inventory.getAvailableQuota()
         // );
     }
 

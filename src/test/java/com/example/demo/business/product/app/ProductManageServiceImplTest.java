@@ -50,7 +50,7 @@ class ProductManageServiceImplTest {
         when(bondProductRepository.findBondByBondCode(bondCode)).thenReturn(mockBond);
         
         // 执行测试方法
-        productManageService.registBondProduct(bondCode, productDTO);
+        productManageService.registBondProduct(productDTO);
         
         // 验证调用
         verify(bondProductRepository).findBondByBondCode(bondCode);
@@ -68,7 +68,7 @@ class ProductManageServiceImplTest {
         
         // 验证抛出异常
         assertThrows(RuntimeException.class, () -> {
-            productManageService.registBondProduct(bondCode, productDTO);
+            productManageService.registBondProduct(productDTO);
         });
         
         // 验证调用

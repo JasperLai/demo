@@ -18,6 +18,8 @@ public interface ChannelManageService {
 
     public Response<InventoryDTO> queryQuota(String bondCode, String productID); // 债券额度查询
 
+    public void updateInventory(String bondCode, String orgNum, long amount, String type); // 更新库存
+
     // Public methods for trader services
     public void addTrader(TraderDTO vo); // 交易商录入
 

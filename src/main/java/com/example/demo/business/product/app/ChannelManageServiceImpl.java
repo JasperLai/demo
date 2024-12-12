@@ -54,7 +54,7 @@ public class ChannelManageServiceImpl implements ChannelManageService {
             // 计算总调拨额度
             long totalAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
             if (actualOutInventory.getLimits() < totalAmount) {
-                throw new IllegalArgumentException("调出机构可���度不足");
+                throw new IllegalArgumentException("调出机构可度不足");
             }
             
             // 处理每个调拨请求
@@ -209,6 +209,8 @@ public class ChannelManageServiceImpl implements ChannelManageService {
         }
     }
 
+    
+
     // Public methods for trader services
     @Override
     public void addTrader(TraderDTO vo) {
@@ -237,6 +239,76 @@ public class ChannelManageServiceImpl implements ChannelManageService {
         // Business logic for querying trader list
         // Returning a placeholder response for now
         return new ListData<>();
+    }
+
+    @Override
+    @Transactional
+    public void updateInventory(String bondCode, String orgNum, long amount, String type) {
+        if (bondCode == null || orgNum == null || amount <= 0) {
+            throw new IllegalArgumentException("参数不能为空且金额必须大于0");
+        }
+
+        TradeType tradeType = TradeType.getByCode(type);
+        switch (tradeType) {
+            case BANK_BUY:
+                handleBankBuy(bondCode, orgNum, amount);
+                break;
+            case BANK_SELL:
+                handleBankSell(bondCode, orgNum, amount);
+                break;
+            default:
+                throw new IllegalArgumentException("不支持的交易类型");
+        }
+    }
+
+    /**
+     * 处理银行买入交易
+     * 银行买入时，额度统一归于总行
+     */
+    private void handleBankBuy(String bondCode, String orgNum, long amount) {
+        // 获取总行机构号
+        String currentOrg = orgNum;
+        String parentOrg;
+        while ((parentOrg = organizationService.getParentOrg(currentOrg)) != null) {
+            currentOrg = parentOrg;
+        }
+        String headOffice = currentOrg;
+
+        // 获取或创建总行库存记录
+        Inventory headInventory = inventoryRepository.findByProductIdAndOrgNum(bondCode, headOffice);
+        if (headInventory == null) {
+            headInventory = Inventory.builder()
+                    .withBondCode(bondCode)
+                    .withOrgNum(headOffice)
+                    .withLimits(amount)
+                    .withSaleStrategy(Inventory.SaleStrategy.specific)
+                    .build();
+            inventoryRepository.save(headInventory);
+        } else {
+            headInventory.setLimits(headInventory.getLimits() + amount);
+            inventoryRepository.update(headInventory);
+        }
+    }
+
+    /**
+     * 处理银行卖出交易
+     * 银行卖出时，需要考虑共享模式
+     */
+    private void handleBankSell(String bondCode, String orgNum, long amount) {
+        // 获取实际的库存记录（考虑共享策略）
+        Inventory effectiveInventory = getEffectiveInventory(bondCode, orgNum);
+        if (effectiveInventory == null) {
+            throw new IllegalArgumentException("未找到可用额度");
+        }
+
+        // 检查额度是否充足
+        if (effectiveInventory.getLimits() < amount) {
+            throw new IllegalArgumentException("可用额度不足");
+        }
+
+        // 扣减额度
+        effectiveInventory.setLimits(effectiveInventory.getLimits() - amount);
+        inventoryRepository.update(effectiveInventory);
     }
 
 }

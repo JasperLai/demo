@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import com.example.demo.business.product.domain.entity.BondBusinessAuth.TransactionType;
+import com.example.demo.business.product.domain.entity.Bond;
 import com.example.demo.business.product.domain.entity.BondProduct;
 import com.example.demo.business.product.domain.valueObject.BondLifeCycle;
 import com.example.demo.business.product.app.dto.response.QuotaDTO;
@@ -13,22 +14,9 @@ public class ProductValidateRule {
     /**
      * 校验交易面额
      */
-    public static void validateFaceAmount(BigDecimal faceAmount) {
+    public static void validateFaceAmount(BondProduct product, Long faceAmount) {
         // 1. 检查是否为null
-        if (faceAmount == null) {
-            throw new IllegalArgumentException("交易面额不能为空");
-        }
-        
-        // 2. 检查是否为正数
-        if (faceAmount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("交易面额必须大于0");
-        }
-        
-        // 3. 检查是否为100的整数倍
-        BigDecimal remainder = faceAmount.remainder(new BigDecimal("100"));
-        if (remainder.compareTo(BigDecimal.ZERO) != 0) {
-            throw new IllegalArgumentException("交易面额必须为100的整数倍");
-        }
+       
     }
     
     /**
