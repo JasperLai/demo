@@ -20,6 +20,12 @@ import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
 import com.example.demo.business.product.domain.service.InventoryService;
 import com.example.demo.business.product.domain.service.ProductValidateRule;
+import com.example.demo.business.product.domain.service.HolidayService;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductManageServiceImpl implements ProductManageService {
 
@@ -31,6 +37,9 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     @Autowired
     private InventoryService inventoryService;
+
+    @Autowired
+    private HolidayService holidayService;
 
     // 录入原始债券数据全量
     @Override
@@ -99,7 +108,7 @@ public class ProductManageServiceImpl implements ProductManageService {
 
     @Override
     public void updateBondProduct(BondProductDTO dto) {
-        // 1. 检查并获取现有产��
+        // 1. 检查并获取现有产品
         BondProduct existingProduct = bondProductRepository.findByProductId(dto.getProductId());
         if (existingProduct == null) {
             throw new RuntimeException("产品不存在: " + dto.getProductId());
@@ -174,7 +183,7 @@ public class ProductManageServiceImpl implements ProductManageService {
         // 3. 校验生命周期
         ProductValidateRule.validateLifeCycle(product, validateDTO.getTradeType());
 
-        // 4. 校验分销权限（如果是分销交易）
+        // 4. 校验分销��限（如果是分销交易）
         if ("003".equals(validateDTO.getTradeType())) {
             ProductValidateRule.validateDistributionAuth(product);
         }
@@ -195,6 +204,61 @@ public class ProductManageServiceImpl implements ProductManageService {
         // validateDTO.getFaceAmount(),
         // inventory.getAvailableQuota()
         // );
+    }
+
+    @Override
+    public List<BondDTO> queryBondsInRegistrationDate() {
+        // 1. 获取所有债券产品
+        List<BondProductDTO> allProductDTOs = bondProductRepository.findAll();
+        
+        List<BondProduct> allProducts = allProductDTOs.stream()
+                .map(BondProductDTO::toEntity)
+                .collect(Collectors.toList());
+        // 2. 获取当前日期
+        LocalDate today = LocalDate.now();
+        
+        // 3. 筛选处于债权登记日的债券
+        return allProducts.stream()
+                .map(BondProduct::getBond)  // 获取产品中的债券
+                .filter(bond -> isInRegistrationDate(bond, today))  // 筛选债权登记日的债券
+                .map(BondDTO::fromEntity)   // 转换为DTO
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 判断债券是否处于债权登记日
+     * 债权登记日为下一付息日前两个工作日
+     */
+    private boolean isInRegistrationDate(Bond bond, LocalDate today) {
+        // 获取下一付息日
+        LocalDate nextCouponDate = bond.getNextCouponDate();
+        if (nextCouponDate == null) {
+            return false;
+        }
+        
+        // 计算债权登记日(下一付息日前两个工作日)
+        LocalDate registrationDate = calculateRegistrationDate(nextCouponDate);
+        
+        // 判断今天是否是债权登记日
+        return today.equals(registrationDate);
+    }
+
+    /**
+     * 计算债权登记日
+     * 从指定日期向前推两个工作日
+     */
+    private LocalDate calculateRegistrationDate(LocalDate fromDate) {
+        LocalDate date = fromDate;
+        int workDays = 2;
+        
+        while (workDays > 0) {
+            date = date.minusDays(1);
+            if (holidayService.isWorkDay(date)) {  // 使用holidayService判断工作日
+                workDays--;
+            }
+        }
+        
+        return date;
     }
 
 }

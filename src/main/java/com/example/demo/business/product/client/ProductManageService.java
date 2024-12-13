@@ -1,9 +1,12 @@
 package com.example.demo.business.product.client;
 
+import java.util.List;
+
 import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.product.adapter.request.BondRegistRequest;
 import com.example.demo.business.product.app.dto.request.ProductQueryVO;
 import com.example.demo.business.product.app.dto.request.TradeSwitchDTO;
+import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.common.exception.data.BaseData;
 import com.example.demo.common.exception.data.ListData;
@@ -41,6 +44,8 @@ public interface ProductManageService {
     /* recommend setting */
 
     public void setRecommendBond(String productID, boolean isRecmd);
+
+    public List<BondDTO> queryBondsInRegistrationDate();
 
 
     /**
