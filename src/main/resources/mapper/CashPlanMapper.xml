@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.business.trade.infrastructure.mapper.CashPlanMapper">
+    
+    <resultMap id="BaseResultMap" type="com.example.demo.business.trade.infrastructure.dto.CashPlanDTO">
+        <result column="trade_acc" property="tradeAcc" />
+        <result column="bond_code" property="bondCode" />
+        <result column="capt_acc" property="captAcc" />
+        <result column="work_date" property="workDate" />
+        <result column="amount" property="amount" />
+        <result column="cash_type" property="cashType" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        trade_acc, bond_code, capt_acc, work_date, amount, cash_type, status, remark
+    </sql>
+
+    <insert id="insert" parameterType="com.example.demo.business.trade.infrastructure.dto.CashPlanDTO">
+        INSERT INTO cash_plan (
+            trade_acc, bond_code, capt_acc, work_date, 
+            amount, cash_type, status, remark
+        ) VALUES (
+            #{tradeAcc}, #{bondCode}, #{captAcc}, #{workDate},
+            #{amount}, #{cashType}, #{status}, #{remark}
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO cash_plan (
+            trade_acc, bond_code, capt_acc, work_date, 
+            amount, cash_type, status, remark
+        ) VALUES 
+        <foreach collection="list" item="item" separator=",">
+            (#{item.tradeAcc}, #{item.bondCode}, #{item.captAcc}, #{item.workDate},
+             #{item.amount}, #{item.cashType}, #{item.status}, #{item.remark})
+        </foreach>
+    </insert>
+
+    <select id="selectByStatusAndWorkDate" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM cash_plan
+        WHERE status = #{status} AND work_date = #{workDate}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE cash_plan 
+        SET status = #{status}
+        WHERE trade_acc = #{tradeAcc} 
+        AND bond_code = #{bondCode}
+        AND work_date = #{workDate}
+    </update>
+
+    <select id="selectByBondCode" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM cash_plan
+        WHERE bond_code = #{bondCode}
+    </select>
+
+    <update id="batchUpdateStatus">
+        UPDATE cash_plan 
+        SET status = #{status}
+        WHERE 
+        <foreach collection="list" item="item" separator="OR">
+            (trade_acc = #{item.tradeAcc} AND bond_code = #{item.bondCode} AND work_date = #{item.workDate})
+        </foreach>
+    </update>
+</mapper> 
