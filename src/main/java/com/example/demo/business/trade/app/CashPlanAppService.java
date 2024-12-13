@@ -16,7 +16,7 @@ import com.example.demo.business.customer.client.dto.CustomerPositionDTO;
 import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.business.product.app.dto.response.BondDTO;
 import com.example.demo.business.trade.domain.entity.CashPlan;
-import com.example.demo.business.trade.domain.service.CashPlanDomainService;
+import com.example.demo.business.trade.domain.repository.CashPlanRepository;
 import com.example.demo.business.trade.domain.valueobject.CashPlanStatus;
 import com.example.demo.business.trade.domain.valueobject.CashType;
 
@@ -30,7 +30,7 @@ public class CashPlanAppService {
     private CustomerPositionService customerPositionService;
 
     @Autowired
-    private CashPlanDomainService cashPlanDomainService;
+    private CashPlanRepository cashPlanRepository;
 
     /**
      * 生成债权登记日的付息兑付计划
@@ -75,7 +75,7 @@ public class CashPlanAppService {
 
         // 5. 批量保存付息兑付计划
         if (!cashPlans.isEmpty()) {
-            cashPlanDomainService.createCashPlans(cashPlans);
+            cashPlanRepository.batchSave(cashPlans);
         }
     }
 

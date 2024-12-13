@@ -36,6 +36,10 @@
             (#{item.tradeAcc}, #{item.bondCode}, #{item.captAcc}, #{item.workDate},
              #{item.amount}, #{item.cashType}, #{item.status}, #{item.remark})
         </foreach>
+        ON DUPLICATE KEY UPDATE
+            amount = VALUES(amount),
+            status = VALUES(status),
+            remark = VALUES(remark)
     </insert>
 
     <select id="selectByStatusAndWorkDate" resultMap="BaseResultMap">
