@@ -21,7 +21,20 @@ public class Order {
     private String summary;              // 摘要
     private String buySellInd;           // 交易方向：1-银行买入 2-银行卖出
 
+    // 为了支持异常处理场景，添加一些便捷方法
+    public String getCustomerId() {
+        return this.tradeAcc;  // 交易账号就是客户ID
+    }
 
+    public BigDecimal getAmount() {
+        return this.txMnt;
+    }
+
+    public String getStatus() {
+        return this.orderStatus;
+    }
+
+    // 原有的 getter/setter 方法
     public String getTxTraceNum() {
         return txTraceNum;
     }

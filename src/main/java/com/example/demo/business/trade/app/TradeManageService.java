@@ -14,6 +14,7 @@ import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.business.trade.app.dto.TradeDTO;
+import com.example.demo.common.context.TradeContext;
 
 @Service
 public class TradeManageService {
@@ -39,26 +40,30 @@ public class TradeManageService {
      */
     @Transactional
     public String processBondSubscribe(TradeDTO tradeDTO, TransactionDTO transactionDTO) {
-        // 1. 补充交易流水基础信息
-        if (transactionDTO.getBusinessDate() == null) {
-            transactionDTO.setBusinessDate(LocalDate.now());
+        try {
+            // 1. 补充交易流水基础信息
+            if (transactionDTO.getBusinessDate() == null) {
+                transactionDTO.setBusinessDate(LocalDate.now());
+            }
+            if (transactionDTO.getTradeTime() == null) {
+                transactionDTO.setTradeTime(LocalDateTime.now());
+            }
+            
+            // 2. 设置交易账号
+            transactionDTO.setTradeAcc(tradeDTO.getCustomerId());
+            
+            // 3. 创建交易流水
+            String txTraceNum = transactionService.createTransaction(transactionDTO, TradeType.DISTRIBUTION);
+            // 保存流水号到上下文
+            TradeContext.setTraceNum(txTraceNum);
+            
+            // 4. 调用支付系统
+            // paymentService.processPayment(tradeDTO, txTraceNum);
+            
+            return txTraceNum;
+        } finally {
+            // 清理上下文
+            TradeContext.clear();
         }
-        if (transactionDTO.getTradeTime() == null) {
-            transactionDTO.setTradeTime(LocalDateTime.now());
-        }
-        
-        // 2. 设置交易账号（从交易DTO中获取）
-        transactionDTO.setTradeAcc(tradeDTO.getCustomerId());
-        
-        // 3. 创建交易流水
-        String txTraceNum = transactionService.createTransaction(transactionDTO, TradeType.DISTRIBUTION);
-        
-        // TODO: 后续业务处理
-        // 4. 校验客户信息
-        // 5. 校验产品信息
-        // 6. 创建订单
-        // 7. 登记账务
-        
-        return txTraceNum;
     }
 }

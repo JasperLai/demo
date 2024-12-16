@@ -58,6 +58,8 @@ public class TradeDTO {
      */
     private String bankName;
 
+    private String orderId;
+
     // Getters and Setters
     public String getProductId() {
         return productId;
@@ -129,5 +131,13 @@ public class TradeDTO {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 } 
