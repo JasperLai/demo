@@ -8,16 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.business.general.client.TMSInterface;
 import com.example.demo.business.general.client.TradeType;
-import com.example.demo.business.general.client.TransStatus;
 import com.example.demo.business.general.app.dto.TransactionDTO;
 import com.example.demo.business.general.domain.entity.Transaction;
-import com.example.demo.business.general.infrastructure.mapper.TransactionMapper;
+import com.example.demo.business.general.domain.repository.TransactionRepository;
 
 @Service
 public class TransactionManageService implements TMSInterface {
     
     @Autowired
-    private TransactionMapper transactionMapper;
+    private TransactionRepository transactionRepository;
 
     @Override
     public String createTransaction(TransactionDTO dto, TradeType type) {
@@ -40,20 +39,21 @@ public class TransactionManageService implements TMSInterface {
         transaction.setRemark(dto.getRemark());
         
         // 保存交易流水
-        transactionMapper.insert(transaction);
+        transactionRepository.save(transaction);
         
         return txTraceNum;
     }
 
     @Override
     public TransactionDTO query(String transactionNo) {
-        Transaction transaction = transactionMapper.selectByTraceNum(transactionNo);
+        Transaction transaction = transactionRepository.findById(transactionNo);
         return convertToDTO(transaction);
     }
 
     @Override
-    public boolean updateTransaction(String transactionNo, TransStatus status) {
-        return transactionMapper.updateStatus(transactionNo, String.valueOf(status.getCode())) > 0;
+    public boolean updateTransaction(Transaction transaction) {
+        transactionRepository.updateStatus(transaction);
+        return true;
     }
     
     private String generateTraceNum() {

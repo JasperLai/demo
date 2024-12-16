@@ -1,6 +1,7 @@
 package com.example.demo.business.general.client;
 
 import com.example.demo.business.general.app.dto.TransactionDTO;
+import com.example.demo.business.general.domain.entity.Transaction;
 
 /**
  * 统一流水登记
@@ -28,6 +29,6 @@ public interface TMSInterface {
      * @param status 交易状态
      * @return 是否更新成功
      */
-    public boolean updateTransaction(String transactionNo, TransStatus status);
+    public boolean updateTransaction(Transaction transaction);
 
 }
