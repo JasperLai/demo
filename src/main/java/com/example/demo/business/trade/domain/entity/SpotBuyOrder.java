@@ -2,6 +2,7 @@ package com.example.demo.business.trade.domain.entity;
 
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.trade.cllient.TradeConstant;
+import com.example.demo.business.trade.domain.service.OrderProcessor;
 
 public class SpotBuyOrder extends Order {
     
@@ -26,12 +27,12 @@ public class SpotBuyOrder extends Order {
         this.setTxIntOrgNum(source.getTxIntOrgNum());
         this.setOrderStatus(source.getOrderStatus());
         this.setSummary(source.getSummary());
-        this.setBuySellInd(source.getBuySellInd());
+        this.setTradeDirection(source.getTradeDirection());
     }
     
     @Override
     public void validate() {
-        // 实现现券买入订单特定的验证逻辑
+        // 验证逻辑
     }
 
     @Override
@@ -43,7 +44,14 @@ public class SpotBuyOrder extends Order {
     protected void initializeOrderSpecifics() {
         this.setSummary(TradeType.BANK_BUY.getName());
         this.setTxCode(TradeType.BANK_BUY.getCode());
-        this.setBuySellInd(TradeConstant.DIRECTION_BANK_BUY);
+        this.setTradeDirection(TradeConstant.DIRECTION_BANK_BUY);
         this.setOrderStatus(TradeConstant.ORDER_STATUS_INIT);
     }
+
+    @Override
+    protected boolean doProcess(OrderProcessor processor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'doProcess'");
+    }
+
 } 

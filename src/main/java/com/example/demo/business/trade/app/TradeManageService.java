@@ -15,7 +15,6 @@ import com.example.demo.business.product.app.dto.request.ProductValidateDTO;
 import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.business.trade.app.dto.TradeDTO;
-import com.example.demo.business.trade.cllient.TradeConstant;
 import com.example.demo.business.trade.domain.entity.DistributionOrder;
 import com.example.demo.business.trade.domain.service.TradeService;
 import com.example.demo.common.catchall.CatchAndLog;
@@ -64,9 +63,11 @@ public class TradeManageService {
 
         DistributionOrder order = new DistributionOrder();
         
-        tradeService.initializeOrder(order, tradeDTO, transID, productInfo.getBondCode(), customerInfo.getTradeAcc());
-       
-        order.validate();
+        tradeService.initializeOrder(order, tradeDTO, transID, 
+            productInfo.getBondCode(),     // 债券代码
+            customerInfo.getTradeAcc());
+        
+        tradeService.processOrder(order);
     }
 
     

@@ -7,6 +7,7 @@
         <result column="INIT_TX_TRACE_NUM" property="initTxTraceNum" />
         <result column="TX_CODE" property="txCode" />
         <result column="PRODUCT_ID" property="productId" />
+        <result column="BOND_CODE" property="bondCode" />
         <result column="TRADE_ACC" property="tradeAcc" />
         <result column="CAPT_NUM" property="captNum" />
         <result column="CAPT_ACCT_TYPE" property="captAcctType" />
@@ -22,7 +23,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, PRODUCT_ID,
+        TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, PRODUCT_ID, BOND_CODE,
         TRADE_ACC, CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY,
         DEAL_PRICE, TX_DT, TX_IN, TX_INT_ORG_NUM, ORDER_STATUS,
         SUMMARY, BUY_SELL_IND
@@ -30,12 +31,12 @@
 
     <insert id="insert" parameterType="com.example.demo.business.trade.domain.entity.Order">
         INSERT INTO ORDERS (
-            TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, PRODUCT_ID,
+            TX_TRACE_NUM, INIT_TX_TRACE_NUM, TX_CODE, PRODUCT_ID, BOND_CODE,
             TRADE_ACC, CAPT_NUM, CAPT_ACCT_TYPE, TX_MNT, TX_QUANTITY,
             DEAL_PRICE, TX_DT, TX_IN, TX_INT_ORG_NUM, ORDER_STATUS,
             SUMMARY, BUY_SELL_IND
         ) VALUES (
-            #{txTraceNum}, #{initTxTraceNum}, #{txCode}, #{productId},
+            #{txTraceNum}, #{initTxTraceNum}, #{txCode}, #{productId}, #{bondCode},
             #{tradeAcc}, #{captNum}, #{captAcctType}, #{txMnt}, #{txQuantity},
             #{dealPrice}, #{txDt}, #{txIn}, #{txIntOrgNum}, #{orderStatus},
             #{summary}, #{buySellInd}
@@ -78,6 +79,7 @@
             <if test="orderStatus != null">ORDER_STATUS = #{orderStatus},</if>
             <if test="summary != null">SUMMARY = #{summary},</if>
             <if test="buySellInd != null">BUY_SELL_IND = #{buySellInd}</if>
+            <if test="bondCode != null">BOND_CODE = #{bondCode},</if>
         </set>
         WHERE TX_TRACE_NUM = #{txTraceNum}
     </update>

@@ -15,12 +15,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class TradeService {
     
     @Autowired
     private OrderRepository orderRepository;
+    
+    @Autowired
+    private OrderProcessor orderProcessor;
     
     private Order convertToSpecificOrder(Order baseOrder) {
         TradeType tradeType = TradeType.getByCode(baseOrder.getTxCode());
@@ -50,10 +55,10 @@ public class TradeService {
                 .collect(Collectors.toList());
     }
 
-    public void initializeOrder(Order order, TradeDTO tradeDTO, String transID, String productCode, String tradeAcc) {
-        // 设置通用属性
+    public void initializeOrder(Order order, TradeDTO tradeDTO, String transID, String bondCode, String tradeAcc) {
         order.setTxTraceNum(transID);
-        order.setProductId(productCode);
+        order.setProductId(tradeDTO.getProductId());
+        order.setBondCode(bondCode);
         order.setTradeAcc(tradeAcc);
         // 计算交易金额：份额 * 100 * 价格
         BigDecimal quantity = new BigDecimal(tradeDTO.getQuantity());
@@ -64,5 +69,9 @@ public class TradeService {
         order.setTxQuantity(tradeDTO.getQuantity());
         order.setTxDt(new Date());
         order.setTxIn(new Date());
+    }
+
+    public void processOrder(Order order) {
+        order.process(orderProcessor);
     }
 }
