@@ -20,6 +20,16 @@ public class AccountingEntry {
     private String strkBalTraceNum;      // 被冲抹账流水号
     private String wrtoffInd;            // 冲抹标志
     private Date revDt;                  // 冲抹日期
+    private String bondCode;
+    private String tradeAcc;
+
+    public AccountingEntry(Order order) {
+        this.txTraceNum = order.getTxTraceNum();
+        this.bondCode = order.getBondCode();
+        this.tradeAcc = order.getTradeAcc();
+        this.txAmt = order.getTxMnt();
+        // ... 其他字段赋值
+    }
 
     public String getTxTraceNum() {
         return txTraceNum;
@@ -147,5 +157,21 @@ public class AccountingEntry {
 
     public void setRevDt(Date revDt) {
         this.revDt = revDt;
+    }
+
+    public String getBondCode() {
+        return bondCode;
+    }
+
+    public void setBondCode(String bondCode) {
+        this.bondCode = bondCode;
+    }
+
+    public String getTradeAcc() {
+        return tradeAcc;
+    }
+
+    public void setTradeAcc(String tradeAcc) {
+        this.tradeAcc = tradeAcc;
     }
 } 
