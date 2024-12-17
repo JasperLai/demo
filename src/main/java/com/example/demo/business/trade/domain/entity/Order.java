@@ -159,4 +159,23 @@ public abstract class Order {
     public void setBuySellInd(String buySellInd) {
         this.buySellInd = buySellInd;
     }
+
+    protected void copyFrom(Order source) {
+        this.setTxTraceNum(source.getTxTraceNum());
+        this.setInitTxTraceNum(source.getInitTxTraceNum());
+        this.setTxCode(source.getTxCode());
+        this.setProductId(source.getProductId());
+        this.setTradeAcc(source.getTradeAcc());
+        this.setCaptNum(source.getCaptNum());
+        this.setCaptAcctType(source.getCaptAcctType());
+        this.setTxMnt(source.getTxMnt());
+        this.setTxQuantity(source.getTxQuantity());
+        this.setDealPrice(source.getDealPrice());
+        this.setTxDt(source.getTxDt());
+        this.setTxIn(source.getTxIn());
+        this.setTxIntOrgNum(source.getTxIntOrgNum());
+        this.setOrderStatus(source.getOrderStatus());
+        this.setSummary(source.getSummary());
+        this.setBuySellInd(source.getBuySellInd());
+    }
 } 

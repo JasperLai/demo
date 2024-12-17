@@ -1,11 +1,54 @@
 package com.example.demo.business.trade.domain.service;
 
+import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.trade.app.dto.TradeDTO;
+import com.example.demo.business.trade.domain.entity.DistributionOrder;
 import com.example.demo.business.trade.domain.entity.Order;
+import com.example.demo.business.trade.domain.entity.SpotBuyOrder;
+import com.example.demo.business.trade.domain.entity.SpotSellOrder;
+import com.example.demo.business.trade.domain.repository.OrderRepository;
+
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class TradeService {
+    
+    @Autowired
+    private OrderRepository orderRepository;
+    
+    private Order convertToSpecificOrder(Order baseOrder) {
+        TradeType tradeType = TradeType.getByCode(baseOrder.getTxCode());
+        switch(tradeType) {
+            case DISTRIBUTION:
+                return new DistributionOrder(baseOrder);
+            case BANK_BUY:
+                return new SpotBuyOrder(baseOrder);
+            case BANK_SELL:
+                return new SpotSellOrder(baseOrder);
+            default:
+                throw new IllegalArgumentException("Unknown trade type: " + baseOrder.getTxCode());
+        }
+    }
+
+   
+
+    public Order getOrder(String txTraceNum) {
+        Order baseOrder = orderRepository.findByTxTraceNum(txTraceNum);
+        return convertToSpecificOrder(baseOrder);
+    }
+
+    public List<Order> getOrdersByTradeAcc(String tradeAcc) {
+        List<Order> baseOrders = orderRepository.findByTradeAcc(tradeAcc);
+        return baseOrders.stream()
+                .map(this::convertToSpecificOrder)
+                .collect(Collectors.toList());
+    }
 
     public void initializeOrder(Order order, TradeDTO tradeDTO, String transID, String productCode, String tradeAcc) {
         // 设置通用属性
