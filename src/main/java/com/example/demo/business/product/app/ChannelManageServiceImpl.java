@@ -42,33 +42,25 @@ public class ChannelManageServiceImpl implements ChannelManageService {
     public void bondQuotaBatchTransfer(String bondCode, String outOrg, List<QuotaTransferDTO> transferList,
             TransactionDTO transactionVO) {
         // 创建交易记录
-        String transID = transactionManageService.createTransaction(transactionVO, TradeType.BOND_QUOTA_TRANSFER);
-        
-        try {
+        String transID = transactionManageService.createTransaction(transactionVO, TradeType.BOND_QUOTA_TRANSFER); 
             // 获取实际的源库存记录
-            Inventory actualOutInventory = getEffectiveInventory(bondCode, outOrg);
-            if (actualOutInventory == null) {
-                throw new IllegalArgumentException("调出机构没有可用额度");
-            }
-            
-            // 计算总调拨额度
-            long totalAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
-            if (actualOutInventory.getLimits() < totalAmount) {
-                throw new IllegalArgumentException("调出机构可度不足");
-            }
-            
-            // 处理每个调拨请求
-            for (QuotaTransferDTO transfer : transferList) {
-                transferQuota(bondCode, transfer.getAmount(), outOrg, transfer.getOrgId());
-            }
-            
-            // 更新交易状态为成功
-            transactionManageService.updateTransaction(transID, TransStatus.SUCCESS);
-        } catch (Exception e) {
-            // 更新交易状态为失败
-            transactionManageService.updateTransaction(transID, TransStatus.FAILED);
-            throw e;
+        Inventory actualOutInventory = getEffectiveInventory(bondCode, outOrg);
+        if (actualOutInventory == null) {
+            throw new IllegalArgumentException("调出机构没有可用额度");
         }
+        
+        // 计算总调拨额度
+        long totalAmount = transferList.stream().mapToLong(QuotaTransferDTO::getAmount).sum();
+        if (actualOutInventory.getLimits() < totalAmount) {
+            throw new IllegalArgumentException("调出机构可度不足");
+        }
+        
+        // 处理每个调拨请求
+        for (QuotaTransferDTO transfer : transferList) {
+            transferQuota(bondCode, transfer.getAmount(), outOrg, transfer.getOrgId());
+        }
+            
+       
     }
 
     @Override

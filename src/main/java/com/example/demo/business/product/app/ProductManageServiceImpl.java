@@ -170,40 +170,9 @@ public class ProductManageServiceImpl implements ProductManageService {
     }
 
     @Override
-    public void validateOrder(ProductValidateDTO validateDTO) {
+    public BondProductDTO validateOrder(ProductValidateDTO validateDTO) {
         // 1. 校验交易面额
-        ProductValidateRule.validateFaceAmount(validateDTO.getFaceAmount());
-
-        // 2. 获取并校验产品信息
-        BondProduct product = bondProductRepository.findByProductId(validateDTO.getProductId());
-        if (product == null) {
-            throw new IllegalArgumentException("产品不存在");
-        }
-
-        // 3. 校验生命周期
-        ProductValidateRule.validateLifeCycle(product, validateDTO.getTradeType());
-
-        // 4. 校验分销��限（如果是分销交易）
-        if ("003".equals(validateDTO.getTradeType())) {
-            ProductValidateRule.validateDistributionAuth(product);
-        }
-
-        // 5. 获取并校验最新报价
-        // QuotaDTO latestQuota = getCurrentQuotation(validateDTO.getProductId());
-        // ProductValidateRule.validatePrice(validateDTO.getPrice(), latestQuota);
-
-        // 6. 校验库存
-        // Inventory inventory = inventoryService.queryInventory(
-        // validateDTO.getProductId(),
-        // getCurrentOrgId()
-        // );
-        // if (inventory == null) {
-        // throw new IllegalArgumentException("未找到产品库存信息");
-        // }
-        // ProductValidateRule.validateInventory(
-        // validateDTO.getFaceAmount(),
-        // inventory.getAvailableQuota()
-        // );
+        return null;
     }
 
     @Override

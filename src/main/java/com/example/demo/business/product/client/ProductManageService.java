@@ -52,6 +52,6 @@ public interface ProductManageService {
      * 校验交易请求
      * @param validateDTO 校验请求数据
      */
-    void validateOrder(ProductValidateDTO validateDTO);
+    BondProductDTO validateOrder(ProductValidateDTO validateDTO);
 
 }
