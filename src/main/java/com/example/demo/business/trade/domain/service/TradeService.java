@@ -1,11 +1,14 @@
 package com.example.demo.business.trade.domain.service;
 
+import com.example.demo.business.customer.client.CustomerDTO;
 import com.example.demo.business.general.client.TradeType;
 import com.example.demo.business.trade.app.dto.TradeDTO;
 import com.example.demo.business.trade.domain.entity.DistributionOrder;
 import com.example.demo.business.trade.domain.entity.Order;
 import com.example.demo.business.trade.domain.entity.SpotBuyOrder;
 import com.example.demo.business.trade.domain.entity.SpotSellOrder;
+import com.example.demo.business.trade.domain.facade.CCDCFacade;
+import com.example.demo.business.trade.domain.facade.PaymentFacade;
 import com.example.demo.business.trade.domain.repository.OrderRepository;
 
 import java.math.BigDecimal;
@@ -26,6 +29,12 @@ public class TradeService {
     
     @Autowired
     private OrderProcessor orderProcessor;
+
+    @Autowired
+    private PaymentFacade paymentFacade;
+
+    @Autowired
+    private CCDCFacade CCDCFacade;
     
     private Order convertToSpecificOrder(Order baseOrder) {
         TradeType tradeType = TradeType.getByCode(baseOrder.getTxCode());
@@ -73,5 +82,13 @@ public class TradeService {
 
     public void processOrder(Order order) {
         order.process(orderProcessor);
+    }
+
+    public void fundEncashment(BigDecimal amount, CustomerDTO customer){
+        // paymentFacade.fundEncashment(amount, customer);
+    }
+
+    public void reportCCDC(Order order, CustomerDTO customer){
+        CCDCFacade.distributeReport(order);
     }
 }

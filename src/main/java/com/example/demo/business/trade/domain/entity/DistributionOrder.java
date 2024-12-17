@@ -50,7 +50,7 @@ public class DistributionOrder extends Order {
 
     @Override
     protected boolean doProcess(OrderProcessor processor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'doProcess'");
+        processor.paySingle(this);
+        return true;
     }
 } 
