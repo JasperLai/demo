@@ -32,13 +32,13 @@ public class OrderService {
      * 发起异步查询支付状态
      */
     public void schedulePaymentStatusCheck(String txTraceNum) {
-        // TODO: 创建异步任务查询支付状态
+        // TODO: 创建异步任务查询支付状n
     }
 
     /**
      * 发送支付失败通知
      */
-    public void notifyPaymentFailure(String txTraceNum, String customerId) {
+    public void notifyPaymentFailure(String txTraceNum) {
         // TODO: 发送支付失败通知给客户
     }
 } 

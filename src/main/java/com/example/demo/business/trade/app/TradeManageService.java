@@ -16,7 +16,7 @@ import com.example.demo.business.product.app.dto.response.BondProductDTO;
 import com.example.demo.business.product.client.ProductManageService;
 import com.example.demo.business.trade.app.dto.TradeDTO;
 import com.example.demo.business.trade.cllient.TradeConstant;
-import com.example.demo.business.trade.domain.entity.Order;
+import com.example.demo.business.trade.domain.entity.DistributionOrder;
 import com.example.demo.business.trade.domain.service.TradeService;
 import com.example.demo.common.catchall.CatchAndLog;
 
@@ -58,16 +58,15 @@ public class TradeManageService {
 
         BondProductDTO productInfo = productService.validateOrder(createProductValidateDTO(tradeDTO, currTradeType));
 
-        CustomerDTO customerInfo = customerService.getCustomer(tradeDTO.getCustomerId());
+        CustomerDTO customerInfo = customerService.getCustomer(tradeDTO.getBPNumber());
 
         calendarService.checkTradeTime(currTradeType);
 
-        Order order = tradeService.createOrder(tradeDTO, transID, productInfo.getBondCode(), customerInfo.getTradeAcc());
-        order.setSummary(currTradeType.getName());
-        order.setTxCode(currTradeType.getCode());
-        order.setBuySellInd(TradeConstant.DIRECTION_BANK_SELL);
-        order.setOrderStatus(TradeConstant.ORDER_STATUS_INIT);
+        DistributionOrder order = new DistributionOrder();
+        
+        tradeService.initializeOrder(order, tradeDTO, transID, productInfo.getBondCode(), customerInfo.getTradeAcc());
        
+        order.validate();
     }
 
     

@@ -21,25 +21,25 @@ public class TradeDTO {
      * 交易面额
      */
     @NonNull
-    private BigDecimal faceAmount;
+    private Long quantity;
 
     /**
      * 交易全价
      */
     @NonNull
-    private BigDecimal price;
+    private BigDecimal dirtyPrice;
 
     /**
      * 客户号
      */
     @NonNull
-    private String customerId;
+    private String BPNumber;
 
     /**
      * 资金账号
      */
     @NonNull
-    private String cashAccountId;
+    private String PaymentAccountNumber;
 
     /**
      * 交易方ID
@@ -51,14 +51,13 @@ public class TradeDTO {
      * 支付方式（CARD-银行卡, PASSBOOK-存折）
      */
     @NonNull
-    private String paymentMethod;
+    private String disburseMethod;
 
     /**
      * 开卡行
      */
     private String bankName;
 
-    private String orderId;
 
     // Getters and Setters
     public String getProductId() {
@@ -77,36 +76,36 @@ public class TradeDTO {
         this.currency = currency;
     }
 
-    public BigDecimal getFaceAmount() {
-        return faceAmount;
+    public Long getQuantity() {
+        return quantity;
     }
 
-    public void setFaceAmount(BigDecimal faceAmount) {
-        this.faceAmount = faceAmount;
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getDirtyPrice() {
+        return dirtyPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setDirtyPrice(BigDecimal price) {
+        this.dirtyPrice = price;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getBPNumber() {
+        return BPNumber;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setBPNumber(String customerId) {
+        this.BPNumber = customerId;
     }
 
-    public String getCashAccountId() {
-        return cashAccountId;
+    public String getPaymentAccountNumber() {
+        return PaymentAccountNumber;
     }
 
-    public void setCashAccountId(String cashAccountId) {
-        this.cashAccountId = cashAccountId;
+    public void setPaymentAccountNumber(String cashAccountId) {
+        this.PaymentAccountNumber = cashAccountId;
     }
 
     public String getPartyId() {
@@ -117,12 +116,12 @@ public class TradeDTO {
         this.partyId = partyId;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public String getDisburseMethod() {
+        return disburseMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setDisburseMethod(String paymentMethod) {
+        this.disburseMethod = paymentMethod;
     }
 
     public String getBankName() {
@@ -131,13 +130,5 @@ public class TradeDTO {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
     }
 } 

@@ -3,7 +3,7 @@ package com.example.demo.business.trade.domain.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Order {
+public abstract class Order {
     private String txTraceNum;           // 交易流水号
     private String initTxTraceNum;       // 发起端交易流水号
     private String txCode;               // 交易编码
@@ -12,8 +12,8 @@ public class Order {
     private String captNum;              // 资金账号
     private String captAcctType;         // 支付账号类型
     private BigDecimal txMnt;            // 交易金额
-    private String txQuantity;           // 交易份额
-    private String dealPrice;            // 成交价格
+    private Long txQuantity;           // 交易份额
+    private BigDecimal dealPrice;            // 成交价格
     private Date txDt;                   // 交易日期
     private Date txIn;                   // 交易时间
     private String txIntOrgNum;          // 交易机构号
@@ -21,19 +21,16 @@ public class Order {
     private String summary;              // 摘要
     private String buySellInd;           // 交易方向：1-银行买入 2-银行卖出
 
-    // 为了支持异常处理场景，添加一些便捷方法
-    public String getCustomerId() {
-        return this.tradeAcc;  // 交易账号就是客户ID
+    protected Order() {
+        initializeOrderSpecifics();
     }
 
-    public BigDecimal getAmount() {
-        return this.txMnt;
-    }
-
-    public String getStatus() {
-        return this.orderStatus;
-    }
-
+    // 抽象方法，让子类实现订单特定的业务逻辑
+    public abstract void validate();
+    public abstract String getOrderType();
+    
+    // 新增抽象方法，强制子类实现订单特定的初始化逻辑
+    protected abstract void initializeOrderSpecifics();
     // 原有的 getter/setter 方法
     public String getTxTraceNum() {
         return txTraceNum;
@@ -99,19 +96,19 @@ public class Order {
         this.txMnt = txMnt;
     }
 
-    public String getTxQuantity() {
+    public Long getTxQuantity() {
         return txQuantity;
     }
 
-    public void setTxQuantity(String txQuantity) {
+    public void setTxQuantity(Long txQuantity) {
         this.txQuantity = txQuantity;
     }
 
-    public String getDealPrice() {
+    public BigDecimal getDealPrice() {
         return dealPrice;
     }
 
-    public void setDealPrice(String dealPrice) {
+    public void setDealPrice(BigDecimal dealPrice) {
         this.dealPrice = dealPrice;
     }
 

@@ -5,7 +5,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.client.ResourceAccessException;
 
 import com.example.demo.business.trade.domain.service.OrderService;
 import com.example.demo.business.customer.client.CustomerPositionService;
@@ -31,7 +30,6 @@ public class TradeExceptionListener {
         
         log.error("支付超时异常: orderId={}, customerId={}, isTimeout={}, isConnectionReset={}, isConnectionRefused={}", 
             txTraceNum,
-            order.getCustomerId(),
             event.isTimeout(),
             event.isConnectionReset(),
             event.isConnectionRefused()
@@ -63,7 +61,6 @@ public class TradeExceptionListener {
         
         log.error("支付失败: orderId={}, customerId={}, reason={}", 
             txTraceNum,
-            order.getCustomerId(),
             event.getException().getMessage()
         );
 
@@ -74,6 +71,6 @@ public class TradeExceptionListener {
         // customerPositionService.unlockCustomerPosition(order.getCustomerId());
 
         // 3. 发送支付失败通知
-        orderService.notifyPaymentFailure(txTraceNum, order.getCustomerId());
+        orderService.notifyPaymentFailure(txTraceNum);
     }
 } 
