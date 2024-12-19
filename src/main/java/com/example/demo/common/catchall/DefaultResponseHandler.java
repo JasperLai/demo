@@ -8,6 +8,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import com.example.demo.common.exception.BizException;
@@ -33,25 +34,18 @@ public class DefaultResponseHandler {
             log.error("数据库访问异常: {}", e.getMessage(), e);
             return Response.fail("DB_ERROR", "数据库访问异常");
         }
-        // 网络相关异常
-        else if (e instanceof ResourceAccessException) {
-            // ResourceAccessException 包装了具体的网络异常
-            Throwable cause = e.getCause();
-            if (cause instanceof SocketTimeoutException) {
-                log.error("网络超时: {}", e.getMessage(), e);
-                return Response.fail("NETWORK_TIMEOUT", "网络超时，请稍后重试");
-            } else if (cause instanceof ConnectException) {
-                log.error("网络连接失败: {}", e.getMessage(), e);
-                return Response.fail("NETWORK_ERROR", "网络连接失败，请检查网络");
-            }
-            // 其他网络异常
-            log.error("网络访问异常: {}", e.getMessage(), e);
-            return Response.fail("NETWORK_ERROR", "网络访问异常，请稍后重试");
+        // HttpClient网络相关异常
+        else if (e instanceof ResourceAccessException || e instanceof SocketTimeoutException) {
+            log.error("网络超时: {}", e.getMessage(), e);
+            return Response.fail("NETWORK_TIMEOUT", "网络超时，请稍后重试");
         }
-        else if (e instanceof RestClientException) {
-            // 其他REST调用异常
-            log.error("远程服务调用异常: {}", e.getMessage(), e);
-            return Response.fail("RPC_ERROR", "远程服务调用异常");
+        else if (e instanceof ConnectException) {
+            log.error("网络连接失败: {}", e.getMessage(), e);
+            return Response.fail("NETWORK_ERROR", "网络连接失败，请检查网络");
+        }
+        else if (e instanceof SocketException) {
+            log.error("网络连接异常: {}", e.getMessage(), e);
+            return Response.fail("NETWORK_ERROR", "网络连接异常，请稍后重试");
         }
         else if (e instanceof SysException) {
             // 系统异常

@@ -1,5 +1,9 @@
 package com.example.demo.common.catchall;
 
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,6 +14,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 
 import com.example.demo.common.event.EventBus;
@@ -61,9 +66,9 @@ public class CatchLogAspect {
         String txTraceNum = extractTxTraceNum(joinPoint);
         MethodSignature ms = (MethodSignature) joinPoint.getSignature();
         
-        if (e instanceof RestClientException) {
+        if (isHttpClientNetworkException(e)) {
             eventBus.publish(new PaymentTimeoutEvent(
-                (RestClientException)e,
+                (Exception)e,
                 txTraceNum,
                 ms,
                 joinPoint.getArgs()
@@ -76,6 +81,18 @@ public class CatchLogAspect {
                 joinPoint.getArgs()
             ));
         }
+    }
+
+    private boolean isHttpClientNetworkException(Throwable e) {
+        if (e instanceof ResourceAccessException) {
+            Throwable cause = e.getCause();
+            return cause instanceof SocketTimeoutException
+                || cause instanceof ConnectException
+                || cause instanceof SocketException;
+        }
+        return e instanceof SocketTimeoutException
+            || e instanceof ConnectException
+            || e instanceof SocketException;
     }
 
     private String extractTxTraceNum(ProceedingJoinPoint joinPoint) {

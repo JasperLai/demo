@@ -1,16 +1,16 @@
 package com.example.demo.common.event;
 
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.web.client.RestClientException;
+import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.net.ConnectException;
+import org.springframework.web.client.ResourceAccessException;
 
 public class PaymentTimeoutEvent extends BaseEvent {
-    private final RestClientException exception;
+    private final Exception exception;
     private final String txTraceNum;
 
-    public PaymentTimeoutEvent(RestClientException exception, 
+    public PaymentTimeoutEvent(Exception exception, 
                              String txTraceNum,
                              MethodSignature signature, 
                              Object[] args) {
@@ -19,7 +19,7 @@ public class PaymentTimeoutEvent extends BaseEvent {
         this.txTraceNum = txTraceNum;
     }
 
-    public RestClientException getException() {
+    public Exception getException() {
         return exception;
     }
 
@@ -28,16 +28,36 @@ public class PaymentTimeoutEvent extends BaseEvent {
     }
 
     public boolean isTimeout() {
-        return exception.getRootCause() instanceof SocketTimeoutException;
+        if (exception instanceof SocketTimeoutException) {
+            return true;
+        }
+        if (exception instanceof ResourceAccessException) {
+            return exception.getCause() instanceof SocketTimeoutException;
+        }
+        return false;
     }
 
     public boolean isConnectionReset() {
-        return exception.getRootCause() instanceof SocketException 
-            && exception.getRootCause().getMessage().contains("Connection reset");
+        if (exception instanceof SocketException) {
+            return exception.getMessage().contains("Connection reset");
+        }
+        if (exception instanceof ResourceAccessException) {
+            Throwable cause = exception.getCause();
+            return cause instanceof SocketException 
+                && cause.getMessage().contains("Connection reset");
+        }
+        return false;
     }
 
     public boolean isConnectionRefused() {
-        return exception.getRootCause() instanceof ConnectException 
-            && exception.getRootCause().getMessage().contains("Connection refused");
+        if (exception instanceof ConnectException) {
+            return exception.getMessage().contains("Connection refused");
+        }
+        if (exception instanceof ResourceAccessException) {
+            Throwable cause = exception.getCause();
+            return cause instanceof ConnectException 
+                && cause.getMessage().contains("Connection refused");
+        }
+        return false;
     }
 } 
